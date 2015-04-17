@@ -1,0 +1,33 @@
+{
+  "name": "mindgruve/derby",
+  "description": "Media manager for images, pdfs, youtube videos and more",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Kevin Simpson",
+      "email": "ksimpson@mindgruve.com"
+    },
+    {
+      "name": "John Pancoast",
+      "email": "jpancoast@mindgruve.com"
+    }
+  ],
+  "require": {
+    "knplabs/gaufrette": "0.1.*",
+    "imagine/imagine": "~0.5",
+    "doctrine/cache": "~1.4"
+  },
+  "require-dev": {
+    "mockery/mockery": "~0.9",
+    "phpunit/phpunit": "4.6.x-dev",
+    "aws/aws-sdk-php": "~2.7",
+    "rackspace/php-opencloud": "~1.9",
+    "google/apiclient": "1.0.*@beta"
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "autoload": {
+    "psr-4": {"Derby\\": "src/"}
+  }
+}
