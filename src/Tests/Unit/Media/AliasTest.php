@@ -4,7 +4,7 @@ namespace Derby\Tests\Unit\Media;
 
 use Derby\Media\AliasInterface;
 use Derby\Media\Alias;
-use Derby\Media\Media;
+use Derby\Media;
 use PHPUnit_Framework_TestCase;
 use Mockery;
 

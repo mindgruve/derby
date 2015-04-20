@@ -2,6 +2,8 @@
 
 namespace Derby\Media;
 
+use Derby\Media;
+
 class File extends Media implements FileInterface
 {
 

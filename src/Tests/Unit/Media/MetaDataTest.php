@@ -50,7 +50,7 @@ class MetaDataTest extends \PHPUnit_Framework_TestCase
 
         $label2        = 'Bar';
         $status2       = MetaData::STATUS_UNPUBLISHED;
-        $parent2       = Mockery::mock('Derby\Media\Media');
+        $parent2       = Mockery::mock('Derby\Media');
         $dateCreated2  = new \DateTime('1/1/2003');
         $dateModified2 = new \DateTime('1/1/2004');
         $ext2          = 'png';

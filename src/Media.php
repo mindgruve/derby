@@ -1,8 +1,8 @@
 <?php
 
-namespace Derby\Media;
+namespace Derby;
 
-use Derby\MediaInterface;
+use Derby\Media\MetaData;
 
 class Media implements  MediaInterface
 {

@@ -5,14 +5,14 @@ namespace Derby\Tests\Unit\Media;
 
 use Derby\MediaInterface;
 use Derby\Media\File;
-use Derby\Media\Media;
+use Derby\Media;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 
 class MediaTest extends PHPUnit_Framework_TestCase
 {
 
-    protected static $media = 'Derby\Media\Media';
+    protected static $media = 'Derby\Media';
     protected static $collectionClass = 'Derby\Media\Collection';
     protected static $adapterClass = 'Derby\Interfaces\MediaAdapterInterface';
     protected static $metaDataClass = 'Derby\Media\MetaData';
@@ -21,7 +21,7 @@ class MediaTest extends PHPUnit_Framework_TestCase
     {
         $metaData   = Mockery::mock(self::$metaDataClass);
 
-        $sut = new Media($metaData);
+        $sut = new \Derby\Media($metaData);
 
         $this->assertTrue($sut instanceof Media);
         $this->assertTrue($sut instanceof MediaInterface);

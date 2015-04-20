@@ -3,6 +3,7 @@
 namespace Derby\Media;
 
 use Derby\FileSystem;
+use Derby\Media;
 use Derby\MediaInterface;
 
 class Alias extends Media implements AliasInterface

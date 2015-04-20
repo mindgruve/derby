@@ -6,13 +6,13 @@ use Derby\Media\File;
 use Mockery;
 use Derby\Media\FileInterface;
 use PHPUnit_Framework_TestCase;
-use Derby\Media\Media;
+use Derby\Media;
 
 class FileTest extends PHPUnit_Framework_TestCase
 {
 
     protected static $fileClass = 'Derby\Media\File';
-    protected static $media = 'Derby\Media\Media';
+    protected static $media = 'Derby\Media';
     protected static $collectionClass = 'Derby\Media\Collection';
     protected static $fileSystem = 'Derby\Media\FileSystem';
     protected static $metaDataClass = 'Derby\Media\MetaData';
@@ -26,7 +26,7 @@ class FileTest extends PHPUnit_Framework_TestCase
 
         $sut = new File($key, $filesystem, $metaData);
 
-        $this->assertTrue($sut instanceof Media);
+        $this->assertTrue($sut instanceof \Derby\Media);
         $this->assertTrue($sut instanceof FileInterface);
     }
 

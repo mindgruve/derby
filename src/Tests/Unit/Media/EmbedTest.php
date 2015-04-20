@@ -2,7 +2,7 @@
 
 namespace Derby\Tests\Unit\Media;
 
-use Derby\Media\Media;
+use Derby\Media;
 use PHPUnit_Framework_TestCase;
 use Mockery;
 use Derby\Media\EmbedInterface;
@@ -20,7 +20,7 @@ class EmbedTest extends PHPUnit_Framework_TestCase
         $options  = array();
         $sut      = new Embed($options, $metaData);
 
-        $this->assertTrue($sut instanceof Media);
+        $this->assertTrue($sut instanceof \Derby\Media);
         $this->assertTrue($sut instanceof EmbedInterface);
     }
 
