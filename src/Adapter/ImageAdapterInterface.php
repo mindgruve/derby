@@ -1,6 +1,6 @@
 <?php
 
-namespace Derby\Adapter\Interfaces;
+namespace Derby\Adapter;
 
 use Derby\AdapterInterface;
 use Derby\Transform\ImageTransform;

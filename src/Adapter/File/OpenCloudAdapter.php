@@ -2,7 +2,7 @@
 
 namespace Derby\Adapter\File;
 
-use Derby\Adapter\Interfaces\CdnAdapterInterface;
+use Derby\Adapter\CdnAdapterInterface;
 use OpenCloud\ObjectStore\Service;
 use OpenCloud\ObjectStore\Exception\ObjectNotFoundException;
 use Derby\Adapter\GaufretteAdapter;

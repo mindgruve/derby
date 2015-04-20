@@ -2,7 +2,7 @@
 
 namespace Derby\Adapter;
 
-use Derby\Adapter\Interfaces\FileAdapterInterface;
+use Derby\Adapter\FileAdapterInterface;
 use Gaufrette\Adapter;
 
 class GaufretteAdapter implements FileAdapterInterface

@@ -3,11 +3,11 @@
 namespace Derby\Media;
 
 use Derby\AdapterInterface;
-use Derby\Adapter\Interfaces\CdnAdapterInterface;
-use Derby\Adapter\Interfaces\CollectionAdapterInterface;
-use Derby\Adapter\Interfaces\EmbedAdapterInterface;
-use Derby\Adapter\Interfaces\FileAdapterInterface;
-use Derby\Adapter\Interfaces\ImageAdapterInterface;
+use Derby\Adapter\CdnAdapterInterface;
+use Derby\Adapter\CollectionAdapterInterface;
+use Derby\Adapter\EmbedAdapterInterface;
+use Derby\Adapter\FileAdapterInterface;
+use Derby\Adapter\ImageAdapterInterface;
 use Derby\Exception\UnsupportedMethodException;
 
 class MediaAdapter

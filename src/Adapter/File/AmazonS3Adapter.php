@@ -2,7 +2,7 @@
 
 namespace Derby\Adapter\File;
 
-use Derby\Adapter\Interfaces\CdnAdapterInterface;
+use Derby\Adapter\CdnAdapterInterface;
 use Gaufrette\Adapter\AwsS3;
 use Aws\S3\S3Client;
 USE Derby\Adapter\GaufretteAdapter;

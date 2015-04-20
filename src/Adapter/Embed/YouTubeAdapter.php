@@ -2,7 +2,7 @@
 
 namespace Derby\Media\Adapter\Embed;
 
-use Derby\Adapter\Interfaces\EmbedAdapterInterface;
+use Derby\Adapter\EmbedAdapterInterface;
 use Google_Client;
 use Google_Service_YouTube;
 
