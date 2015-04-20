@@ -14,7 +14,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
     protected static $fileClass = 'Derby\Media\File';
     protected static $collectionClass = 'Derby\Media\Collection';
     protected static $splObjectStorageClass = 'SplObjectStorage';
-    protected static $mediaInterface = 'Derby\Media\MediaInterface';
+    protected static $mediaInterface = 'Derby\MediaInterface';
     protected static $metaDataClass = 'Derby\Media\MetaData';
 
 

@@ -3,7 +3,7 @@
 
 namespace Derby\Tests\Unit\Media;
 
-use Derby\Media\MediaInterface;
+use Derby\MediaInterface;
 use Derby\Media\File;
 use Derby\Media\Media;
 use Mockery;

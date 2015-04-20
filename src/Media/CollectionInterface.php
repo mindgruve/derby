@@ -2,6 +2,7 @@
 
 namespace Derby\Media;
 
+use Derby\MediaInterface;
 use SplObjectStorage;
 use Countable;
 use Iterator;

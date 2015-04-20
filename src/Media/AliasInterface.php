@@ -2,6 +2,8 @@
 
 namespace Derby\Media;
 
+use Derby\MediaInterface;
+
 interface AliasInterface extends MediaInterface
 {
     const TYPE_ALIAS = 'MEDIA\ALIAS';

@@ -3,6 +3,7 @@
 namespace Derby\Media;
 
 use Derby\AccessControl\Permissions;
+use Derby\MediaInterface;
 
 class MetaData implements MetaDataInterface
 {

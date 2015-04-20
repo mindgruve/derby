@@ -13,7 +13,7 @@ class CollectionAliasTest extends PHPUnit_Framework_TestCase
 
     protected static $aliasClass = 'Derby\Media\Alias\CollectionAlias';
     protected static $collectionClass = 'Derby\Media\Collection';
-    protected static $mediaInterface = 'Derby\Media\MediaInterface';
+    protected static $mediaInterface = 'Derby\MediaInterface';
     protected static $splObjectStorageClass = 'SplObjectStorage';
     protected static $metaDataClass = 'Derby\Media\MetaData';
 

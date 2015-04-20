@@ -12,7 +12,7 @@ class EmbedTest extends PHPUnit_Framework_TestCase
 {
     protected static $collectionClass = 'Derby\Media\Collection';
     protected static $metaDataClass = 'Derby\Media\MetaData';
-    protected static $mediaInterface = 'Derby\Media\MediaInterface';
+    protected static $mediaInterface = 'Derby\MediaInterface';
 
     public function testInterface()
     {

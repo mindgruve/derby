@@ -11,7 +11,7 @@ use Mockery;
 class AliasTest extends PHPUnit_Framework_TestCase
 {
     protected static $aliasClass = 'Derby\Media\Alias';
-    protected static $mediaInterface = 'Derby\Media\MediaInterface';
+    protected static $mediaInterface = 'Derby\MediaInterface';
     protected static $collectionClass = 'Derby\Media\Collection';
     protected static $metaDataClass = 'Derby\Media\MetaData';
 

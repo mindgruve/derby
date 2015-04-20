@@ -1,6 +1,6 @@
 <?php
 
-namespace Derby\Media;
+namespace Derby;
 
 interface MediaInterface
 {

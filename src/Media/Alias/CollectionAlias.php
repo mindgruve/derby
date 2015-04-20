@@ -4,7 +4,7 @@ namespace Derby\Media\Alias;
 
 use Derby\Media\Alias;
 use Derby\Media\CollectionInterface;
-use Derby\Media\MediaInterface;
+use Derby\MediaInterface;
 use Derby\Media\MetaData;
 use SplObjectStorage;
 

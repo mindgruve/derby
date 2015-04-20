@@ -2,6 +2,8 @@
 
 namespace Derby\Media;
 
+use Derby\MediaInterface;
+
 class Media implements  MediaInterface
 {
     

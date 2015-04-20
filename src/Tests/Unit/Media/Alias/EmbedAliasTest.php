@@ -16,7 +16,7 @@ class EmbedAliasTest extends PHPUnit_Framework_TestCase
     protected static $targetClass = 'Derby\Media\Alias\EmbedAlias';
     protected static $embedInterface = 'Derby\Media\EmbedInterface';
     protected static $fileInterface = 'Derby\Media\FileInterface';
-    protected static $mediaInterface = 'Derby\Media\MediaInterface';
+    protected static $mediaInterface = 'Derby\MediaInterface';
     protected static $collectionClass = 'Derby\Media\Collection';
     protected static $metaDataClass = 'Derby\Media\MetaData';
 
