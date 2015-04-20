@@ -28,6 +28,6 @@
     "bin-dir": "bin"
   },
   "autoload": {
-    "psr-4": {"Derby\\": "src/"}
+    "psr-4": {"Derby\\": "src"}
   }
 }
