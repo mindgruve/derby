@@ -2,6 +2,7 @@
 
 namespace Derby\Adapter\Interfaces;
 
+use Derby\AdapterInterface;
 use Derby\Transform\ImageTransform;
 use Imagine\Image\Box;
 use Imagine\Image\Point;

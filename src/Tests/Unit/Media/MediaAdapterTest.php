@@ -10,7 +10,7 @@ class MediaAdapterTest extends \PHPUnit_Framework_TestCase
 {
 
     protected static $fileSystemClass = 'Derby\Media\FileSystem';
-    protected static $adapterInterface = 'Derby\Adapter\Interfaces\AdapterInterface';
+    protected static $adapterInterface = 'Derby\AdapterInterface';
     protected static $embedAdapterInterface = 'Derby\Adapter\Interfaces\EmbedAdapterInterface';
     protected static $cdnAdapterInterface = 'Derby\Adapter\Interfaces\CdnAdapterInterface';
     protected static $imageAdapterInterface = 'Derby\Adapter\Interfaces\ImageAdapterInterface';

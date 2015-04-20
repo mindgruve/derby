@@ -2,7 +2,7 @@
 
 namespace Derby\Media;
 
-use Derby\Adapter\Interfaces\AdapterInterface;
+use Derby\AdapterInterface;
 use Derby\Adapter\Interfaces\CdnAdapterInterface;
 use Derby\Adapter\Interfaces\CollectionAdapterInterface;
 use Derby\Adapter\Interfaces\EmbedAdapterInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Derby\Adapter\Interfaces;
+namespace Derby;
 
 interface AdapterInterface
 {

@@ -2,6 +2,8 @@
 
 namespace Derby\Adapter\Interfaces;
 
+use Derby\AdapterInterface;
+
 interface CdnAdapterInterface extends AdapterInterface
 {
     /**
