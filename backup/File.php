@@ -2,7 +2,7 @@
 
 namespace Derby\Media;
 
-use Derby\Adapter\FileAdapterInterface;
+use Derby\Adapter\GaufretteAdapterInterface;
 use Derby\Media;
 
 class File extends Media implements FileInterface
@@ -14,7 +14,7 @@ class File extends Media implements FileInterface
     protected $key;
 
     /**
-     * @var FileAdapterInterface
+     * @var GaufretteAdapterInterface
      */
     protected $adapter;
 
@@ -25,7 +25,7 @@ class File extends Media implements FileInterface
 
     public function __construct(
         $key,
-        FileAdapterInterface $adapter,
+        GaufretteAdapterInterface $adapter,
         array $options = array()
     ) {
         $this->key     = $key;
