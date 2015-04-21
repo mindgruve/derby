@@ -1,9 +1,22 @@
 <?php
+/**
+ * @package mindgruve/derby
+ * @copyright (c) 2015 Mindgruve
+ * @author Kevin Simpson <ksimpson@mindgruve.com>
+ * @author John Pancoast <jpancoast@mindgruve.com>
+ */
 
 namespace Derby;
 
 use Symfony\Component\Finder\Adapter\AdapterInterface;
 
+/**
+ * Derby\MediaInterface
+ *
+ * @author Kevin Simpson <ksimpson@mindgruve.com>
+ * @author John Pancoast <jpancoast@mindgruve.com>
+ * @todo Remove idea of meta data, All meta data methods should live here or in child.
+ */
 interface MediaInterface
 {
 
@@ -17,6 +30,7 @@ interface MediaInterface
 
     /**
      * @return \Derby\Media\MetaData
+     * @todo Remove idea of meta data, All meta data methods should live here or in child.
      */
     public function getMetaData();
 
