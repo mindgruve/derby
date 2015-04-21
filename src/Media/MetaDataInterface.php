@@ -8,6 +8,7 @@ interface MetaDataInterface
 {
 
     // Status Flags
+    // @todo Move these to MediaStatus?
     const STATUS_PUBLISHED = 'PUBLISHED';
     const STATUS_UNPUBLISHED = 'UNPUBLISHED';
     const STATUS_TRASHED = 'TRASHED';
