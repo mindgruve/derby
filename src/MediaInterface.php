@@ -27,19 +27,6 @@ interface MediaInterface
     public function getMediaType();
 
     /**
-     * Set key
-     * @param $key
-     * @return MediaInterface
-     */
-    public function setKey($key);
-
-    /**
-     * Get key
-     * @return string
-     */
-    public function getKey();
-
-    /**
      * Get adapter
      * @return AdapterInterface
      */
@@ -52,58 +39,16 @@ interface MediaInterface
      */
     public function setAdapter(AdapterInterface $adapter);
 
-//    /**
-//     * @return string
-//     */
-//    public function getLabel();
-//
-//    /**
-//     * @param $label
-//     * @return $this
-//     */
-//    public function setLabel($label);
-//
-//    /**
-//     * @return \Derby\Media\Collection | null
-//     */
-//    public function getParent();
-//
-//    /**
-//     * @param MediaInterface $parent
-//     * @return $this
-//     */
-//    public function setParent(MediaInterface $parent);
-//
-//    /**
-//     * @return \DateTime
-//     */
-//    public function getDateCreated();
-//
-//    /**
-//     * @param \DateTime $date
-//     * @return $this
-//     */
-//    public function setDateCreated(\DateTime $date);
-//
-//    /**
-//     * @return \DateTime
-//     */
-//    public function getDateModified();
-//
-//    /**
-//     * @param \DateTime $date
-//     * @return $this
-//     */
-//    public function setDateModified(\DateTime $date);
-//
-//    /**
-//     * @param $status
-//     * @return $this
-//     */
-//    public function setStatus($status);
-//
-//    /**
-//     * @return string
-//     */
-//    public function getStatus();
+    /**
+     * Set key
+     * @param $key
+     * @return MediaInterface
+     */
+    public function setKey($key);
+
+    /**
+     * Get key
+     * @return string
+     */
+    public function getKey();
 }
