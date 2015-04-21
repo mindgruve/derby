@@ -84,4 +84,38 @@ class File extends Media implements FileInterface
         return $this->adapter->rename($this->getKey(), $newKey);
     }
 
+    /**
+     * @return string
+     */
+    public function getFileExtension()
+    {
+        // TODO: Implement getFileExtension() method.
+    }
+
+    /**
+     * @param string
+     * @return string
+     */
+    public function setFileExtension($extension)
+    {
+        // TODO: Implement setFileExtension() method.
+    }
+
+    /**
+     * @return string
+     */
+    public function getMimeType()
+    {
+        // TODO: Implement getMimeType() method.
+    }
+
+    /**
+     * @param $mimeType
+     * @return $this
+     */
+    public function setMimeType($mimeType)
+    {
+        // TODO: Implement setMimeType() method.
+    }
+
 }

@@ -7,12 +7,27 @@ class Media implements MediaInterface
     /**
      * @var string
      */
+    protected $label;
+
+    /**
+     * @var string
+     */
     protected $key;
 
     /**
      * @var AdapterInterface
      */
     protected $adapter;
+
+    /**
+     * @var \DateTime
+     */
+    protected $dateCreated;
+
+    /**
+     * @var \DateTime
+     */
+    protected $dateModified;
 
     public function __construct(
         $key,
@@ -67,4 +82,91 @@ class Media implements MediaInterface
         $this->key = $key;
     }
 
+    /**
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    /**
+     * @param string $label
+     * @return $this
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDateCreated()
+    {
+        return $this->dateCreated;
+    }
+
+    /**
+     * @param \DateTime $dateCreated
+     * @return $this
+     */
+    public function setDateCreated(\DateTime $dateCreated)
+    {
+        $this->dateCreated = $dateCreated;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDateModified()
+    {
+        return $this->dateModified;
+    }
+
+    /**
+     * @param \DateTime $dateModified
+     * @return $this
+     */
+    public function setDateModified(\DateTime $dateModified)
+    {
+        $this->dateModified = $dateModified;
+        return $this;
+    }
+
+    /**
+     * @return \Derby\Media\Collection | null
+     */
+    public function getParent()
+    {
+        // TODO: Implement getParent() method.
+    }
+
+    /**
+     * @param MediaInterface $parent
+     * @return $this
+     */
+    public function setParent(MediaInterface $parent)
+    {
+        // TODO: Implement setParent() method.
+    }
+
+    /**
+     * @param $status
+     * @return $this
+     */
+    public function setStatus($status)
+    {
+        // TODO: Implement setStatus() method.
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        // TODO: Implement getStatus() method.
+    }
 }

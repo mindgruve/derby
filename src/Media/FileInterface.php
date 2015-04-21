@@ -10,11 +10,6 @@ interface FileInterface extends MediaInterface
     const TYPE_MEDIA_FILE = 'MEDIA\FILE';
 
     /**
-     * @return string
-     */
-    public function getKey();
-    
-    /**
      * @return bool
      */
     public function remove();
@@ -35,4 +30,26 @@ interface FileInterface extends MediaInterface
      * @return boolean
      */
     public function read();
+
+    /**
+     * @return string
+     */
+    public function getFileExtension();
+
+    /**
+     * @param string
+     * @return string
+     */
+    public function setFileExtension($extension);
+
+    /**
+     * @return string
+     */
+    public function getMimeType();
+
+    /**
+     * @param $mimeType
+     * @return $this
+     */
+    public function setMimeType($mimeType);
 }
