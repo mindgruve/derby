@@ -27,10 +27,10 @@ interface CollectionInterface extends MediaInterface, Countable, Iterator, Seria
     public function attach(MediaInterface $item);
 
     /**
-     * @param CollectionInterface $collection
+     * @param array $items
      * @return $this
      */
-    public function addAll(CollectionInterface $collection);
+    public function addAll(array $items);
 
     /**
      * @param MediaInterface $item
@@ -62,15 +62,15 @@ interface CollectionInterface extends MediaInterface, Countable, Iterator, Seria
     public function getHash(MediaInterface $object);
 
     /**
-     * @param CollectionInterface $collection
+     * @param array $items
      * @return $this
      */
-    public function removeAll(CollectionInterface $collection);
+    public function removeAll(array $items);
 
     /**
-     * @param CollectionInterface $collection
+     * @param array $items
      * @return mixed
      */
-    public function removeAllExcept(CollectionInterface $collection);
+    public function removeAllExcept(array $items);
 
 }

@@ -10,28 +10,24 @@ use Derby\Media\File\Spreadsheet;
 class SpreadsheetTest extends PHPUnit_Framework_TestCase
 {
 
-    protected static $fileClass = 'Derby\Media\File\Spreadsheet';
-    protected static $fileSystem = 'Derby\Media\FileSystem';
-    protected static $metaDataClass = 'Derby\Media\MetaData';
+    protected static $fileAdapterInterface = 'Derby\Adapter\FileAdapterInterface';
 
     public function testInterface()
     {
-        $key        = '/foo';
-        $metaData   = Mockery::mock(self::$metaDataClass);
-        $filesystem = Mockery::mock(self::$fileSystem);
+        $key     = 'Foo';
+        $adapter = Mockery::mock(self::$fileAdapterInterface);
 
-        $sut = new Spreadsheet($key, $filesystem, $metaData);
+        $sut = new Spreadsheet($key, $adapter);
 
         $this->assertTrue($sut instanceof File);
     }
 
     public function testType()
     {
-        $key        = '/foo';
-        $metaData   = Mockery::mock(self::$metaDataClass);
-        $filesystem = Mockery::mock(self::$fileSystem);
+        $key     = 'Foo';
+        $adapter = Mockery::mock(self::$fileAdapterInterface);
 
-        $sut = new Spreadsheet($key, $filesystem, $metaData);
+        $sut = new Spreadsheet($key, $adapter);
 
         $this->assertEquals(File\Spreadsheet::TYPE_MEDIA_FILE_SPREADSHEET, $sut->getMediaType());
     }

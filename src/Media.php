@@ -2,31 +2,69 @@
 
 namespace Derby;
 
-use Derby\Media\MetaData;
-
-class Media implements  MediaInterface
+class Media implements MediaInterface
 {
-    
-    protected $metaData;
+    /**
+     * @var string
+     */
+    protected $key;
 
+    /**
+     * @var AdapterInterface
+     */
+    protected $adapter;
 
     public function __construct(
-        MetaData $metaData
+        $key,
+        AdapterInterface $adapter
     ) {
-        $this->metaData = $metaData;
+        $this->key     = $key;
+        $this->adapter = $adapter;
     }
-    
-    public function getMediaType(){
+
+    public function getMediaType()
+    {
         return self::TYPE_MEDIA;
     }
 
     /**
-     * @return \Derby\Media\MetaData
+     * Get adapter
+     * @return AdapterInterface
      */
-    public function getMetaData()
+    public function getAdapter()
     {
-        return $this->metaData;
+        return $this->adapter;
     }
 
+    /**
+     * Set adapter
+     * @param AdapterInterface $adapter
+     * @return mixed
+     */
+    public function setAdapter(AdapterInterface $adapter)
+    {
+        $this->adapter = $adapter;
+
+        return $this;
+    }
+
+    /**
+     * Get key
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
+     * Set key
+     * @param $key
+     * @return MediaInterface
+     */
+    public function setKey($key)
+    {
+        $this->key = $key;
+    }
 
 }

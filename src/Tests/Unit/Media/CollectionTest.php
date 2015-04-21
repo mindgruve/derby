@@ -11,19 +11,17 @@ use Mockery;
 
 class CollectionTest extends PHPUnit_Framework_TestCase
 {
-    protected static $fileClass = 'Derby\Media\File';
     protected static $collectionClass = 'Derby\Media\Collection';
-    protected static $splObjectStorageClass = 'SplObjectStorage';
     protected static $mediaInterface = 'Derby\MediaInterface';
-    protected static $metaDataClass = 'Derby\Media\MetaData';
+    protected static $collectionAdapterInterface = 'Derby\Adapter\CollectionAdapterInterface';
 
 
     public function testInterface()
     {
-        $metaData = Mockery::mock(self::$metaDataClass);
-        $items    = Mockery::mock(self::$splObjectStorageClass);
+        $key     = 'Foo\\';
+        $adapter = Mockery::mock(self::$collectionAdapterInterface);
 
-        $sut = new Collection($items, $metaData);
+        $sut = new Collection($key, $adapter);
 
         $this->assertTrue($sut instanceof Media);
         $this->assertTrue($sut instanceof CollectionInterface);
@@ -31,167 +29,129 @@ class CollectionTest extends PHPUnit_Framework_TestCase
 
     public function testType()
     {
-        $metaData = Mockery::mock(self::$metaDataClass);
-        $items    = Mockery::mock(self::$splObjectStorageClass);
+        $key     = 'Foo\\';
+        $adapter = Mockery::mock(self::$collectionAdapterInterface);
 
-        $sut = new Collection($items, $metaData);
+        $sut = new Collection($key, $adapter);
 
         $this->assertEquals(CollectionInterface::MEDIA_COLLECTION, $sut->getMediaType());
     }
 
     public function testConstructor()
     {
-        $metaData = Mockery::mock(self::$metaDataClass);
-        $items    = Mockery::mock(self::$splObjectStorageClass);
+        $key     = 'Foo\\';
+        $adapter = Mockery::mock(self::$collectionAdapterInterface);
 
-        $sut = new Collection($items, $metaData);
+        $sut = new Collection($key, $adapter);
 
-        $this->assertEquals($items, $sut->getItems());
-        $this->assertEquals($metaData, $sut->getMetaData());
+        $this->assertEquals($key, $sut->getKey());
+        $this->assertEquals($adapter, $sut->getAdapter());
     }
 
     public function testAddAll()
     {
-        $metaData    = Mockery::mock(self::$metaDataClass);
-        $objStorage1 = Mockery::mock(self::$splObjectStorageClass)->makePartial();
-        $objStorage2 = Mockery::mock(self::$splObjectStorageClass)->makePartial();
+        $key1     = 'Foo\\';
+        $adapter1 = Mockery::mock(self::$collectionAdapterInterface);
+
+        $sut = new Collection($key1, $adapter1);
 
         $item1 = Mockery::mock(self::$mediaInterface);
         $item2 = Mockery::mock(self::$mediaInterface);
 
-        $objStorage1->attach($item1);
-        $objStorage2->attach($item2);
+        $this->assertEquals(0, $sut->count());
 
-        $sut1 = new Collection($objStorage1, $metaData);
-        $sut2 = new Collection($objStorage2, $metaData);
-
-        // check the counts
-        $this->assertEquals(1, $sut1->count());
-        $this->assertTrue($sut1->contains($item1));
-        $this->assertFalse($sut1->contains($item2));
-
-        // add the collection
-        $sut1->addAll($sut2);
+        // Add Items
+        $sut->addAll(array($item1, $item2));
 
         // check the counts
-        $this->assertEquals(2, $sut1->count());
-        $this->assertEquals(1, $sut2->count());
-        $this->assertTrue($sut1->contains($item1));
-        $this->assertTrue($sut1->contains($item2));
+        $this->assertEquals(2, $sut->count());
+        $this->assertTrue($sut->contains($item1));
+        $this->assertTrue($sut->contains($item2));
     }
 
-    public function testAttachAndContainsAndCount()
+    public function testAttachAndDetach()
     {
-        $metaData    = Mockery::mock(self::$metaDataClass);
-        $objStorage1 = Mockery::mock(self::$splObjectStorageClass)->makePartial();
+        $key     = 'Foo\\';
+        $adapter = Mockery::mock(self::$collectionAdapterInterface);
+        $item1   = Mockery::mock(self::$mediaInterface);
 
-        $item1 = Mockery::mock(self::$mediaInterface);
-        $sut1  = new Collection($objStorage1, $metaData);
+        $sut = new Collection($key, $adapter);
 
         // check the counts
-        $this->assertEquals(0, $sut1->count());
-        $this->assertFalse($sut1->contains($item1));
+        $this->assertEquals(0, $sut->count());
+        $this->assertFalse($sut->contains($item1));
 
         // add the collection
-        $sut1->attach($item1);
+        $sut->attach($item1);
 
         // check the counts
-        $this->assertEquals(1, $sut1->count());
-        $this->assertTrue($sut1->contains($item1));
-    }
+        $this->assertEquals(1, $sut->count());
+        $this->assertTrue($sut->contains($item1));
 
-    public function testDetach()
-    {
-        $metaData    = Mockery::mock(self::$metaDataClass);
-        $objStorage1 = Mockery::mock(self::$splObjectStorageClass)->makePartial();
+        // remove the item
+        $sut->detach($item1);
 
-        $item1 = Mockery::mock(self::$mediaInterface);
-
-        $objStorage1->attach($item1);
-        $sut1 = new Collection($objStorage1, $metaData);
-
-        // check the counts
-        $this->assertEquals(1, $sut1->count());
-        $this->assertTrue($sut1->contains($item1));
-
-        // add the collection
-        $sut1->detach($item1);
-
-        // check the counts
-        $this->assertEquals(0, $sut1->count());
-        $this->assertFalse($sut1->contains($item1));
+        $this->assertEquals(0, $sut->count());
+        $this->assertFalse($sut->contains($item1));
     }
 
     public function testGetItems()
     {
-        $metaData    = Mockery::mock(self::$metaDataClass);
-        $objStorage1 = Mockery::mock(self::$splObjectStorageClass)->makePartial();
+        $key     = 'Foo\\';
+        $adapter = Mockery::mock(self::$collectionAdapterInterface);
+        $item1   = Mockery::mock(self::$mediaInterface);
 
-        $item1 = Mockery::mock(self::$mediaInterface);
+        $sut = new Collection($key, $adapter);
 
-        $objStorage1->attach($item1);
-        $sut1 = new Collection($objStorage1, $metaData);
+        $sut->attach($item1);
 
-        $this->assertEquals($objStorage1, $sut1->getItems());
+        $this->assertTrue($sut->getItems() instanceof \SplObjectStorage);
+        $this->assertEquals(1, $sut->getItems()->count());
     }
 
     public function testRemoveAll()
     {
-        $metaData    = Mockery::mock(self::$metaDataClass);
-        $objStorage1 = Mockery::mock(self::$splObjectStorageClass)->makePartial();
-        $objStorage2 = Mockery::mock(self::$splObjectStorageClass)->makePartial();
+        $key         = 'Foo\\';
+        $adapter     = Mockery::mock(self::$collectionAdapterInterface);
+        $item1       = Mockery::mock(self::$mediaInterface);
+        $item2       = Mockery::mock(self::$mediaInterface);
 
-        $item1 = Mockery::mock(self::$mediaInterface);
-        $item2 = Mockery::mock(self::$mediaInterface);
+        $sut = new Collection($key, $adapter);
 
-        $objStorage1->attach($item1);
-        $objStorage1->attach($item2);
-        $objStorage2->attach($item2);
-
-        $sut1 = new Collection($objStorage1, $metaData);
-        $sut2 = new Collection($objStorage2, $metaData);
-
-        // check the counts
-        $this->assertEquals(2, $sut1->count());
-        $this->assertTrue($sut1->contains($item1));
-        $this->assertTrue($sut1->contains($item2));
+        $sut->attach($item1);
+        $sut->attach($item2);
 
         // add the collection
-        $sut1->removeAll($sut2);
+        $sut->removeAll(array($item2));
 
         // check the counts
-        $this->assertEquals(1, $sut1->count());
-        $this->assertTrue($sut1->contains($item1));
-        $this->assertFalse($sut1->contains($item2));
+        $this->assertEquals(1, $sut->count());
+        $this->assertTrue($sut->contains($item1));
+        $this->assertFalse($sut->contains($item2));
     }
 
     public function testRemoveAllExcept()
     {
-        $metaData = Mockery::mock(self::$metaDataClass);
-        $objStorage1 = Mockery::mock(self::$splObjectStorageClass)->makePartial();
-        $objStorage2 = Mockery::mock(self::$splObjectStorageClass)->makePartial();
+        $key         = 'Foo\\';
+        $adapter     = Mockery::mock(self::$collectionAdapterInterface);
+        $item1       = Mockery::mock(self::$mediaInterface);
+        $item2       = Mockery::mock(self::$mediaInterface);
 
-        $item1 = Mockery::mock(self::$mediaInterface);
-        $item2 = Mockery::mock(self::$mediaInterface);
-
-        $objStorage1->attach($item1);
-        $objStorage1->attach($item2);
-        $objStorage2->attach($item2);
-
-        $sut1 = new Collection( $objStorage1, $metaData);
-        $sut2 = new Collection( $objStorage2, $metaData);
+        $sut = new Collection($key, $adapter);
+        $sut->attach($item1);
+        $sut->attach($item2);
 
         // check the counts
-        $this->assertEquals(2, $sut1->count());
-        $this->assertTrue($sut1->contains($item1));
-        $this->assertTrue($sut1->contains($item2));
+        $this->assertEquals(2, $sut->count());
+        $this->assertTrue($sut->contains($item1));
+        $this->assertTrue($sut->contains($item2));
 
         // add the collection
-        $sut1->removeAllExcept($sut2);
+        $sut->removeAllExcept(array($item2));
 
         // check the counts
-        $this->assertEquals(1, $sut1->count());
-        $this->assertFalse($sut1->contains($item1));
-        $this->assertTrue($sut1->contains($item2));
+        $this->assertEquals(1, $sut->count());
+        $this->assertFalse($sut->contains($item1));
+        $this->assertTrue($sut->contains($item2));
     }
 }

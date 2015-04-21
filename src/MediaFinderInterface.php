@@ -7,7 +7,6 @@
 
 namespace Derby;
 
-use Derby\Media\CollectionInterface;
 use Derby\Media\SearchInterface;
 
 /**

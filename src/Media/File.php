@@ -2,6 +2,7 @@
 
 namespace Derby\Media;
 
+use Derby\Adapter\FileAdapterInterface;
 use Derby\Media;
 
 class File extends Media implements FileInterface
@@ -13,26 +14,31 @@ class File extends Media implements FileInterface
     protected $key;
 
     /**
-     * @var FileSystem
+     * @var FileAdapterInterface
      */
-    protected $fileSystem;
-    
+    protected $adapter;
+
+    /**
+     * @var array
+     */
+    protected $options;
+
     public function __construct(
         $key,
-        Filesystem $filesystem,
-        MetaData  $metaData
-    )
-    {
-        $this->key       = $key;
-        $this->fileSystem = $filesystem;
-        
-        parent::__construct($metaData);
+        FileAdapterInterface $adapter,
+        array $options = array()
+    ) {
+        $this->key     = $key;
+        $this->adapter = $adapter;
+        $this->options = $options;
     }
+
 
     /**
      * @return string
      */
-    public function getMediaType(){
+    public function getMediaType()
+    {
         return self::TYPE_MEDIA_FILE;
     }
 
@@ -49,13 +55,7 @@ class File extends Media implements FileInterface
      */
     public function remove()
     {
-        $response = $this->fileSystem->delete($this->getKey());
-        if ($response) {
-            $this->metaData->setDateModified(new \DateTime());
-        }
-
-
-        return $response;
+        return $this->adapter->delete($this);
     }
 
     /**
@@ -63,7 +63,7 @@ class File extends Media implements FileInterface
      */
     public function read()
     {
-        return $this->fileSystem->read($this->getKey());
+        return $this->adapter->read($this->getKey());
     }
 
     /**
@@ -72,12 +72,7 @@ class File extends Media implements FileInterface
      */
     public function write($data)
     {
-        $response = $this->fileSystem->write($this->getKey(), $data);
-        if ($response) {
-            $this->metaData->setDateModified(new \DateTime());
-        }
-
-        return $response;
+        return $this->adapter->write($this->getKey(), $data);
     }
 
     /**
@@ -86,13 +81,7 @@ class File extends Media implements FileInterface
      */
     public function rename($newKey)
     {
-        $response = $this->fileSystem->rename($this->getKey(), $newKey);
-
-        if ($response) {
-            $this->metaData->setDateModified(new \DateTime());
-        }
-
-        return $response;
+        return $this->adapter->rename($this->getKey(), $newKey);
     }
 
 }

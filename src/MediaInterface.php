@@ -8,8 +8,6 @@
 
 namespace Derby;
 
-use Symfony\Component\Finder\Adapter\AdapterInterface;
-
 /**
  * Derby\MediaInterface
  *
@@ -27,12 +25,6 @@ interface MediaInterface
      * @return string
      */
     public function getMediaType();
-
-    /**
-     * @return \Derby\Media\MetaData
-     * @todo Remove idea of meta data, All meta data methods should live here or in child.
-     */
-    public function getMetaData();
 
     /**
      * Set key
@@ -59,16 +51,4 @@ interface MediaInterface
      * @return mixed
      */
     public function setAdapter(AdapterInterface $adapter);
-
-    /**
-     * Save media
-     * @return bool
-     */
-    public function save();
-
-    /**
-     * Delete media
-     * @return bool
-     */
-    public function delete();
 }

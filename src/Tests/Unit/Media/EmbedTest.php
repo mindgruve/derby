@@ -10,15 +10,15 @@ use Derby\Media\Embed;
 
 class EmbedTest extends PHPUnit_Framework_TestCase
 {
-    protected static $collectionClass = 'Derby\Media\Collection';
-    protected static $metaDataClass = 'Derby\Media\MetaData';
     protected static $mediaInterface = 'Derby\MediaInterface';
+    protected static $embedAdapterInterface = 'Derby\Adapter\EmbedAdapterInterface';
 
     public function testInterface()
     {
-        $metaData = Mockery::mock(self::$metaDataClass);
-        $options  = array();
-        $sut      = new Embed($options, $metaData);
+        $key     = 'Foo';
+        $adapter = Mockery::mock(self::$embedAdapterInterface);
+
+        $sut = new Embed($key, $adapter);
 
         $this->assertTrue($sut instanceof \Derby\Media);
         $this->assertTrue($sut instanceof EmbedInterface);
@@ -26,22 +26,22 @@ class EmbedTest extends PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $metaData = Mockery::mock(self::$metaDataClass);
-        $options  = array();
+        $key     = 'Foo';
+        $adapter = Mockery::mock(self::$embedAdapterInterface);
 
-        $sut = new Embed($options, $metaData);
+        $sut = new Embed($key, $adapter);
 
-        $this->assertEquals($options, $sut->getOptions());
-        $this->assertEquals($metaData, $sut->getMetaData());
+        $this->assertEquals($key, $sut->getKey());
+        $this->assertEquals($adapter, $sut->getAdapter());
     }
 
     public function testType()
     {
-        $metaData = Mockery::mock(self::$metaDataClass);
-        $options  = array();
+        $key     = 'Foo';
+        $adapter = Mockery::mock(self::$embedAdapterInterface);
 
-        $sut = new Embed($options, $metaData);
-
+        $sut = new Embed($key, $adapter);
+        
         $this->assertEquals(EmbedInterface::TYPE_MEDIA_EMBED, $sut->getMediaType());
     }
 }

@@ -2,12 +2,29 @@
 
 namespace Derby\Media;
 
+use Derby\Adapter\CollectionAdapterInterface;
 use Derby\Media;
 use Derby\MediaInterface;
 use SplObjectStorage;
+use Iterator;
 
 class Collection extends Media implements CollectionInterface
 {
+
+    /**
+     * @var string
+     */
+    protected $key;
+
+    /**
+     * @var CollectionAdapterInterface
+     */
+    protected $adapter;
+
+    /**
+     * @var array
+     */
+    protected $options;
 
     /**
      * @var SplObjectStorage
@@ -15,15 +32,14 @@ class Collection extends Media implements CollectionInterface
     protected $items;
 
     public function __construct(
-        SplObjectStorage $items = null,
-        MetaData $metaData
+        $key,
+        CollectionAdapterInterface $adapter,
+        array $options = array()
     ) {
-        $this->items = $items;
-        if (!$items) {
-            $this->items = new SplObjectStorage();
-        }
-
-        parent::__construct($metaData);
+        $this->key     = $key;
+        $this->adapter = $adapter;
+        $this->options = $options;
+        $this->items   = new SplObjectStorage();
     }
 
     /**
@@ -36,12 +52,14 @@ class Collection extends Media implements CollectionInterface
 
 
     /**
-     * @param CollectionInterface $collection
+     * @param array $items
      * @return $this
      */
-    public function addAll(CollectionInterface $collection)
+    public function addAll(array $items)
     {
-        $this->items->addAll($collection->getItems());
+        foreach ($items as $item) {
+            $this->items->attach($item);
+        }
 
         return $this;
     }
@@ -183,22 +201,31 @@ class Collection extends Media implements CollectionInterface
     }
 
     /**
+     * @param array $items
      * @return $this
      */
-    public function removeAll(CollectionInterface $collection)
+    public function removeAll(array $items)
     {
-        $this->items->removeAll($collection->getItems());
+        foreach ($items as $item) {
+            $this->items->detach($item);
+        }
 
         return $this;
     }
 
     /**
-     * @param CollectionInterface $collection
-     * @return mixed
+     * @param array $items
+     * @return $this
      */
-    public function removeAllExcept(CollectionInterface $collection)
+    public function removeAllExcept(array $items)
     {
-        $this->items->removeAllExcept($collection->getItems());
+        $objSpl = new SplObjectStorage();
+        foreach ($items as $item) {
+            $objSpl->attach($item);
+        }
+        $this->items->removeAllExcept($objSpl);
+
+        return $this;
     }
 
     /**

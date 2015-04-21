@@ -12,27 +12,27 @@ use PHPUnit_Framework_TestCase;
 class MediaTest extends PHPUnit_Framework_TestCase
 {
 
-    protected static $media = 'Derby\Media';
-    protected static $collectionClass = 'Derby\Media\Collection';
-    protected static $adapterClass = 'Derby\Interfaces\MediaAdapterInterface';
-    protected static $metaDataClass = 'Derby\Media\MetaData';
+    protected static $fileAdapterInterface = 'Derby\Adapter\FileAdapterInterface';
 
     public function testInterface()
     {
-        $metaData   = Mockery::mock(self::$metaDataClass);
+        $key     = 'foo';
+        $adapter = Mockery::mock(self::$fileAdapterInterface);
 
-        $sut = new \Derby\Media($metaData);
-
+        $sut = new Media($key, $adapter);
+        
         $this->assertTrue($sut instanceof Media);
         $this->assertTrue($sut instanceof MediaInterface);
     }
 
     public function testConstructor()
     {
-        $metaData   = Mockery::mock(self::$metaDataClass);
+        $key     = 'foo';
+        $adapter = Mockery::mock(self::$fileAdapterInterface);
 
-        $sut = new Media($metaData);
+        $sut = new Media($key, $adapter);
 
-        $this->assertEquals($metaData, $sut->getMetaData());
+        $this->assertEquals($key, $sut->getKey());
+        $this->assertEquals($adapter, $sut->getAdapter());
     }
 }
