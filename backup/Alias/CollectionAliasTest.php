@@ -5,8 +5,8 @@ namespace Derby\Tests\Unit\Media\Alias;
 use PHPUnit_Framework_TestCase;
 use Mockery;
 use Derby\Media\Alias;
-use Derby\Media\CollectionInterface;
-use Derby\Media\Alias\CollectionAlias;
+use Derby\Media\GroupInterface;
+use Derby\Media\Alias\GroupAlias;
 
 class CollectionAliasTest extends PHPUnit_Framework_TestCase
 {
@@ -22,9 +22,9 @@ class CollectionAliasTest extends PHPUnit_Framework_TestCase
         $target   = Mockery::mock(self::$collectionClass);
         $metaData = Mockery::mock(self::$metaDataClass);
 
-        $sut = new CollectionAlias($target, $metaData);
+        $sut = new GroupAlias($target, $metaData);
 
-        $this->assertTrue($sut instanceof CollectionInterface);
+        $this->assertTrue($sut instanceof GroupInterface);
     }
 
     public function testType()
@@ -32,9 +32,9 @@ class CollectionAliasTest extends PHPUnit_Framework_TestCase
         $target   = Mockery::mock(self::$collectionClass);
         $metaData = Mockery::mock(self::$metaDataClass);
 
-        $sut = new CollectionAlias($target, $metaData);
+        $sut = new GroupAlias($target, $metaData);
 
-        $this->assertEquals(Alias\CollectionAlias::TYPE_ALIAS_COLLECTION, $sut->getMediaType());
+        $this->assertEquals(Alias\GroupAlias::TYPE_ALIAS_COLLECTION, $sut->getMediaType());
     }
 
     public function testConstructor()
@@ -42,7 +42,7 @@ class CollectionAliasTest extends PHPUnit_Framework_TestCase
         $target   = Mockery::mock(self::$collectionClass);
         $metaData = Mockery::mock(self::$metaDataClass);
 
-        $sut = new CollectionAlias($target, $metaData);
+        $sut = new GroupAlias($target, $metaData);
 
         $this->assertEquals($sut->getTarget(), $target);
         $this->assertEquals($sut->getMetaData(), $metaData);
@@ -64,8 +64,8 @@ class CollectionAliasTest extends PHPUnit_Framework_TestCase
         $target1->attach($item1);
         $target2->attach($item2);
 
-        $sut1 = new CollectionAlias($target1, $metaData);
-        $sut2 = new CollectionAlias($target2, $metaData);
+        $sut1 = new GroupAlias($target1, $metaData);
+        $sut2 = new GroupAlias($target2, $metaData);
 
         // check the counts
         $this->assertEquals(1, $sut1->count());
@@ -91,7 +91,7 @@ class CollectionAliasTest extends PHPUnit_Framework_TestCase
         $item1       = Mockery::mock(self::$mediaInterface);
 
         $target1->attach($item1);
-        $sut1 = new CollectionAlias($target1, $metaData);
+        $sut1 = new GroupAlias($target1, $metaData);
 
         // check the counts
         $this->assertEquals(1, $sut1->count());
@@ -107,7 +107,7 @@ class CollectionAliasTest extends PHPUnit_Framework_TestCase
         $item1       = Mockery::mock(self::$mediaInterface);
 
         $target1->attach($item1);
-        $sut1 = new CollectionAlias( $target1, $metaData);
+        $sut1 = new GroupAlias( $target1, $metaData);
 
         // check the counts
         $this->assertEquals(1, $sut1->count());
@@ -129,7 +129,7 @@ class CollectionAliasTest extends PHPUnit_Framework_TestCase
         $item1       = Mockery::mock(self::$mediaInterface);
 
         $target1->attach($item1);
-        $sut = new CollectionAlias( $target1, $metaData);
+        $sut = new GroupAlias( $target1, $metaData);
 
         $this->assertEquals(1, $sut->count());
         $this->assertEquals($objStorage1, $target1->getItems());
@@ -152,8 +152,8 @@ class CollectionAliasTest extends PHPUnit_Framework_TestCase
         $target1->attach($item2);
         $target2->attach($item2);
 
-        $sut1 = new CollectionAlias( $target1, $metaData);
-        $sut2 = new CollectionAlias( $target2, $metaData);
+        $sut1 = new GroupAlias( $target1, $metaData);
+        $sut2 = new GroupAlias( $target2, $metaData);
 
         // check the counts
         $this->assertEquals(2, $sut1->count());
@@ -187,8 +187,8 @@ class CollectionAliasTest extends PHPUnit_Framework_TestCase
         $target1->attach($item2);
         $target2->attach($item2);
 
-        $sut1 = new CollectionAlias( $target1, $metaData);
-        $sut2 = new CollectionAlias( $target2, $metaData);
+        $sut1 = new GroupAlias( $target1, $metaData);
+        $sut2 = new GroupAlias( $target2, $metaData);
 
         // check the counts
         $this->assertEquals(2, $sut1->count());

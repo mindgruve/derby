@@ -2,8 +2,8 @@
 
 namespace Derby\Tests\Unit\Media;
 
-use Derby\Media\CollectionInterface;
-use Derby\Media\Collection;
+use Derby\Media\GroupInterface;
+use Derby\Media\Group;
 use Derby\Media;
 use PHPUnit_Framework_TestCase;
 use Mockery;
@@ -21,10 +21,10 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $key     = 'Foo\\';
         $adapter = Mockery::mock(self::$collectionAdapterInterface);
 
-        $sut = new Collection($key, $adapter);
+        $sut = new Group($key, $adapter);
 
         $this->assertTrue($sut instanceof Media);
-        $this->assertTrue($sut instanceof CollectionInterface);
+        $this->assertTrue($sut instanceof GroupInterface);
     }
 
     public function testType()
@@ -32,9 +32,9 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $key     = 'Foo\\';
         $adapter = Mockery::mock(self::$collectionAdapterInterface);
 
-        $sut = new Collection($key, $adapter);
+        $sut = new Group($key, $adapter);
 
-        $this->assertEquals(CollectionInterface::MEDIA_COLLECTION, $sut->getMediaType());
+        $this->assertEquals(GroupInterface::MEDIA_COLLECTION, $sut->getMediaType());
     }
 
     public function testConstructor()
@@ -42,7 +42,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $key     = 'Foo\\';
         $adapter = Mockery::mock(self::$collectionAdapterInterface);
 
-        $sut = new Collection($key, $adapter);
+        $sut = new Group($key, $adapter);
 
         $this->assertEquals($key, $sut->getKey());
         $this->assertEquals($adapter, $sut->getAdapter());
@@ -53,7 +53,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $key1     = 'Foo\\';
         $adapter1 = Mockery::mock(self::$collectionAdapterInterface);
 
-        $sut = new Collection($key1, $adapter1);
+        $sut = new Group($key1, $adapter1);
 
         $item1 = Mockery::mock(self::$mediaInterface);
         $item2 = Mockery::mock(self::$mediaInterface);
@@ -75,7 +75,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $adapter = Mockery::mock(self::$collectionAdapterInterface);
         $item1   = Mockery::mock(self::$mediaInterface);
 
-        $sut = new Collection($key, $adapter);
+        $sut = new Group($key, $adapter);
 
         // check the counts
         $this->assertEquals(0, $sut->count());
@@ -101,7 +101,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $adapter = Mockery::mock(self::$collectionAdapterInterface);
         $item1   = Mockery::mock(self::$mediaInterface);
 
-        $sut = new Collection($key, $adapter);
+        $sut = new Group($key, $adapter);
 
         $sut->attach($item1);
 
@@ -116,7 +116,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $item1       = Mockery::mock(self::$mediaInterface);
         $item2       = Mockery::mock(self::$mediaInterface);
 
-        $sut = new Collection($key, $adapter);
+        $sut = new Group($key, $adapter);
 
         $sut->attach($item1);
         $sut->attach($item2);
@@ -137,7 +137,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $item1       = Mockery::mock(self::$mediaInterface);
         $item2       = Mockery::mock(self::$mediaInterface);
 
-        $sut = new Collection($key, $adapter);
+        $sut = new Group($key, $adapter);
         $sut->attach($item1);
         $sut->attach($item2);
 

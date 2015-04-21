@@ -2,10 +2,10 @@
 
 namespace Derby\Adapter;
 
-use Derby\Adapter\FileAdapterInterface;
+use Derby\Adapter\GaufretteAdapterInterface;
 use Gaufrette\Adapter;
 
-class GaufretteAdapter implements FileAdapterInterface
+class GaufretteAdapter implements GaufretteAdapterInterface
 {
     /**
      * @var Adapter;
@@ -72,5 +72,9 @@ class GaufretteAdapter implements FileAdapterInterface
     public function write($key, $data)
     {
         return $this->adapter->write($key, $data);
+    }
+
+    public function getMedia($key){
+        return new File($key, $this);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Derby\FileSystem\FileSystem\Embed\Flickr;
 
-use Derby\Media\Collection;
+use Derby\Media\Group;
 
-class FlickrGallery extends Collection
+class FlickrGallery extends Group
 {
 
 }

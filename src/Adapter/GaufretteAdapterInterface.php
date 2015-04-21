@@ -4,7 +4,7 @@ namespace Derby\Adapter;
 
 use Derby\AdapterInterface;
 
-interface FileAdapterInterface extends AdapterInterface
+interface GaufretteAdapterInterface extends AdapterInterface
 {
 
     /**

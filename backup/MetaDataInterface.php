@@ -25,7 +25,7 @@ interface MetaDataInterface
     public function setLabel($label);
 
     /**
-     * @return \Derby\Media\Collection | null
+     * @return \Derby\Media\Group | null
      */
     public function getParent();
 

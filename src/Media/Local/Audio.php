@@ -1,8 +1,8 @@
 <?php
 
-namespace Derby\Media\File;
+namespace Derby\Media\Local;
 
-use Derby\Media\File;
+use Derby\Media\Local;
 
 class Audio extends File
 {

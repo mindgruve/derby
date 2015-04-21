@@ -2,9 +2,9 @@
 
 namespace Derby\FileSystem\Embed;
 
-use Derby\Media\Collection;
+use Derby\Media\Group;
 
-class YouTubeChannel extends Collection
+class YouTubeChannel extends Group
 {
 
 }

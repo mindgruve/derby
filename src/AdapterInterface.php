@@ -16,4 +16,6 @@ interface AdapterInterface
      */
     public function exists($key);
 
+    public function getMedia($key);
+
 }

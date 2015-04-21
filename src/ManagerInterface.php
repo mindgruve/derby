@@ -10,11 +10,11 @@ namespace Derby;
 use Derby\Media\SearchInterface;
 
 /**
- * Derby\MediaExplorerInterface
+ * Derby\ManagerInterface
  *
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
-interface MediaExplorerInterface
+interface ManagerInterface
 {
     /**
      * @param $key

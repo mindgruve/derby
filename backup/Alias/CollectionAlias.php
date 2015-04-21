@@ -3,23 +3,23 @@
 namespace Derby\Media\Alias;
 
 use Derby\Media\Alias;
-use Derby\Media\CollectionInterface;
+use Derby\Media\GroupInterface;
 use Derby\MediaInterface;
 use Derby\Media\MetaData;
 use SplObjectStorage;
 
-class CollectionAlias extends Alias implements CollectionInterface
+class GroupAlias extends Alias implements GroupInterface
 {
 
     const TYPE_ALIAS_COLLECTION = 'MEDIA\ALIAS\COLLECTION';
 
     /**
-     * @var CollectionInterface
+     * @var GroupInterface
      */
     protected $target;
 
     public function __construct(
-        CollectionInterface $target,
+        GroupInterface $target,
         MetaData $metaData
     ) {
         $this->target = $target;
@@ -36,7 +36,7 @@ class CollectionAlias extends Alias implements CollectionInterface
     }
 
     /**
-     * @return CollectionInterface
+     * @return GroupInterface
      */
     public function getTarget()
     {
@@ -44,10 +44,10 @@ class CollectionAlias extends Alias implements CollectionInterface
     }
 
     /**
-     * @param CollectionInterface $collection
+     * @param GroupInterface $collection
      * @return $this
      */
-    public function addAll(CollectionInterface $collection)
+    public function addAll(GroupInterface $collection)
     {
         $this->target->addAll($collection);
 
@@ -179,19 +179,19 @@ class CollectionAlias extends Alias implements CollectionInterface
     }
 
     /**
-     * @param CollectionInterface $collection
+     * @param GroupInterface $collection
      * @return $this
      */
-    public function removeAll(CollectionInterface $collection)
+    public function removeAll(GroupInterface $collection)
     {
         return $this->target->removeAll($collection);
     }
 
     /**
-     * @param CollectionInterface $collection
+     * @param GroupInterface $collection
      * @return mixed
      */
-    public function removeAllExcept(CollectionInterface $collection)
+    public function removeAllExcept(GroupInterface $collection)
     {
         return $this->target->removeAllExcept($collection);
     }

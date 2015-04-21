@@ -2,7 +2,7 @@
 
 namespace Derby\Media\File;
 
-use Derby\Media\File;
+use Derby\Media\Local;
 
 class Pdf extends File
 {

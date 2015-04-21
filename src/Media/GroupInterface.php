@@ -10,7 +10,7 @@ use Serializable;
 use ArrayAccess;
 
 
-interface CollectionInterface extends MediaInterface, Countable, Iterator, Serializable, ArrayAccess
+interface GroupInterface extends MediaInterface, Countable, Iterator, Serializable, ArrayAccess
 {
 
     const MEDIA_COLLECTION = 'MEDIA\COLLECTION';

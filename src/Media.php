@@ -137,7 +137,7 @@ class Media implements MediaInterface
     }
 
     /**
-     * @return \Derby\Media\Collection | null
+     * @return \Derby\Media\Group | null
      */
     public function getParent()
     {
