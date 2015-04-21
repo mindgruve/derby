@@ -13,7 +13,6 @@ namespace Derby;
  *
  * @author Kevin Simpson <ksimpson@mindgruve.com>
  * @author John Pancoast <jpancoast@mindgruve.com>
- * @todo Remove idea of meta data, All meta data methods should live here or in child.
  */
 interface MediaInterface
 {
