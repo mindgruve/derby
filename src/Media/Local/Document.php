@@ -2,11 +2,11 @@
 
 namespace Derby\Media\File;
 
-use Derby\Media\Local;
+use Derby\Media\LocalFile;
 
-class Document extends File
+class Document extends LocalFile
 {
-    const TYPE_MEDIA_FILE_DOCUMENT = 'MEDIA\FILE\DOCUMENT';
+    const TYPE_MEDIA_FILE_DOCUMENT = 'MEDIA\LOCAL\DOCUMENT';
 
     public function getMediaType()
     {

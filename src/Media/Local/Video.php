@@ -2,12 +2,12 @@
 
 namespace Derby\Media\File;
 
-use Derby\Media\File;
+use Derby\Media\LocalFile;
 
-class Video extends File
+class Video extends LocalFile
 {
 
-    const TYPE_MEDIA_FILE_VIDEO = 'MEDIA/FILE/VIDEO';
+    const TYPE_MEDIA_FILE_VIDEO = 'MEDIA/LOCAL/VIDEO';
 
     public function getMediaType()
     {

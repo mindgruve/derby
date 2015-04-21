@@ -2,11 +2,11 @@
 
 namespace Derby\Media\Local;
 
-use Derby\Media\Local;
+use Derby\Media\LocalFile;
 
-class Presentation extends File
+class Presentation extends LocalFile
 {
-    const TYPE_MEDIA_FILE_PRESENTATION = 'MEDIA\FILE\PRESENTATION';
+    const TYPE_MEDIA_FILE_PRESENTATION = 'MEDIA\LOCAL\PRESENTATION';
 
     public function getMediaType()
     {

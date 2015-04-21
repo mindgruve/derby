@@ -3,14 +3,14 @@
 namespace Derby\Media\File;
 
 use Derby\Media\Box;
-use Derby\Media\ImageInterface;
 use Derby\Media\ImageTransform;
 use Derby\Media\Local;
+use Derby\Media\LocalFile;
 use Derby\Media\Point;
 
-class Image extends File implements ImageInterface
+class Image extends LocalFile
 {
-    const TYPE_MEDIA_FILE_IMAGE = 'MEDIA\FILE\IMAGE';
+    const TYPE_MEDIA_FILE_IMAGE = 'MEDIA\LOCAL\IMAGE';
 
     public function getMediaType()
     {

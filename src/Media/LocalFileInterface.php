@@ -8,6 +8,7 @@
 namespace Derby\Media;
 
 use Derby\MediaInterface;
+use Derby\AdapterInterface;
 
 /**
  * Derby\Media\LocalFileInterface

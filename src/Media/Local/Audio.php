@@ -2,12 +2,12 @@
 
 namespace Derby\Media\Local;
 
-use Derby\Media\Local;
+use Derby\Media\LocalFile;
 
-class Audio extends File
+class Audio extends LocalFile
 {
 
-    const TYPE_MEDIA_FILE_AUDIO = 'MEDIA\FILE\AUDIO';
+    const TYPE_MEDIA_FILE_AUDIO = 'MEDIA\LOCAL\AUDIO';
 
     public function getMediaType()
     {
