@@ -10,11 +10,11 @@ namespace Derby;
 use Derby\Media\SearchInterface;
 
 /**
- * Derby\FinderInterface
+ * Derby\MediaExplorerInterface
  *
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
-interface FinderInterface
+interface MediaExplorerInterface
 {
     /**
      * @param $key
@@ -29,11 +29,12 @@ interface FinderInterface
      * @return mixed
      */
     public function findMedia(SearchInterface $search, array $adapters);
-
+    
     /**
      * @param $key
      * @param AdapterInterface $adapter
      * @return bool
      */
     public function exists($key, AdapterInterface $adapter);
+    
 }
