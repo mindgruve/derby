@@ -10,11 +10,11 @@ namespace Derby;
 use Derby\Media\SearchInterface;
 
 /**
- * Derby\MediaFinderInterface
+ * Derby\FinderInterface
  *
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
-interface MediaFinderInterface
+interface FinderInterface
 {
     /**
      * @param $key
