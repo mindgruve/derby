@@ -22,7 +22,7 @@ interface LocalFileInterface extends MediaInterface
     /**
      * @return bool
      */
-    public function remove();
+    public function delete();
 
     /**
      * @param $newKey

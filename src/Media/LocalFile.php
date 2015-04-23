@@ -41,7 +41,7 @@ class LocalFile extends Media implements LocalFileInterface
     /**
      * @return bool
      */
-    public function remove()
+    public function delete()
     {
         // TODO: Implement remove() method.
     }
