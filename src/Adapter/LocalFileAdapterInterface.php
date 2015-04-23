@@ -17,13 +17,6 @@ namespace Derby\Adapter;
 interface LocalFileAdapterInterface extends GaufretteAdapterInterface
 {
     /**
-     * @param string $baseDirectory Base directory where file is located
-     * @param bool $create Do we create directory
-     * @param int $mode Directory permissions
-     */
-    public function __construct($baseDirectory, $create = false, $mode = 0777);
-
-    /**
      * Get base directory
      * @return string
      */
