@@ -5,7 +5,7 @@ namespace Derby\Adapter\File;
 use Derby\Adapter\CdnAdapterInterface;
 use Gaufrette\Adapter\AwsS3;
 use Aws\S3\S3Client;
-USE Derby\Adapter\GaufretteAdapter;
+use Derby\Adapter\GaufretteAdapter;
 
 class AmazonS3Adapter extends GaufretteAdapter implements CdnAdapterInterface
 {
@@ -28,14 +28,6 @@ class AmazonS3Adapter extends GaufretteAdapter implements CdnAdapterInterface
     const ADAPTER_AMAZON_S3 = 'ADAPTER\FILE\AMAZON_S3';
 
     /**
-     * @return string
-     */
-    public function getAdapterType()
-    {
-        return self::ADAPTER_AMAZON_S3;
-    }
-
-    /**
      * @param S3Client $service
      * @param $bucket
      * @param array $options
@@ -48,6 +40,14 @@ class AmazonS3Adapter extends GaufretteAdapter implements CdnAdapterInterface
         $this->adapter = new AwsS3($service, $bucket, $options, $detectContentType);
 
         parent::__construct($this->adapter);
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdapterType()
+    {
+        return self::ADAPTER_AMAZON_S3;
     }
 
     /**
