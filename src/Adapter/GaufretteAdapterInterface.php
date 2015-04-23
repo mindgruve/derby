@@ -3,9 +3,22 @@
 namespace Derby\Adapter;
 
 use Derby\AdapterInterface;
+use Gaufrette\Adapter;
 
 interface GaufretteAdapterInterface extends AdapterInterface
 {
+    /**
+     * Get gaufrette adapter
+     * @return Adapter
+     */
+    public function getGaufretteAdapter();
+
+    /**
+     * Set gaufrette adapter
+     * @param Adapter $adapter
+     * @return mixed
+     */
+    public function setGaufretteAdapter(Adapter $adapter);
 
     /**
      * @param $key

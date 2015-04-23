@@ -2,19 +2,43 @@
 
 namespace Derby\Adapter;
 
-use Derby\Adapter\GaufretteAdapterInterface;
+use Derby\Media\LocalFile;
 use Gaufrette\Adapter;
+use Gaufrette\Filesystem;
 
 class GaufretteAdapter implements GaufretteAdapterInterface
 {
     /**
-     * @var Adapter;
+     * Gaufrette adapter
+     * @var Adapter
      */
     protected $adapter;
 
     const ADAPTER_TYPE_GAUFRETTE = 'ADAPTER\GAUFRETTE';
 
-    function __construct(Adapter $adapter)
+    /**
+     * @param Adapter $adapter
+     */
+    public function __construct(Adapter $adapter)
+    {
+        $this->adapter = $adapter;
+    }
+
+    /**
+     * Get gaufrette adapter
+     * @return Adapter
+     */
+    public function getGaufretteAdapter()
+    {
+        return $this->adapter;
+    }
+
+    /**
+     * Set gaufrette adapter
+     * @param Adapter $adapter
+     * @return mixed
+     */
+    public function setGaufretteAdapter(Adapter $adapter)
     {
         $this->adapter = $adapter;
     }
@@ -75,6 +99,15 @@ class GaufretteAdapter implements GaufretteAdapterInterface
     }
 
     public function getMedia($key){
-        return new File($key, $this);
+        if ($this instanceof LocalFileAdapterInterface) {
+            return new LocalFile($key, $this);
+        } else {
+
+        }
+//        $fs = new Filesystem($this->adapter);
+//
+//        echo "<pre>"; print_r($fs); echo "</pre>";
+//        exit;
+//        return new File($key, $this);
     }
 }
