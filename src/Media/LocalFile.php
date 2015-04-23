@@ -24,7 +24,6 @@ class LocalFile extends Media implements LocalFileInterface
     /**
      * @param $key
      * @param LocalFileAdapterInterface $adapter
-     * @uses parent::__construct()
      */
     public function __construct($key, LocalFileAdapterInterface $adapter)
     {
@@ -95,7 +94,7 @@ class LocalFile extends Media implements LocalFileInterface
      */
     public function getMimeType()
     {
-        return $this->adapter->mimeType($this->key);
+        return $this->adapter->getGaufretteAdapter()->mimeType($this->key);
     }
 
     /**
