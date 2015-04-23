@@ -38,7 +38,7 @@ class LocalFile extends Media implements LocalFileInterface
     /**
      * {@inheritDoc}
      */
-    public function read(&$output = null)
+    public function read()
     {
         return $this->adapter->getGaufretteAdapter()->read($this->key);
     }
@@ -46,7 +46,7 @@ class LocalFile extends Media implements LocalFileInterface
     /**
      * {@inheritDoc}
      */
-    public function write($data, &$output = null)
+    public function write($data)
     {
         return $this->adapter->getGaufretteAdapter()->write($this->key, $data);
     }
