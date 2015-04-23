@@ -7,11 +7,8 @@
 
 namespace Derby\Media;
 
-use Derby\Adapter\GaufretteAdapterInterface;
-use Derby\Adapter\LocalFileAdapter;
 use Derby\Adapter\LocalFileAdapterInterface;
 use Derby\AdapterInterface;
-use Derby\MediaInterface;
 use Derby\Media;
 
 /**
@@ -31,50 +28,62 @@ class LocalFile extends Media implements LocalFileInterface
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getMediaType()
     {
-        // TODO: Implement getMediaType() method.
+        return self::TYPE_MEDIA_FILE;
     }
 
     /**
-     * @return bool
+     * {@inheritDoc}
+     */
+    public function read(&$output = null)
+    {
+        return $this->adapter->getGaufretteAdapter()->read($this->key);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function write($data, &$output = null)
+    {
+        return $this->adapter->getGaufretteAdapter()->write($this->key, $data);
+    }
+
+    /**
+     * Indicates whether the file exists
+     * @return boolean
+     */
+    public function exists()
+    {
+        return $this->adapter->getGaufretteAdapter()->exists($this->key);
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public function delete()
     {
-        // TODO: Implement remove() method.
+        return $this->adapter->getGaufretteAdapter()->delete($this->key);
     }
 
     /**
-     * @param $newKey
-     * @return mixed
+     * {@inheritDoc}
      */
     public function rename($newKey)
     {
-        // TODO: Implement rename() method.
+        $success = $this->adapter->getGaufretteAdapter()->rename($this->key, $newKey);
+
+        if ($success) {
+            $this->key = $newKey;
+        }
+
+        return $success;
     }
 
     /**
-     * @param $data
-     * @return mixed
-     */
-    public function write($data)
-    {
-        // TODO: Implement write() method.
-    }
-
-    /**
-     * @return boolean
-     */
-    public function read()
-    {
-        // TODO: Implement read() method.
-    }
-
-    /**
-     * @param AdapterInterface $adapter
-     * @return RemoteFileInterface
+     * {@inheritDoc}
      */
     public function upload(AdapterInterface $adapter)
     {
@@ -82,7 +91,7 @@ class LocalFile extends Media implements LocalFileInterface
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getFileExtension()
     {
@@ -90,7 +99,7 @@ class LocalFile extends Media implements LocalFileInterface
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getMimeType()
     {
@@ -100,7 +109,7 @@ class LocalFile extends Media implements LocalFileInterface
     /**
      * {@inheritDoc}
      */
-    public function getPath()
+    public function getPath($key = null)
     {
         // I'm sure this can be optimized!
         // We're just accounting for leading or trailing /'s
@@ -112,11 +121,11 @@ class LocalFile extends Media implements LocalFileInterface
             $base = substr($base, 0, $baselen-1);
         }
 
-        $file = $this->key;
-        if ($pos = strpos($file, '/') === (int)0) {
-            $file = substr($file, $pos, strlen($file));
+        $key = $key ?: $this->key;
+        if ($pos = strpos($key, '/') === (int)0) {
+            $key = substr($key, $pos, strlen($key));
         }
 
-        return $base.'/'.$file;
+        return $base.'/'.$key;
     }
 }
