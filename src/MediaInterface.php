@@ -26,22 +26,22 @@ interface MediaInterface
     public function getMediaType();
 
     /**
+     * Set adapter
+     * @param AdapterInterface $adapterInterface
+     * @return mixed
+     */
+    public function setAdapter(AdapterInterface $adapterInterface);
+
+    /**
      * Get adapter
      * @return AdapterInterface
      */
     public function getAdapter();
 
     /**
-     * Set adapter
-     * @param AdapterInterface $adapter
-     * @return mixed
-     */
-    public function setAdapter(AdapterInterface $adapter);
-
-    /**
      * Set key
      * @param $key
-     * @return MediaInterface
+     * @return mixed
      */
     public function setKey($key);
 

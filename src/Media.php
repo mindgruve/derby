@@ -14,7 +14,7 @@ namespace Derby;
  * @author Kevin Simpson <ksimpson@mindgruve.com>
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
-class Media implements MediaInterface
+abstract class Media implements MediaInterface
 {
     /**
      * @var string
@@ -32,31 +32,25 @@ class Media implements MediaInterface
     protected $adapter;
 
     /**
-     * @var \DateTime
+     * @param $key
+     * @param AdapterInterface $adapter
      */
-    protected $dateCreated;
-
-    /**
-     * @var \DateTime
-     */
-    protected $dateModified;
-
-    public function __construct(
-        $key,
-        AdapterInterface $adapter
-    ) {
-        $this->key     = $key;
-        $this->adapter = $adapter;
+    public function __construct($key, AdapterInterface $adapter)
+    {
+        $this->setKey($key);
+        $this->setAdapter($adapter);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getMediaType()
     {
         return self::TYPE_MEDIA;
     }
 
     /**
-     * Get adapter
-     * @return AdapterInterface
+     * {@inheritdoc}
      */
     public function getAdapter()
     {
@@ -71,13 +65,10 @@ class Media implements MediaInterface
     public function setAdapter(AdapterInterface $adapter)
     {
         $this->adapter = $adapter;
-
-        return $this;
     }
 
     /**
-     * Get key
-     * @return string
+     * {@inheritdoc}
      */
     public function getKey()
     {
@@ -87,7 +78,7 @@ class Media implements MediaInterface
     /**
      * Set key
      * @param $key
-     * @return MediaInterface
+     * @return mixed
      */
     public function setKey($key)
     {

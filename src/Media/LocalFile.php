@@ -7,60 +7,36 @@
 
 namespace Derby\Media;
 
-use Derby\MediaInterface;
+use Derby\Adapter\GaufretteAdapterInterface;
+use Derby\Adapter\LocalFileAdapter;
+use Derby\Adapter\LocalFileAdapterInterface;
 use Derby\AdapterInterface;
+use Derby\MediaInterface;
+use Derby\Media;
 
 /**
  * Derby\Media\LocalFile
  *
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
-class LocalFile implements LocalFileInterface
+class LocalFile extends Media implements LocalFileInterface
 {
+    /**
+     * @param $key
+     * @param LocalFileAdapterInterface $adapter
+     * @uses parent::__construct()
+     */
+    public function __construct($key, LocalFileAdapterInterface $adapter)
+    {
+        parent::__construct($key, $adapter);
+    }
+
     /**
      * @return string
      */
     public function getMediaType()
     {
         // TODO: Implement getMediaType() method.
-    }
-
-    /**
-     * Set key
-     * @param $key
-     * @return MediaInterface
-     */
-    public function setKey($key)
-    {
-        // TODO: Implement setKey() method.
-    }
-
-    /**
-     * Get key
-     * @return string
-     */
-    public function getKey()
-    {
-        // TODO: Implement getKey() method.
-    }
-
-    /**
-     * Get adapter
-     * @return AdapterInterface
-     */
-    public function getAdapter()
-    {
-        // TODO: Implement getAdapter() method.
-    }
-
-    /**
-     * Set adapter
-     * @param AdapterInterface $adapter
-     * @return mixed
-     */
-    public function setAdapter(AdapterInterface $adapter)
-    {
-        // TODO: Implement setAdapter() method.
     }
 
     /**
@@ -98,6 +74,15 @@ class LocalFile implements LocalFileInterface
     }
 
     /**
+     * @param AdapterInterface $adapter
+     * @return RemoteFileInterface
+     */
+    public function upload(AdapterInterface $adapter)
+    {
+        // TODO: Implement upload() method.
+    }
+
+    /**
      * @return string
      */
     public function getFileExtension()
@@ -106,37 +91,42 @@ class LocalFile implements LocalFileInterface
     }
 
     /**
-     * @param string
-     * @return string
-     */
-    public function setFileExtension($extension)
-    {
-        // TODO: Implement setFileExtension() method.
-    }
-
-    /**
      * @return string
      */
     public function getMimeType()
     {
-        // TODO: Implement getMimeType() method.
+        return $this->adapter->mimeType($this->key);
     }
 
     /**
-     * @param $mimeType
-     * @return $this
+     * {@inheritDoc}
      */
-    public function setMimeType($mimeType)
+    public function getPath()
     {
-        // TODO: Implement setMimeType() method.
+        // I'm sure this can be optimized!
+        // We're just accounting for leading or trailing /'s
+
+        $base = $this->adapter->getBaseDirectory();
+        $baselen = strlen($base);
+
+        if (strrpos($base, '/') === (int)$baselen-1) {
+            $base = substr($base, 0, $baselen-1);
+        }
+
+        $file = $this->key;
+        if ($pos = strpos($file, '/') === (int)0) {
+            $file = substr($file, $pos, strlen($file));
+        }
+
+        return $base.'/'.$file;
     }
 
-    /**
-     * @param AdapterInterface $adapter
-     * @return RemoteFileInterface
-     */
-    public function upload(AdapterInterface $adapter)
+    private function getFileExtensionFromKey($key)
     {
-        // TODO: Implement upload() method.
+        return substr($key, strrpos($key, '.'), strlen($key));
+    }
+
+    private function getMimeTypeFromKey($key)
+    {
     }
 }

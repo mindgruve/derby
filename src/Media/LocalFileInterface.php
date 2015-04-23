@@ -11,7 +11,7 @@ use Derby\MediaInterface;
 use Derby\AdapterInterface;
 
 /**
- * Derby\Media\LocalFileInterface
+ * Derby\Media\LocalFileAdapterInterface
  *
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
@@ -42,15 +42,15 @@ interface LocalFileInterface extends MediaInterface
     public function read();
 
     /**
+     * @param AdapterInterface $adapter
+     * @return RemoteFileInterface
+     */
+    public function upload(AdapterInterface $adapter);
+
+    /**
      * @return string
      */
     public function getFileExtension();
-
-    /**
-     * @param string
-     * @return string
-     */
-    public function setFileExtension($extension);
 
     /**
      * @return string
@@ -58,14 +58,8 @@ interface LocalFileInterface extends MediaInterface
     public function getMimeType();
 
     /**
-     * @param $mimeType
-     * @return $this
+     * Get file path
+     * @return string
      */
-    public function setMimeType($mimeType);
-
-    /**
-     * @param AdapterInterface $adapter
-     * @return RemoteFileInterface
-     */
-    public function upload(AdapterInterface $adapter);
+    public function getPath();
 }
