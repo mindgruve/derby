@@ -87,7 +87,7 @@ class LocalFile extends Media implements LocalFileInterface
      */
     public function getFileExtension()
     {
-        // TODO: Implement getFileExtension() method.
+        return substr($this->key, strrpos($this->key, '.'), strlen($this->key));
     }
 
     /**
@@ -119,14 +119,5 @@ class LocalFile extends Media implements LocalFileInterface
         }
 
         return $base.'/'.$file;
-    }
-
-    private function getFileExtensionFromKey($key)
-    {
-        return substr($key, strrpos($key, '.'), strlen($key));
-    }
-
-    private function getMimeTypeFromKey($key)
-    {
     }
 }
