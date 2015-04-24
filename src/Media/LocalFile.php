@@ -2,6 +2,7 @@
 /**
  * @package mindgruve/derby
  * @copyright (c) 2015 Mindgruve
+ * @author Kevin Simpson <ksimpson@mindgruve.com>
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
 
@@ -15,6 +16,7 @@ use Derby\Media;
 /**
  * Derby\Media\LocalFile
  *
+ * @author Kevin Simpson <ksimpson@mindgruve.com>
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
 class LocalFile extends Media implements LocalFileInterface
@@ -41,7 +43,7 @@ class LocalFile extends Media implements LocalFileInterface
      */
     public function read()
     {
-        return $this->adapter->getGaufretteAdapter()->read($this->key);
+        return $this->adapter->read($this->key);
     }
 
     /**
@@ -49,16 +51,15 @@ class LocalFile extends Media implements LocalFileInterface
      */
     public function write($data)
     {
-        return $this->adapter->getGaufretteAdapter()->write($this->key, $data);
+        return $this->adapter->write($this->key, $data);
     }
 
     /**
-     * Indicates whether the file exists
-     * @return boolean
+     * {@inheritDoc}
      */
     public function exists()
     {
-        return $this->adapter->getGaufretteAdapter()->exists($this->key);
+        return $this->adapter->exists($this->key);
     }
 
     /**
@@ -66,7 +67,7 @@ class LocalFile extends Media implements LocalFileInterface
      */
     public function delete()
     {
-        return $this->adapter->getGaufretteAdapter()->delete($this->key);
+        return $this->adapter->delete($this->key);
     }
 
     /**
@@ -74,7 +75,7 @@ class LocalFile extends Media implements LocalFileInterface
      */
     public function rename($newKey)
     {
-        $success = $this->adapter->getGaufretteAdapter()->rename($this->key, $newKey);
+        $success = $this->adapter->rename($this->key, $newKey);
 
         if ($success) {
             $this->key = $newKey;
