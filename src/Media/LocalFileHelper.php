@@ -120,7 +120,7 @@ class LocalFileHelper
             if (isset($this->cache['media']['mime_types'][$mimeType])) {
                 $fileClass = $this->cache['media']['mime_types'][$mimeType];
             } elseif (isset($this->cache['media']['extensions'][$extension])) {
-                $fileClass = $this->cache['media']['extensions'][$mimeType];
+                $fileClass = $this->cache['media']['extensions'][$extension];
             }
 
             $file = new $fileClass($key, $adapter);
