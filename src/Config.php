@@ -62,7 +62,13 @@ class Config
     public function isConfigValid()
     {
         // although our default config has more settings, the only hard dependency
-        // is [derby][media] at the moment. Anything else isn't used and not required yet.
+        // is [derby][media] and [derby][tmp_path] at the moment. Anything else isn't
+        // used and not required yet.
+        // @todo I think we should look into symfony's tree builder or options resolver
+
+        if (!isset($this->config['derby']['tmp_path'])) {
+            return false;
+        }
 
         if (!isset($this->config['derby']['media'])) {
             return false;
