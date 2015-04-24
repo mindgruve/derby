@@ -2,6 +2,7 @@
 
 namespace Derby\Adapter;
 
+use Derby\Config;
 use Gaufrette\Adapter;
 
 abstract class AbstractGaufretteAdapter implements GaufretteAdapterInterface
@@ -11,6 +12,11 @@ abstract class AbstractGaufretteAdapter implements GaufretteAdapterInterface
      * @var Adapter
      */
     protected $gaufretteAdapter;
+
+    /**
+     * @var Config
+     */
+    private $config;
 
     const ADAPTER_TYPE_GAUFRETTE = 'ADAPTER\GAUFRETTE';
 
@@ -25,6 +31,29 @@ abstract class AbstractGaufretteAdapter implements GaufretteAdapterInterface
     public function __construct(Adapter $gaufretteAdapter)
     {
         $this->gaufretteAdapter = $gaufretteAdapter;
+
+        // create default config object
+        $this->config = new Config();
+    }
+
+    /**
+     * Get config
+     * @return Config
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * Set config
+     * @param Config $config
+     * @return self
+     */
+    public function setConfig(Config $config)
+    {
+        $this->config = $config;
+        return $this;
     }
 
     /**

@@ -19,16 +19,6 @@ use Derby\Exception\InvalidConfigException;
 class Config
 {
     /**
-     * Local instances
-     *
-     * Yes these are singletons based on the config path.
-     * Singletons are ok *sometimes*. Relax, ok!
-     *
-     * @var array
-     */
-    private static $instances = [];
-
-    /**
      * Config
      * @var array
      */
@@ -36,30 +26,10 @@ class Config
 
     /**
      * @param string|null $configPath
-     *
-     * Use the self::create() factory method instead of direct constructor.
-     *
      */
-    protected function __construct($configPath = null)
+    public function __construct($configPath = null)
     {
         $this->load($configPath ?: self::getDefaultConfigPath());
-    }
-
-    /**
-     * Factory method to create a config object
-     * @param string|null $configPath
-     * @param bool $forceReload
-     * @return self
-     */
-    public static function create($configPath = null, $forceReload = false)
-    {
-        $configPath = $configPath ?: self::getDefaultConfigPath();
-
-        if (!isset(self::$instances[$configPath]) || $forceReload) {
-            self::$instances[$configPath] = new self($configPath);
-        }
-
-        return self::$instances[$configPath];
     }
 
     /**
