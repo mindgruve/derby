@@ -15,7 +15,8 @@
   "require": {
     "knplabs/gaufrette": "0.1.*",
     "imagine/imagine": "~0.5",
-    "doctrine/cache": "~1.4"
+    "doctrine/cache": "~1.4",
+    "symfony/yaml": "~2.6"
   },
   "require-dev": {
     "mockery/mockery": "~0.9",
