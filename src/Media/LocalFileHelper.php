@@ -79,6 +79,7 @@ class LocalFileHelper
      * @param $key
      * @param LocalFileAdapterInterface $adapter
      * @return MediaInterface
+     * @throws ImproperLocalMediaException When incorrect local object loaded
      */
     public function buildMedia($key, LocalFileAdapterInterface $adapter)
     {
