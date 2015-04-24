@@ -1,6 +1,6 @@
 <?php
 
-namespace Derby\Media\File;
+namespace Derby\Media\Local;
 
 use Derby\Media\Box;
 use Derby\Media\ImageTransform;
