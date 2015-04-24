@@ -104,29 +104,32 @@ class LocalFileHelper
             }
         }
 
-        $path = $adapter->getPath($key);
+        // we load a generic local file to use our file logic.
+        $file = new LocalFile($key, $adapter);
 
-        $extension = substr($key, strrpos($key, '.')+1, strlen($key));
+        // if file exists, attempt to determine its type and return
+        // appropriate representation of it.
+        if ($file->exists()) {
+            $extension = $file->getFileExtension();
+            $mimeType = $file->getMimeType();
 
-        $f = new \finfo(FILEINFO_MIME_TYPE);
-        $mimeType = $f->file($path);
+            // default class we'll load if no match on mime or extension
+            $fileClass = 'Derby\\Media\\LocalFile';
 
-        // default class we'll load if no match on mime or extension
-        $mediaClass = 'Derby\\Media\\LocalFile';
+            // search for class by mime or extension
+            if (isset($this->cache['media']['mime_types'][$mimeType])) {
+                $fileClass = $this->cache['media']['mime_types'][$mimeType];
+            } elseif (isset($this->cache['media']['extensions'][$extension])) {
+                $fileClass = $this->cache['media']['extensions'][$mimeType];
+            }
 
-        // search for class by mime or extension
-        if (isset($this->cache['media']['mime_types'][$mimeType])) {
-            $mediaClass = $this->cache['media']['mime_types'][$mimeType];
-        } elseif (isset($this->cache['media']['extensions'][$extension])) {
-            $mediaClass = $this->cache['media']['extensions'][$mimeType];
+            $file = new $fileClass($key, $adapter);
+
+            if (!$file instanceof LocalFileInterface) {
+                throw new ImproperLocalMediaException('A matched local media type class was found but it does not implement the proper LocalFileInterface interface');
+            }
         }
 
-        $mediaObj = new $mediaClass($key, $adapter);
-
-        if (!$mediaObj instanceof LocalFileInterface) {
-            throw new ImproperLocalMediaException('A matched local media type class was found but it does not implement the proper LocalFileInterface interface');
-        }
-
-        return $mediaObj;
+        return $file;
     }
 }
