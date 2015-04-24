@@ -17,12 +17,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Yaml\Parser;
 
 /**
- * Derby\Media\LocalMediaHelper
+ * Derby\Media\LocalFileHelper
  *
  * @author Kevin Simpson <ksimpson@mindgruve.com>
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
-class LocalMediaHelper
+class LocalFileHelper
 {
     /**
      * @var Config
@@ -46,7 +46,7 @@ class LocalMediaHelper
     /**
      * Simple factory method
      * @param Config $config
-     * @return LocalMediaHelper
+     * @return LocalFileHelper
      */
     public static function create(Config $config)
     {

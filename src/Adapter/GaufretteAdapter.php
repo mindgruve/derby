@@ -4,7 +4,7 @@ namespace Derby\Adapter;
 
 use Derby\Config;
 use Derby\Media\LocalFile;
-use Derby\Media\LocalMediaHelper;
+use Derby\Media\LocalFileHelper;
 use Gaufrette\Adapter;
 use Gaufrette\Filesystem;
 
@@ -107,7 +107,7 @@ class GaufretteAdapter implements GaufretteAdapterInterface
      */
     public function getMedia($key){
         if ($this instanceof LocalFileAdapterInterface) {
-            return LocalMediaHelper::create(Config::create())->buildMedia($key, $this);
+            return LocalFileHelper::create(Config::create())->buildMedia($key, $this);
         } else {
             // @todo
         }
