@@ -9,12 +9,6 @@ use Aws\S3\S3Client;
 
 class AmazonS3Adapter extends RemoteFileAdapter implements CdnAdapterInterface
 {
-
-    /**
-     * @var AwsS3
-     */
-    protected $adapter;
-
     /**
      * @var S3Client
      */
@@ -37,9 +31,9 @@ class AmazonS3Adapter extends RemoteFileAdapter implements CdnAdapterInterface
     {
         $this->service = $service;
         $this->bucket  = $bucket;
-        $this->adapter = new AwsS3($service, $bucket, $options, $detectContentType);
+        $this->gaufretteAdapter = new AwsS3($service, $bucket, $options, $detectContentType);
 
-        parent::__construct($this->adapter);
+        parent::__construct($this->gaufretteAdapter);
     }
 
     /**
