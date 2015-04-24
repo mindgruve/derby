@@ -7,6 +7,8 @@
 
 namespace Derby\Media;
 
+use Derby\Adapter\RemoteFileAdapterInterface;
+use Derby\Media;
 use Derby\MediaInterface;
 use Derby\AdapterInterface;
 
@@ -15,65 +17,63 @@ use Derby\AdapterInterface;
  *
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
-class RemoteFile implements RemoteFileInterface
+class RemoteFile extends Media implements RemoteFileInterface
 {
+    public function __construct($key, RemoteFileAdapterInterface $adapter)
+    {
+        parent::__construct($key, $adapter);
+    }
+
     /**
      * @return string
      */
     public function getMediaType()
     {
-        // TODO: Implement getMediaType() method.
+        return self::TYPE_MEDIA_REMOTE_FILE;
     }
 
     /**
-     * Set key
-     * @param $key
-     * @return MediaInterface
+     * Read data from file
+     * @return string|boolean if cannot read content
      */
-    public function setKey($key)
+    public function read()
     {
-        // TODO: Implement setKey() method.
+        // TODO: Implement read() method.
     }
 
     /**
-     * Get key
-     * @return string
+     * Write data to file
+     * @param $data
+     * @return integer|boolean The number of bytes that were written into the file
      */
-    public function getKey()
+    public function write($data)
     {
-        // TODO: Implement getKey() method.
+        $this->adapter->write($this->key, $data);
     }
 
     /**
-     * Get adapter
-     * @return AdapterInterface
+     * Indicates whether the file exists
+     * @return boolean
      */
-    public function getAdapter()
+    public function exists()
     {
-        // TODO: Implement getAdapter() method.
+        // TODO: Implement exists() method.
     }
 
     /**
-     * Set adapter
-     * @param AdapterInterface $adapter
-     * @return mixed
+     * Delete file
+     * @return boolean
      */
-    public function setAdapter(AdapterInterface $adapter)
+    public function delete()
     {
-        // TODO: Implement setAdapter() method.
+        // TODO: Implement delete() method.
     }
 
     /**
-     * @return bool
-     */
-    public function remove()
-    {
-        // TODO: Implement remove() method.
-    }
-
-    /**
+     * Rename/move file
+     *
      * @param $newKey
-     * @return mixed
+     * @return boolean
      */
     public function rename($newKey)
     {
@@ -88,20 +88,4 @@ class RemoteFile implements RemoteFileInterface
         // TODO: Implement download() method.
     }
 
-    /**
-     * @return string
-     */
-    public function getFileExtension()
-    {
-        // TODO: Implement getFileExtension() method.
-    }
-
-    /**
-     * @param string
-     * @return string
-     */
-    public function setFileExtension($extension)
-    {
-        // TODO: Implement setFileExtension() method.
-    }
 }

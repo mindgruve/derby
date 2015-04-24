@@ -16,16 +16,38 @@ use Derby\MediaInterface;
  */
 interface RemoteFileInterface extends MediaInterface
 {
-    const TYPE_MEDIA_FILE = 'MEDIA\REMOTE_FILE';
+    const TYPE_MEDIA_REMOTE_FILE = 'MEDIA\REMOTE_FILE';
 
     /**
-     * @return bool
+     * Read data from file
+     * @return string|boolean if cannot read content
      */
-    public function remove();
+    public function read();
 
     /**
+     * Write data to file
+     * @param $data
+     * @return integer|boolean The number of bytes that were written into the file
+     */
+    public function write($data);
+
+    /**
+     * Indicates whether the file exists
+     * @return boolean
+     */
+    public function exists();
+
+    /**
+     * Delete file
+     * @return boolean
+     */
+    public function delete();
+
+    /**
+     * Rename/move file
+     *
      * @param $newKey
-     * @return mixed
+     * @return boolean
      */
     public function rename($newKey);
 
@@ -33,16 +55,4 @@ interface RemoteFileInterface extends MediaInterface
      * @return LocalFileInterface
      */
     public function download();
-
-    /**
-     * @return string
-     */
-    public function getFileExtension();
-
-    /**
-     * @param string
-     * @return string
-     */
-    public function setFileExtension($extension);
-
 }
