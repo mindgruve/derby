@@ -75,13 +75,13 @@ class LocalFileHelper
     }
 
     /**
-     * Build a local media object for a key and local adapter
+     * Build a local file object for a key and local adapter
      * @param $key
      * @param LocalFileAdapterInterface $adapter
-     * @return MediaInterface
+     * @return LocalFileInterface
      * @throws ImproperLocalMediaException When incorrect local object loaded
      */
-    public function buildMedia($key, LocalFileAdapterInterface $adapter)
+    public function buildFile($key, LocalFileAdapterInterface $adapter)
     {
         // build cache if we don't have it. this is just a simple optimization
         // to avoid running the same loops for loopkups.

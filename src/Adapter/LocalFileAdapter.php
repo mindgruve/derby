@@ -72,6 +72,6 @@ class LocalFileAdapter extends AbstractGaufretteAdapter implements LocalFileAdap
      */
     public function getMedia($key)
     {
-        return LocalFileHelper::create(Config::create())->buildMedia($key, $this);
+        return LocalFileHelper::create(Config::create())->buildFile($key, $this);
     }
 }
