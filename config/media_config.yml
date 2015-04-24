@@ -26,48 +26,45 @@ derby:
     - { 
         class: 'Derby\Media\File\Audio',
         extensions: [ 'mp3', 'wav', 'wma' ],   
-        mime_types: [ 'audio/mpeg',  'audio/vnd.wave', 'audio/wav', 'audio/wave',  'audio/x-wav' ],
-        adapter: 'opencloud'
+        mime_types: [ 'audio/mpeg',  'audio/vnd.wave', 'audio/wav', 'audio/wave',  'audio/x-wav' ]
       }
     - { 
         class: 'Derby\Media\File\Document', 
         extensions: [ 'doc', 'rtf', 'txt' ],  
-        mime_types: [ 'application/msword', 'text/rtf', 'application/rtf', 'text/plain' ],
-        adapter: 'opencloud'
+        mime_types: [ 'application/msword', 'text/rtf', 'application/rtf', 'text/plain' ]
       }
     - {
         class: 'Derby\Media\File\Image',    
         extensions: [ 'jpg', 'jpeg', 'gif', 'bmp', 'png' ],  
-        mime_types: [ 'image/jpeg', 'image/gif', 'image/bmp', 'image/x-bmp', 'image/png' ],
-        adapter: 'opencloud'
+        mime_types: [ 'image/jpeg', 'image/gif', 'image/bmp', 'image/x-bmp', 'image/png' ]
       }
     - { 
         class: 'Derby\Media\File\Pdf',      
         extensions: [ 'pdf' ],  
-        mime_types: [ 'application/pdf', 'application/x-pdf' ],
-        adapter: 'opencloud'
+        mime_types: [ 'application/pdf', 'application/x-pdf' ]
       }
     - { 
         class: 'Derby\Media\File\Presentation',
         extensions: [ 'ppt','pptx' ],
-        mime_types: [ 'application/vnd.ms-powerpointtd>', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ],
-        adapter: 'opencloud'
+        mime_types: [ 'application/vnd.ms-powerpointtd>', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ]
       }
     - {
         class: 'Derby\Media\File\Spreadsheet',  
         extensions: [ 'xls', 'xlsx', 'xlsm' ],
-        mime_types: [ 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroEnabled.12' ],
-        adapter: 'opencloud'
+        mime_types: [ 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroEnabled.12' ]
       }
     - {
         class: 'Derby\Media\File\Video',  
         extensions: [ 'webm', 'vob', 'ogg', 'wmv', 'avi', 'mov', 'qt', 'mp4', 'mpg',  'mpeg' ],
-        mime_types: [ 'video/webm', 'video/dvd',  'video/mpeg', 'video/x-ms-vob', 'video/ogg', 'application/ogg', 'video/vnd.avi', 'video/avi', 'video/msvideo', 'video/x-msvideo', 'video/quicktime', 'video/x-ms-wmv', 'video/mp4', 'video/mpeg' ],
-        adapter: 'opencloud'
+        mime_types: [ 'video/webm', 'video/dvd',  'video/mpeg', 'video/x-ms-vob', 'video/ogg', 'application/ogg', 'video/vnd.avi', 'video/avi', 'video/msvideo', 'video/x-msvideo', 'video/quicktime', 'video/x-ms-wmv', 'video/mp4', 'video/mpeg' ]
       }
     - {
-        class: 'Derby\Media\File',  
+        class: 'Derby\Media\File\Text',
+        extensions: [ 'txt' ],
+        mime_types: [ 'text/plain' ]
+      }
+    - {
+        class: 'Derby\Media\LocalFile',
         extensions: [ '*' ],
-        mime_types: [ '*' ],
-        adapter: 'opencloud'
+        mime_types: [ '*' ]
       }
