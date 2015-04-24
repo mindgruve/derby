@@ -2,13 +2,9 @@
 
 namespace Derby\Adapter;
 
-use Derby\Config;
-use Derby\Media\LocalFile;
-use Derby\Media\LocalFileHelper;
 use Gaufrette\Adapter;
-use Gaufrette\Filesystem;
 
-class GaufretteAdapter implements GaufretteAdapterInterface
+abstract class AbstractGaufretteAdapter implements GaufretteAdapterInterface
 {
     /**
      * Gaufrette adapter
@@ -17,6 +13,11 @@ class GaufretteAdapter implements GaufretteAdapterInterface
     protected $gaufretteAdapter;
 
     const ADAPTER_TYPE_GAUFRETTE = 'ADAPTER\GAUFRETTE';
+
+    /**
+     * {@inheritDoc}
+     */
+    abstract public function getMedia($key);
 
     /**
      * @param Adapter $gaufretteAdapter
@@ -98,18 +99,5 @@ class GaufretteAdapter implements GaufretteAdapterInterface
     public function write($key, $data)
     {
         return $this->gaufretteAdapter->write($key, $data);
-    }
-
-    /**
-     * Get media
-     * @param $key
-     * @return \Derby\MediaInterface
-     */
-    public function getMedia($key){
-        if ($this instanceof LocalFileAdapterInterface) {
-            return LocalFileHelper::create(Config::create())->buildMedia($key, $this);
-        } else {
-            // @todo
-        }
     }
 }

@@ -7,6 +7,7 @@
  */
 
 namespace Derby\Adapter;
+use Derby\Media\RemoteFile;
 
 /**
  * Derby\Adapter\RemoteFileAdapter
@@ -14,6 +15,13 @@ namespace Derby\Adapter;
  * @author Kevin Simpson <ksimpson@mindgruve.com>
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
-class RemoteFileAdapter extends GaufretteAdapter implements RemoteFileAdapterInterface
+class RemoteFileAdapter extends AbstractGaufretteAdapter implements RemoteFileAdapterInterface
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function getMedia($key)
+    {
+        return new RemoteFile($key, $this);
+    }
 }

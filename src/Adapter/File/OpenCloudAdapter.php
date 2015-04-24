@@ -3,11 +3,12 @@
 namespace Derby\Adapter\File;
 
 use Derby\Adapter\CdnAdapterInterface;
+use Derby\Adapter\RemoteFileAdapter;
 use OpenCloud\ObjectStore\Service;
 use OpenCloud\ObjectStore\Exception\ObjectNotFoundException;
-use Derby\Adapter\GaufretteAdapter;
+use Derby\Adapter\AbstractGaufretteAdapter;
 
-class OpenCloudAdapter extends GaufretteAdapter implements CdnAdapterInterface
+class OpenCloudAdapter extends RemoteFileAdapter implements CdnAdapterInterface
 {
 
     const ADAPTER_OPEN_CLOUD = 'ADAPTER\FILE\OPEN_CLOUD';

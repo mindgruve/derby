@@ -7,6 +7,8 @@
  */
 
 namespace Derby\Adapter;
+use Derby\Config;
+use Derby\Media\LocalFileHelper;
 use Gaufrette\Adapter\Local;
 
 /**
@@ -15,7 +17,7 @@ use Gaufrette\Adapter\Local;
  * @author Kevin Simpson <ksimpson@mindgruve.com>
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
-class LocalFileAdapter extends GaufretteAdapter implements LocalFileAdapterInterface
+class LocalFileAdapter extends AbstractGaufretteAdapter implements LocalFileAdapterInterface
 {
     /**
      * Base directory where file is located
@@ -60,5 +62,13 @@ class LocalFileAdapter extends GaufretteAdapter implements LocalFileAdapterInter
         }
 
         return $base.'/'.$key;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getMedia($key)
+    {
+        return LocalFileHelper::create(Config::create())->buildMedia($key, $this);
     }
 }
