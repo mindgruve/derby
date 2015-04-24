@@ -8,6 +8,7 @@
 namespace Derby\Media;
 
 use Derby\Adapter\LocalFileAdapterInterface;
+use Derby\Adapter\RemoteFileAdapterInterface;
 use Derby\AdapterInterface;
 use Derby\Media;
 
@@ -85,9 +86,12 @@ class LocalFile extends Media implements LocalFileInterface
     /**
      * {@inheritDoc}
      */
-    public function upload(AdapterInterface $adapter)
+    public function upload(RemoteFileAdapterInterface $adapter)
     {
-        // TODO: Implement upload() method.
+        $remote = new RemoteFile($this->key, $adapter);
+        $remote->write($this->key, $this->read());
+
+        return $remote;
     }
 
     /**

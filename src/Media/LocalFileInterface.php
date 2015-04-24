@@ -7,6 +7,7 @@
 
 namespace Derby\Media;
 
+use Derby\Adapter\RemoteFileAdapterInterface;
 use Derby\MediaInterface;
 use Derby\AdapterInterface;
 
@@ -17,7 +18,7 @@ use Derby\AdapterInterface;
  */
 interface LocalFileInterface extends MediaInterface
 {
-    const TYPE_MEDIA_FILE = 'MEDIA\LOCAL_FILE';
+    const TYPE_MEDIA_LOCAL_FILE = 'MEDIA\LOCAL_FILE';
 
     /**
      * Read data from file
@@ -61,10 +62,10 @@ interface LocalFileInterface extends MediaInterface
 
     /**
      * Upload file
-     * @param AdapterInterface $adapter
+     * @param RemoteFileAdapterInterface $adapter
      * @return RemoteFileInterface
      */
-    public function upload(AdapterInterface $adapter);
+    public function upload(RemoteFileAdapterInterface $adapter);
 
     /**
      * Get file extension
