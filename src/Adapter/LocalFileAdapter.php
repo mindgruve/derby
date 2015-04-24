@@ -39,4 +39,26 @@ class LocalFileAdapter extends GaufretteAdapter implements LocalFileAdapterInter
     {
         return $this->baseDirectory;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPath($key)
+    {
+        // I'm sure this can be optimized!
+        // We're just accounting for leading or trailing /'s
+
+        $base = $this->getBaseDirectory();
+        $baselen = strlen($base);
+
+        if (strrpos($base, '/') === (int)$baselen-1) {
+            $base = substr($base, 0, $baselen-1);
+        }
+
+        if ($pos = strpos($key, '/') === (int)0) {
+            $key = substr($key, $pos, strlen($key));
+        }
+
+        return $base.'/'.$key;
+    }
 }

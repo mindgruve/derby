@@ -115,21 +115,6 @@ class LocalFile extends Media implements LocalFileInterface
      */
     public function getPath($key = null)
     {
-        // I'm sure this can be optimized!
-        // We're just accounting for leading or trailing /'s
-
-        $base = $this->adapter->getBaseDirectory();
-        $baselen = strlen($base);
-
-        if (strrpos($base, '/') === (int)$baselen-1) {
-            $base = substr($base, 0, $baselen-1);
-        }
-
-        $key = $key ?: $this->key;
-        if ($pos = strpos($key, '/') === (int)0) {
-            $key = substr($key, $pos, strlen($key));
-        }
-
-        return $base.'/'.$key;
+        return $this->adapter->getPath($key ?: $this->key);
     }
 }

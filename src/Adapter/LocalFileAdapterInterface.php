@@ -21,4 +21,11 @@ interface LocalFileAdapterInterface extends GaufretteAdapterInterface
      * @return string
      */
     public function getBaseDirectory();
+
+    /**
+     * Get full path for a key including the base path
+     * @param $key
+     * @return mixed
+     */
+    public function getPath($key);
 }
