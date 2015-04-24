@@ -1,5 +1,6 @@
 derby:
     defaults:
+        tmp_path:    '/tmp/derby'
         media:      'Derby\Media'
         file:       'Derby\Media\Local'
         embed:      'Derby\Media\Embed'
