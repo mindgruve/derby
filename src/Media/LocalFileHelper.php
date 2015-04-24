@@ -108,7 +108,7 @@ class LocalFileHelper
         $file = new LocalFile($key, $adapter);
 
         // if file exists, attempt to determine its type and return
-        // appropriate representation of it.
+        // appropriate representation of it otherwise use generic.
         if ($file->exists()) {
             $extension = $file->getFileExtension();
             $mimeType = $file->getMimeType();
