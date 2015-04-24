@@ -14,7 +14,7 @@ class GaufretteAdapter implements GaufretteAdapterInterface
      * Gaufrette adapter
      * @var Adapter
      */
-    protected $adapter;
+    protected $gaufretteAdapter;
 
     const ADAPTER_TYPE_GAUFRETTE = 'ADAPTER\GAUFRETTE';
 
@@ -23,7 +23,7 @@ class GaufretteAdapter implements GaufretteAdapterInterface
      */
     public function __construct(Adapter $adapter)
     {
-        $this->adapter = $adapter;
+        $this->gaufretteAdapter = $adapter;
     }
 
     /**
@@ -32,7 +32,7 @@ class GaufretteAdapter implements GaufretteAdapterInterface
      */
     public function getGaufretteAdapter()
     {
-        return $this->adapter;
+        return $this->gaufretteAdapter;
     }
 
     /**
@@ -42,7 +42,7 @@ class GaufretteAdapter implements GaufretteAdapterInterface
      */
     public function setGaufretteAdapter(Adapter $adapter)
     {
-        $this->adapter = $adapter;
+        $this->gaufretteAdapter = $adapter;
     }
 
     /**
@@ -59,7 +59,7 @@ class GaufretteAdapter implements GaufretteAdapterInterface
      */
     public function exists($key)
     {
-        return $this->adapter->exists($key);
+        return $this->gaufretteAdapter->exists($key);
     }
 
     /**
@@ -68,7 +68,7 @@ class GaufretteAdapter implements GaufretteAdapterInterface
      */
     public function read($key)
     {
-        return $this->adapter->read($key);
+        return $this->gaufretteAdapter->read($key);
     }
 
     /**
@@ -77,7 +77,7 @@ class GaufretteAdapter implements GaufretteAdapterInterface
      */
     public function delete($key)
     {
-        return $this->adapter->delete($key);
+        return $this->gaufretteAdapter->delete($key);
     }
 
     /**
@@ -87,7 +87,7 @@ class GaufretteAdapter implements GaufretteAdapterInterface
      */
     public function rename($sourceKey, $targetKey)
     {
-        return $this->adapter->rename($sourceKey, $targetKey);
+        return $this->gaufretteAdapter->rename($sourceKey, $targetKey);
     }
 
     /**
@@ -97,7 +97,7 @@ class GaufretteAdapter implements GaufretteAdapterInterface
      */
     public function write($key, $data)
     {
-        return $this->adapter->write($key, $data);
+        return $this->gaufretteAdapter->write($key, $data);
     }
 
     /**
