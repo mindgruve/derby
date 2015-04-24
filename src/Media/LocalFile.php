@@ -89,7 +89,7 @@ class LocalFile extends Media implements LocalFileInterface
     public function upload(RemoteFileAdapterInterface $adapter)
     {
         $remote = new RemoteFile($this->key, $adapter);
-        $remote->write($this->key, $this->read());
+        $remote->write($this->read());
 
         return $remote;
     }
