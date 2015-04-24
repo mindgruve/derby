@@ -14,7 +14,7 @@ namespace Derby;
  * @author Kevin Simpson <ksimpson@mindgruve.com>
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
-abstract class Media implements MediaInterface
+class Media implements MediaInterface
 {
     /**
      * @var string
