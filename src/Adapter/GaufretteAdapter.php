@@ -19,11 +19,11 @@ class GaufretteAdapter implements GaufretteAdapterInterface
     const ADAPTER_TYPE_GAUFRETTE = 'ADAPTER\GAUFRETTE';
 
     /**
-     * @param Adapter $adapter
+     * @param Adapter $gaufretteAdapter
      */
-    public function __construct(Adapter $adapter)
+    public function __construct(Adapter $gaufretteAdapter)
     {
-        $this->gaufretteAdapter = $adapter;
+        $this->gaufretteAdapter = $gaufretteAdapter;
     }
 
     /**
@@ -37,12 +37,12 @@ class GaufretteAdapter implements GaufretteAdapterInterface
 
     /**
      * Set gaufrette adapter
-     * @param Adapter $adapter
+     * @param Adapter $gaufretteAdapter
      * @return mixed
      */
-    public function setGaufretteAdapter(Adapter $adapter)
+    public function setGaufretteAdapter(Adapter $gaufretteAdapter)
     {
-        $this->gaufretteAdapter = $adapter;
+        $this->gaufretteAdapter = $gaufretteAdapter;
     }
 
     /**

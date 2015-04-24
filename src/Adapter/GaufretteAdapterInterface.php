@@ -15,10 +15,10 @@ interface GaufretteAdapterInterface extends AdapterInterface
 
     /**
      * Set gaufrette adapter
-     * @param Adapter $adapter
+     * @param Adapter $gaufretteAdapter
      * @return mixed
      */
-    public function setGaufretteAdapter(Adapter $adapter);
+    public function setGaufretteAdapter(Adapter $gaufretteAdapter);
 
     /**
      * @param $key
