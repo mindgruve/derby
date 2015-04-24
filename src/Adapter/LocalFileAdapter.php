@@ -20,26 +20,29 @@ use Gaufrette\Adapter\Local;
 class LocalFileAdapter extends AbstractGaufretteAdapter implements LocalFileAdapterInterface
 {
     /**
-     * Base directory where file is located
+     * Base path
+     *
+     * File location (key) will be relative to this path
+     *
      * @var string
      */
-    private $baseDirectory;
+    private $basePath;
 
     /**
      * {@inheritDoc}
      */
-    public function __construct($baseDirectory, $create = false, $mode = 0777)
+    public function __construct($basePath, $create = false, $mode = 0777)
     {
-        $this->baseDirectory = $baseDirectory;
-        parent::__construct(new Local($baseDirectory, $create, $mode));
+        $this->basePath = $basePath;
+        parent::__construct(new Local($basePath, $create, $mode));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getBaseDirectory()
+    public function getBasePath()
     {
-        return $this->baseDirectory;
+        return $this->basePath;
     }
 
     /**
@@ -50,7 +53,7 @@ class LocalFileAdapter extends AbstractGaufretteAdapter implements LocalFileAdap
         // I'm sure this can be optimized!
         // We're just accounting for leading or trailing /'s
 
-        $base = $this->getBaseDirectory();
+        $base = $this->getBasePath();
         $baselen = strlen($base);
 
         if (strrpos($base, '/') === (int)$baselen-1) {

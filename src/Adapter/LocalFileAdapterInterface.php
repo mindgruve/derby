@@ -17,10 +17,10 @@ namespace Derby\Adapter;
 interface LocalFileAdapterInterface extends GaufretteAdapterInterface
 {
     /**
-     * Get base directory
+     * Get base path
      * @return string
      */
-    public function getBaseDirectory();
+    public function getBasePath();
 
     /**
      * Get full path for a key including the base path
