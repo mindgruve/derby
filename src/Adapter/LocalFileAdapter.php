@@ -7,6 +7,7 @@
  */
 
 namespace Derby\Adapter;
+
 use Derby\Config;
 use Derby\Media\LocalFileHelper;
 use Gaufrette\Adapter\Local;
