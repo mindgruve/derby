@@ -7,6 +7,7 @@
 
 namespace Derby\Media;
 
+use Derby\Adapter\LocalFileAdapter;
 use Derby\Adapter\RemoteFileAdapterInterface;
 use Derby\Media;
 use Derby\MediaInterface;
@@ -19,6 +20,10 @@ use Derby\AdapterInterface;
  */
 class RemoteFile extends Media implements RemoteFileInterface
 {
+    /**
+     * @param $key
+     * @param RemoteFileAdapterInterface $adapter
+     */
     public function __construct($key, RemoteFileAdapterInterface $adapter)
     {
         parent::__construct($key, $adapter);
@@ -38,7 +43,7 @@ class RemoteFile extends Media implements RemoteFileInterface
      */
     public function read()
     {
-        // TODO: Implement read() method.
+        return $this->adapter->read($this->key);
     }
 
     /**
@@ -52,32 +57,33 @@ class RemoteFile extends Media implements RemoteFileInterface
     }
 
     /**
-     * Indicates whether the file exists
-     * @return boolean
+     * {@inheritDoc}
      */
     public function exists()
     {
-        // TODO: Implement exists() method.
+        return $this->adapter->exists($this->key);
     }
 
     /**
-     * Delete file
-     * @return boolean
+     * {@inheritDoc}
      */
     public function delete()
     {
-        // TODO: Implement delete() method.
+        return $this->adapter->delete($this->key);
     }
 
     /**
-     * Rename/move file
-     *
-     * @param $newKey
-     * @return boolean
+     * {@inheritDoc}
      */
     public function rename($newKey)
     {
-        // TODO: Implement rename() method.
+        $success = $this->adapter->rename($this->key, $newKey);
+
+        if ($success) {
+            $this->key = $newKey;
+        }
+
+        return $success;
     }
 
     /**
@@ -85,7 +91,14 @@ class RemoteFile extends Media implements RemoteFileInterface
      */
     public function download()
     {
-        // TODO: Implement download() method.
-    }
+        $configObj = $this->adapter->getConfig();
+        $config = $configObj->getConfig();
 
+        // use general file type to manage file download
+        $local = new LocalFile($this->getKey(), new LocalFileAdapter($config['derby']['defaults']['tmp_path']));
+        $local->write($this->read());
+
+        // create actual object representation of file type
+        return LocalFileHelper::create($configObj)->buildFile($this->getKey(), $local->getAdapter());
+    }
 }
