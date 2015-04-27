@@ -51,7 +51,7 @@ class RemoteFile extends Media implements RemoteFileInterface
      */
     public function write($data)
     {
-        $this->adapter->write($this->key, $data);
+        return $this->adapter->write($this->key, $data);
     }
 
     /**
