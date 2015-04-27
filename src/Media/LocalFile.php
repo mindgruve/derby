@@ -35,7 +35,7 @@ class LocalFile extends Media implements LocalFileInterface
      */
     public function getMediaType()
     {
-        return self::TYPE_MEDIA_FILE;
+        return self::TYPE_MEDIA_LOCAL_FILE;
     }
 
     /**
