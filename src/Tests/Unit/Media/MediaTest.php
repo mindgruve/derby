@@ -12,7 +12,7 @@ use PHPUnit_Framework_TestCase;
 class MediaTest extends PHPUnit_Framework_TestCase
 {
 
-    protected static $fileAdapterInterface = 'Derby\Adapter\FileAdapterInterface';
+    protected static $fileAdapterInterface = 'Derby\AdapterInterface';
 
     public function testInterface()
     {
@@ -20,7 +20,7 @@ class MediaTest extends PHPUnit_Framework_TestCase
         $adapter = Mockery::mock(self::$fileAdapterInterface);
 
         $sut = new Media($key, $adapter);
-        
+
         $this->assertTrue($sut instanceof Media);
         $this->assertTrue($sut instanceof MediaInterface);
     }

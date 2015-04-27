@@ -2,15 +2,15 @@
 
 namespace Derby\Tests\Unit\File;
 
-use Derby\Media\File;
+use Derby\Media\LocalFile;
 use PHPUnit_Framework_TestCase;
 use Mockery;
-use Derby\Media\File\Spreadsheet;
+use Derby\Media\Local\Spreadsheet;
 
 class SpreadsheetTest extends PHPUnit_Framework_TestCase
 {
 
-    protected static $fileAdapterInterface = 'Derby\Adapter\FileAdapterInterface';
+    protected static $fileAdapterInterface = 'Derby\Adapter\LocalFileAdapterInterface';
 
     public function testInterface()
     {
@@ -19,7 +19,7 @@ class SpreadsheetTest extends PHPUnit_Framework_TestCase
 
         $sut = new Spreadsheet($key, $adapter);
 
-        $this->assertTrue($sut instanceof File);
+        $this->assertTrue($sut instanceof LocalFile);
     }
 
     public function testType()
@@ -29,7 +29,7 @@ class SpreadsheetTest extends PHPUnit_Framework_TestCase
 
         $sut = new Spreadsheet($key, $adapter);
 
-        $this->assertEquals(File\Spreadsheet::TYPE_MEDIA_FILE_SPREADSHEET, $sut->getMediaType());
+        $this->assertEquals(Spreadsheet::TYPE_MEDIA_FILE_SPREADSHEET, $sut->getMediaType());
     }
 
 }

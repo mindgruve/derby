@@ -3,14 +3,14 @@
 namespace Derby\Tests\Unit\File;
 
 use PHPUnit_Framework_TestCase;
-use Derby\Media\File;
-use Derby\Media\File\Video;
+use Derby\Media\LocalFile;
+use Derby\Media\Local\Video;
 use Mockery;
 
 class VideoTest extends PHPUnit_Framework_TestCase
 {
 
-    protected static $fileAdapterInterface = 'Derby\Adapter\FileAdapterInterface';
+    protected static $fileAdapterInterface = 'Derby\Adapter\LocalFileAdapterInterface';
 
     public function testInterface()
     {
@@ -19,7 +19,7 @@ class VideoTest extends PHPUnit_Framework_TestCase
 
         $sut = new Video($key, $adapter);
 
-        $this->assertTrue($sut instanceof File);
+        $this->assertTrue($sut instanceof LocalFile);
     }
 
     public function testType()

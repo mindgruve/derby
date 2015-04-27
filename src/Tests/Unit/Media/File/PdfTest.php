@@ -2,15 +2,15 @@
 
 namespace Derby\Tests\Unit\File;
 
-use Derby\Media\File;
-use Derby\Media\File\Pdf;
+use Derby\Media\LocalFile;
+use Derby\Media\Local\Pdf;
 use PHPUnit_Framework_TestCase;
 use Mockery;
 
 class PdfTest extends PHPUnit_Framework_TestCase
 {
 
-    protected static $fileAdapterInterface = 'Derby\Adapter\FileAdapterInterface';
+    protected static $fileAdapterInterface = 'Derby\Adapter\LocalFileAdapterInterface';
 
     public function testInterface()
     {
@@ -19,7 +19,7 @@ class PdfTest extends PHPUnit_Framework_TestCase
 
         $sut = new Pdf($key, $adapter);
 
-        $this->assertTrue($sut instanceof File);
+        $this->assertTrue($sut instanceof LocalFile);
     }
 
     public function testType()
