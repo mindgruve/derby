@@ -2,16 +2,18 @@
 
 namespace Derby\Tests\Unit\Media;
 
-use Derby\Media\File;
+use Derby\Media\LocalFile;
+use Derby\Media\LocalFileInterface;
+use Derby\Media\RemoteFileInterface;
 use Mockery;
-use Derby\Media\FileInterface;
 use PHPUnit_Framework_TestCase;
 use Derby\Media;
 
-class FileTest extends PHPUnit_Framework_TestCase
+class LocalFileTest extends PHPUnit_Framework_TestCase
 {
 
-    protected static $fileAdapterInterface = 'Derby\Adapter\FileAdapterInterface';
+    protected static $fileAdapterInterface = 'Derby\Adapter\LocalFileAdapterInterface';
+    protected static $remoteFileAdapterInterface = 'Derby\Adapter\RemoteFileAdapterInterface';
 
 
     public function testInterface()
@@ -19,10 +21,10 @@ class FileTest extends PHPUnit_Framework_TestCase
         $key     = 'Foo';
         $adapter = Mockery::mock(self::$fileAdapterInterface);
 
-        $sut = new File($key, $adapter);
+        $sut = new LocalFile($key, $adapter);
 
         $this->assertTrue($sut instanceof \Derby\Media);
-        $this->assertTrue($sut instanceof FileInterface);
+        $this->assertTrue($sut instanceof LocalFileInterface);
     }
 
     public function testConstructor()
@@ -30,7 +32,7 @@ class FileTest extends PHPUnit_Framework_TestCase
         $key     = 'Foo';
         $adapter = Mockery::mock(self::$fileAdapterInterface);
 
-        $sut = new File($key, $adapter);
+        $sut = new LocalFile($key, $adapter);
 
         $this->assertEquals($key, $sut->getKey());
         $this->assertEquals($adapter, $sut->getAdapter());
@@ -42,33 +44,33 @@ class FileTest extends PHPUnit_Framework_TestCase
         $key     = 'Foo';
         $adapter = Mockery::mock(self::$fileAdapterInterface);
 
-        $sut = new File($key, $adapter);
+        $sut = new LocalFile($key, $adapter);
 
-        $this->assertEquals(FileInterface::TYPE_MEDIA_FILE, $sut->getMediaType());
+        $this->assertEquals(LocalFileInterface::TYPE_MEDIA_LOCAL_FILE, $sut->getMediaType());
     }
 
-    public function testRemoveSuccessful()
+    public function testDeleteSuccessful()
     {
 
         $key     = 'Foo';
         $adapter = Mockery::mock(self::$fileAdapterInterface);
 
-        $sut = new File($key, $adapter);
+        $sut = new LocalFile($key, $adapter);
         $adapter->shouldReceive('delete')->andReturn(true);
 
-        $this->assertTrue($sut->remove());
+        $this->assertTrue($sut->delete());
     }
 
-    public function testRemoveUnsuccessful()
+    public function testDeleteUnsuccessful()
     {
 
         $key     = 'Foo';
         $adapter = Mockery::mock(self::$fileAdapterInterface);
 
-        $sut = new File($key, $adapter);
+        $sut = new LocalFile($key, $adapter);
         $adapter->shouldReceive('delete')->andReturn(false);
 
-        $this->assertFalse($sut->remove());
+        $this->assertFalse($sut->delete());
     }
 
     public function testReadSuccessful()
@@ -77,7 +79,7 @@ class FileTest extends PHPUnit_Framework_TestCase
         $key     = 'Foo';
         $adapter = Mockery::mock(self::$fileAdapterInterface);
 
-        $sut = new File($key, $adapter);
+        $sut = new LocalFile($key, $adapter);
         $adapter->shouldReceive('read')->andReturn('lorem ipsum');
 
         $this->assertEquals('lorem ipsum', $sut->read());
@@ -88,7 +90,7 @@ class FileTest extends PHPUnit_Framework_TestCase
         $key     = 'Foo';
         $adapter = Mockery::mock(self::$fileAdapterInterface);
 
-        $sut = new File($key, $adapter);
+        $sut = new LocalFile($key, $adapter);
         $adapter->shouldReceive('read')->andReturn(false);
 
         $this->assertEquals(false, $sut->read());
@@ -100,7 +102,7 @@ class FileTest extends PHPUnit_Framework_TestCase
         $adapter = Mockery::mock(self::$fileAdapterInterface);
         $data    = 'lorem ipsum';
 
-        $sut = new File($key, $adapter);
+        $sut = new LocalFile($key, $adapter);
 
         $adapter->shouldReceive('write')->with($key, $data)->andReturn(11);
 
@@ -113,7 +115,7 @@ class FileTest extends PHPUnit_Framework_TestCase
         $adapter = Mockery::mock(self::$fileAdapterInterface);
         $data    = 'lorem ipsum';
 
-        $sut = new File($key, $adapter);
+        $sut = new LocalFile($key, $adapter);
 
         $adapter->shouldReceive('write')->with($key, $data)->andReturn(false);
 
@@ -125,7 +127,7 @@ class FileTest extends PHPUnit_Framework_TestCase
         $key     = 'foo';
         $adapter = Mockery::mock(self::$fileAdapterInterface);
 
-        $sut = new File($key, $adapter);
+        $sut = new LocalFile($key, $adapter);
         $adapter->shouldReceive('rename')->with('foo', 'bar')->andReturn(true);
 
         $this->assertEquals(true, $sut->rename('bar'));
@@ -136,9 +138,26 @@ class FileTest extends PHPUnit_Framework_TestCase
         $key     = 'foo';
         $adapter = Mockery::mock(self::$fileAdapterInterface);
 
-        $sut = new File($key, $adapter);
+        $sut = new LocalFile($key, $adapter);
         $adapter->shouldReceive('rename')->with('foo', 'bar')->andReturn(false);
 
         $this->assertEquals(false, $sut->rename('bar'));
+    }
+
+    public function testUploadSuccessful()
+    {
+        $key     = 'foo';
+        $adapter = Mockery::mock(self::$fileAdapterInterface);
+        $remoteAdapter = Mockery::mock(self::$remoteFileAdapterInterface);
+
+        $sut = new LocalFile($key, $adapter);
+
+        // local adapter will receive a read to get contents of file.
+        // remote adapter will receive a write and return amt of bytes written
+        $adapter->shouldReceive('read')->andReturn('foo bar');
+        $remoteAdapter->shouldReceive('write');
+
+        // upload call on local file should return remote file interface
+        $this->assertTrue($sut->upload($remoteAdapter) instanceof RemoteFileInterface);
     }
 }
