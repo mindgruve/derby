@@ -2,7 +2,8 @@
 /**
  * @package mindgruve/derby
  * @copyright (c) 2015 Mindgruve
- * @author John Pancoast <jpancoast@mindgruve.com>
+ * @author Kevin Simpson <simpkevin@gmail.com>
+ * @author John Pancoast <shideon@gmail.com>
  */
 
 namespace Derby;
@@ -12,7 +13,8 @@ use Derby\Media\SearchInterface;
 /**
  * Derby\ManagerInterface
  *
- * @author John Pancoast <jpancoast@mindgruve.com>
+ * @author Kevin Simpson <simpkevin@gmail.com>
+ * @author John Pancoast <shideon@gmail.com>
  */
 interface ManagerInterface
 {

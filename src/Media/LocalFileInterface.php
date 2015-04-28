@@ -2,7 +2,8 @@
 /**
  * @package mindgruve/derby
  * @copyright (c) 2015 Mindgruve
- * @author John Pancoast <jpancoast@mindgruve.com>
+ * @author Kevin Simpson <simpkevin@gmail.com>
+ * @author John Pancoast <shideon@gmail.com>
  */
 
 namespace Derby\Media;
@@ -14,7 +15,8 @@ use Derby\AdapterInterface;
 /**
  * Derby\Media\LocalFileAdapterInterface
  *
- * @author John Pancoast <jpancoast@mindgruve.com>
+ * @author Kevin Simpson <simpkevin@gmail.com>
+ * @author John Pancoast <shideon@gmail.com>
  */
 interface LocalFileInterface extends MediaInterface
 {
