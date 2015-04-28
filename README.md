@@ -74,7 +74,7 @@ echo $localMedia->exists();
 echo get_class($localMedia);
 ```
 
-So you can see that Derby will give you a local media object based on the media type of the local file (see [LocalFileInterface](https://github.com/mindgruve/derby/blob/master/src/Media/LocalFileInterface.php)). In the above case, since the file is an image, we received an object for handling images called ```Derby\Media\Local\Image```. The main purpose for Derby is to abstract media objects based on their types and provide functionality for the most important of these types (in our case, images).
+Derby will give you a local media object based on the media type of the local file (see [LocalFileInterface](https://github.com/mindgruve/derby/blob/master/src/Media/LocalFileInterface.php)). In the above case, since the file is an image, we received an object for handling images called ```Derby\Media\Local\Image```. The main purpose for Derby is to abstract media objects based on their types and provide functionality for the most important of these types (in our case, images).
 
 Continuing the above example...
 
