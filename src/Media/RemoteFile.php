@@ -8,6 +8,7 @@
 namespace Derby\Media;
 
 use Derby\Adapter\LocalFileAdapter;
+use Derby\Adapter\LocalFileAdapterInterface;
 use Derby\Adapter\RemoteFileAdapterInterface;
 use Derby\Media;
 
@@ -86,17 +87,19 @@ class RemoteFile extends Media implements RemoteFileInterface
 
     /**
      * @return LocalFileInterface
+     * @throws \Derby\Exception\ImproperLocalMediaException
      */
     public function download()
     {
         $configObj = $this->adapter->getConfig();
         $config = $configObj->getConfig();
 
-        // use general file type to manage file download
-        $local = new LocalFile($this->getKey(), new LocalFileAdapter($config['derby']['defaults']['tmp_path']));
-        $local->write($this->read());
+        $helper = new LocalFileHelper($configObj);
 
-        // create actual object representation of file type
-        return LocalFileHelper::create($configObj)->buildFile($this->getKey(), $local->getAdapter());
+        return $helper->buildFile(
+            $this->getKey(),
+            new LocalFileAdapter($config['derby']['defaults']['tmp_path']),
+            $this->read()
+        );
     }
 }
