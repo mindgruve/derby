@@ -162,5 +162,16 @@ echo $otherNewLocalMedia->getPath();
 In the above example we used the local file adapter we already had defined but we instead specified that we download to a new key.
 
 ## Configuration
-TODO
+Derby includes a [default yaml config](https://github.com/mindgruve/derby/blob/master/config/media_config.yml) which gets loaded if you don't specify your own. The media section is the most important as it specifies media types and extensions for local files and the respective classes that represent them.
 
+When an adapter is created, it loads the default config (using [Config](https://github.com/mindgruve/derby/blob/master/src/Config.php)) but you can change this by passing your own.
+
+```php
+use Derby\Adapter\LocalFileAdapter;
+use Derby\Config;
+
+$adapter = new LocalFileAdapter();
+$adapter->setConfig(new Config('/path/to/your/config.yaml'));
+```
+
+Most importantly, this allows you to create your own classes for local media files (among other things). Local files must implement [LocalFileInterface](https://github.com/mindgruve/derby/blob/master/src/Media/LocalFileInterface.php). 
