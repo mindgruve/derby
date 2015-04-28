@@ -44,16 +44,6 @@ class LocalFileHelper
     }
 
     /**
-     * Simple factory method
-     * @param Config $config
-     * @return LocalFileHelper
-     */
-    public static function create(Config $config)
-    {
-        return new self($config);
-    }
-
-    /**
      * Get config
      * @return Config
      */
@@ -78,10 +68,28 @@ class LocalFileHelper
      * Build a local file object for a key and local adapter
      * @param $key
      * @param LocalFileAdapterInterface $adapter
+     * @param mixed|null $data Optional data to write to file
      * @return LocalFileInterface
-     * @throws ImproperLocalMediaException When incorrect local object loaded
+     * @throws ImproperLocalMediaException
      */
-    public function buildFile($key, LocalFileAdapterInterface $adapter)
+    public function buildFile($key, LocalFileAdapterInterface $adapter, $data = null)
+    {
+        $local = new LocalFile($key, $adapter);
+
+        if ($data) {
+            $local->write($data);
+        }
+
+        return $this->convertFile($local);
+    }
+
+    /**
+     * Convert file object to proper type
+     * @param LocalFileInterface $file
+     * @return LocalFileInterface
+     * @throws ImproperLocalMediaException
+     */
+    public function convertFile(LocalFileInterface $file)
     {
         // build cache if we don't have it. this is just a simple optimization
         // to avoid running the same loops for loopkups.
@@ -104,9 +112,6 @@ class LocalFileHelper
             }
         }
 
-        // we load a generic local file to use our file logic.
-        $file = new LocalFile($key, $adapter);
-
         // if file exists, attempt to determine its type and return
         // appropriate representation of it otherwise use generic.
         if ($file->exists()) {
@@ -123,10 +128,10 @@ class LocalFileHelper
                 $fileClass = $this->cache['media']['extensions'][$extension];
             }
 
-            $file = new $fileClass($key, $adapter);
+            $file = new $fileClass($file->getKey(), $file->getAdapter());
 
             if (!$file instanceof LocalFileInterface) {
-                throw new ImproperLocalMediaException('A matched local media type class was found but it does not implement the proper LocalFileInterface interface');
+                throw new ImproperLocalMediaException(sprintf('Local file object "%s" was loaded but it must implement Derby\Media\LocalFileInterface', get_class($file)));
             }
         }
 
