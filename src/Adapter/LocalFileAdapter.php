@@ -9,6 +9,7 @@
 namespace Derby\Adapter;
 
 use Derby\Config;
+use Derby\Media\LocalFile;
 use Derby\Media\LocalFileHelper;
 use Gaufrette\Adapter\Local;
 
@@ -73,6 +74,7 @@ class LocalFileAdapter extends AbstractGaufretteAdapter implements LocalFileAdap
      */
     public function getMedia($key)
     {
-        return LocalFileHelper::create($this->getConfig())->buildFile($key, $this);
+        $factory = new LocalFileHelper($this->getConfig());
+        return $factory->buildFile($key, $this);
     }
 }
