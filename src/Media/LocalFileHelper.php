@@ -12,9 +12,6 @@ use Derby\Adapter\LocalFileAdapterInterface;
 use Derby\Config;
 use Derby\Exception\ImproperLocalMediaException;
 use Derby\Media\LocalFile;
-use Derby\MediaInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Yaml\Parser;
 
 /**
  * Derby\Media\LocalFileHelper
