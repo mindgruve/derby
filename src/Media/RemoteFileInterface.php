@@ -8,6 +8,7 @@
 
 namespace Derby\Media;
 
+use Derby\Adapter\LocalFileAdapter;
 use Derby\MediaInterface;
 
 /**
@@ -54,7 +55,9 @@ interface RemoteFileInterface extends MediaInterface
     public function rename($newKey);
 
     /**
+     * @param string|null $key
+     * @param LocalFileAdapter|null $adapter
      * @return LocalFileInterface
      */
-    public function download();
+    public function download($key = null, LocalFileAdapter $adapter = null);
 }

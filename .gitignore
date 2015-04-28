@@ -1,2 +1,11 @@
-/vendor
+vendor/*
+composer.phar
+bin/phpunit
 composer.lock
+.idea/*
+
+##  OS generated files
+.DS_Store
+.DS_Store?
+
+

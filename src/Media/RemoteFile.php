@@ -88,19 +88,20 @@ class RemoteFile extends Media implements RemoteFileInterface
     }
 
     /**
-     * @return LocalFileInterface
-     * @throws \Derby\Exception\ImproperLocalMediaException
+     * {@inheritDoc}
      */
-    public function download()
+    public function download($key = null, LocalFileAdapter $adapter = null)
     {
         $configObj = $this->adapter->getConfig();
         $config = $configObj->getConfig();
+        $key = $key ?: $this->getkey();
+        $adapter = $adapter ?: new LocalFileAdapter($config['derby']['defaults']['tmp_path']);
 
         $helper = new LocalFileHelper($configObj);
 
         return $helper->buildFile(
-            $this->getKey(),
-            new LocalFileAdapter($config['derby']['defaults']['tmp_path']),
+            $key,
+            $adapter,
             $this->read()
         );
     }
