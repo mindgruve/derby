@@ -97,8 +97,8 @@ $localMedia->write('Lorem Ipsum');
 
 // create remote s3 adapter
 $s3Client = S3Client::factory(array(
-  'key' => 'AKIAIS6IHBMGMH5TECJA',
-  'secret' => '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'
+  'key' => 'XXXXXXXXXXXXX',
+  'secret' => 'XXXXXXXXXXXXX'
 ));
 
 $remoteAdapter = new AmazonS3Adapter($s3Client, 'bucket-location');
