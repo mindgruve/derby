@@ -10,8 +10,8 @@ namespace Derby\Media;
 
 use Derby\Adapter\LocalFileAdapterInterface;
 use Derby\Adapter\RemoteFileAdapterInterface;
-use Derby\AdapterInterface;
 use Derby\Media;
+use Gaufrette\Adapter\Local;
 
 /**
  * Derby\Media\LocalFile
