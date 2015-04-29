@@ -4,7 +4,7 @@ Derby is a media manager for images, pdfs, youtube videos and more and was writt
 
 Local file adapters are able to upload to a remote file adapter and vice versa. Derby's local and remote *file* adapters accept a [gaufrette](https://github.com/KnpLabs/Gaufrette) adapter to manage file system abstraction, however, Derby also includes other adapters which are not related to a file system. Like the "Embed" adapter.
 
-Derby is a current work in progress.
+**Derby is a current work in progress.**
 
 ## Install
 ```php
