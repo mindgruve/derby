@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mindgruve/derby.svg?branch=master)](https://travis-ci.org/mindgruve/derby)
+
 # derby
 
 Derby is a media manager for images, pdfs, youtube videos and more and was written in PHP 5.4. We have abstracted file objects of various types which can be used for different operations based on the type of media. For example, cropping or resizing images or creating PDFs from word documents.
