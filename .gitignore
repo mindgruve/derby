@@ -3,7 +3,6 @@ composer.phar
 bin/phpunit
 composer.lock
 .idea/*
-src/Tests/Integration/Temp/*
 
 ##  OS generated files
 .DS_Store
