@@ -7,6 +7,7 @@ php:
   - nightly
 before_install:
   - composer self-update
+  - mkdir /home/travis/build/mindgruve/derby/src/Tests/Integration/Temp
 install:
   - composer install
 script: 
