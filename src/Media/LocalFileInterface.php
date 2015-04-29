@@ -63,13 +63,6 @@ interface LocalFileInterface extends MediaInterface
     public function rename($newKey);
 
     /**
-     * Upload file
-     * @param RemoteFileAdapterInterface $adapter
-     * @return RemoteFileInterface
-     */
-    public function upload(RemoteFileAdapterInterface $adapter);
-
-    /**
      * Get file extension
      * @return string
      */
