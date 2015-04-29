@@ -4,7 +4,7 @@ derby:
         media:      'Derby\Media'
         file:       'Derby\Media\Local'
         embed:      'Derby\Media\Embed'
-        collection: 'Derby\Media\Collection'
+        group:      'Derby\Media\Group'
         alias:      'Derby\Media\Alias'
     thumbnails:
         library:      'Imagine\Imagick\Imagine'
