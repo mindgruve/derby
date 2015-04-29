@@ -153,13 +153,13 @@ You can also specify the key and the local file adapter when downloading if you 
   ...
   
 // use the local adapter we defined above
-$otherNewLocalMedia = $remoteMedia->download('bar.txt', $localAdapter);
+$otherNewLocalMedia = $remoteMedia->download('my-subdir/otherdir/bar.txt', $localAdapter);
 
-// ==> /tmp/derby/my-subdir/bar.txt
+// ==> /tmp/derby/my-subdir/otherdir/bar.txt
 echo $otherNewLocalMedia->getPath();
 ```
 
-In the above example we used the local file adapter we already had defined but we instead specified that we download to a new key.
+In the above example we used the local file adapter we already had defined. However, we specified a new key for where the file should go. We could have also specified a completely different local adapter.
 
 ## Configuration
 Derby includes a [default yaml config](https://github.com/mindgruve/derby/blob/master/config/media_config.yml) which gets loaded if you don't specify your own. The media section is the most important as it specifies media types and extensions for local files and the respective classes that represent them.
