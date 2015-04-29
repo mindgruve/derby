@@ -53,11 +53,4 @@ interface RemoteFileInterface extends MediaInterface
      * @return boolean
      */
     public function rename($newKey);
-
-    /**
-     * @param string|null $key
-     * @param LocalFileAdapter|null $adapter
-     * @return LocalFileInterface
-     */
-    public function download($key = null, LocalFileAdapter $adapter = null);
 }

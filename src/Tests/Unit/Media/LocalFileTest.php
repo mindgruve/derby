@@ -144,20 +144,20 @@ class LocalFileTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(false, $sut->rename('bar'));
     }
 
-    public function testUploadSuccessful()
-    {
-        $key     = 'foo';
-        $adapter = Mockery::mock(self::$fileAdapterInterface);
-        $remoteAdapter = Mockery::mock(self::$remoteFileAdapterInterface);
-
-        $sut = new LocalFile($key, $adapter);
-
-        // local adapter will receive a read to get contents of file.
-        // remote adapter will receive a write and return amt of bytes written
-        $adapter->shouldReceive('read')->andReturn('foo bar');
-        $remoteAdapter->shouldReceive('write');
-
-        // upload call on local file should return remote file interface
-        $this->assertTrue($sut->upload($remoteAdapter) instanceof RemoteFileInterface);
-    }
+//    public function testUploadSuccessful()
+//    {
+//        $key     = 'foo';
+//        $adapter = Mockery::mock(self::$fileAdapterInterface);
+//        $remoteAdapter = Mockery::mock(self::$remoteFileAdapterInterface);
+//
+//        $sut = new LocalFile($key, $adapter);
+//
+//        // local adapter will receive a read to get contents of file.
+//        // remote adapter will receive a write and return amt of bytes written
+//        $adapter->shouldReceive('read')->andReturn('foo bar');
+//        $remoteAdapter->shouldReceive('write');
+//
+//        // upload call on local file should return remote file interface
+//        $this->assertTrue($sut->upload($remoteAdapter) instanceof RemoteFileInterface);
+//    }
 }

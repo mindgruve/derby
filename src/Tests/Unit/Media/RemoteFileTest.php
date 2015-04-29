@@ -161,41 +161,4 @@ class RemoteFileTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(false, $sut->rename('bar'));
     }
-
-    public function testDownloadSuccessful()
-    {
-        $key = 'foo.txt';
-
-        $config = Mockery::mock(self::$config);
-        $config->shouldReceive('getConfig')->andReturn([
-            'derby' => [
-                'defaults' => [
-                    'tmp_path' => '/tmp/derby-test'
-                ],
-                'media' => [
-                    [
-                        'class' => 'Derby\Media\Local\Text',
-                        'extensions' => ['txt'],
-                        'mime_types' => ['text/plain']
-                    ]
-                ]
-            ]
-        ]);
-
-        $localInterface = Mockery::mock(self::$localFile);
-
-        $fileHelper = Mockery::mock('overload:Derby\Media\LocalFileHelper');
-        $fileHelper->shouldReceive('__construct', $config);
-        $fileHelper->shouldReceive('convertFile')->andReturn($localInterface);
-        $fileHelper->shouldReceive('buildFile')->andReturn($localInterface);
-
-        $remoteAdapter = Mockery::mock(self::$fileAdapterInterface);
-        $remoteAdapter->shouldReceive('read')->andReturn('foo');
-        $remoteAdapter->shouldReceive('getConfig')->andReturn($config);
-
-        $sut = new RemoteFile($key, $remoteAdapter);
-
-        // upload call on local file should return local file interface
-        $this->assertSame($localInterface, $sut->download());
-    }
 }

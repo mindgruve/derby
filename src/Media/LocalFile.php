@@ -87,21 +87,10 @@ class LocalFile extends Media implements LocalFileInterface
     /**
      * {@inheritDoc}
      */
-    public function upload(RemoteFileAdapterInterface $adapter)
-    {
-        $remote = new RemoteFile($this->key, $adapter);
-        $remote->write($this->read());
-
-        return $remote;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getFileExtension()
     {
         // @todo we are going to want make this smarter. A "." should be the last char followed by letters.
-        return substr($this->key, strrpos($this->key, '.')+1, strlen($this->key));
+        return substr($this->key, strrpos($this->key, '.') + 1, strlen($this->key));
     }
 
     /**
