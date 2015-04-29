@@ -10,7 +10,7 @@ before_install:
 install:
   - composer install
 script: 
-  - run-tests.sh
+  - /home/travis/run-tests.sh
 
 
 
