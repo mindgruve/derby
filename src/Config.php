@@ -75,7 +75,7 @@ class Config
         }
 
         foreach ($this->config['derby']['media'] as $m) {
-            if (!isset($m['class'], $m['extensions'], $m['mime_types'])) {
+            if (!isset($m['factory'], $m['extensions'], $m['mime_types'])) {
                 return false;
             }
         }

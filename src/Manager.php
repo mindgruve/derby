@@ -10,8 +10,9 @@ namespace Derby;
 
 use Derby\Adapter\LocalFileAdapterInterface;
 use Derby\Adapter\RemoteFileAdapterInterface;
-use Derby\Media\Factory\LocalFileFactory;
+use Derby\Media\AbstractLocalFileFactory;
 use Derby\Media\LocalFile;
+use Derby\Media\LocalFileFactoryInterface;
 use Derby\Media\LocalFileInterface;
 use Derby\Media\RemoteFile;
 use Derby\Media\SearchInterface;
@@ -28,25 +29,43 @@ class Manager implements ManagerInterface
      * @var Config
      */
     protected $config;
-    protected $fileFactories;
+
+    /**
+     * @var array
+     */
+    protected $fileFactories = [];
 
     /**
      * @param Config $config
      */
     public function __construct(Config $config = null)
     {
-        $this->config        = $config;
-        $this->fileFactories = array();
+        $this->config = $config ?: new Config();
+        $this->loadConfigFileFactories();
     }
 
     /**
-     * @param array $extensions
-     * @param array $mimeTypes
-     * @param $callable
+     * Local file factories from existing config
+     *
+     * @todo This functionality will likely change when we implement a service container
      */
-    public function registerFile(array $extensions, array $mimeTypes, $callable, $priority = 10)
+    private function loadConfigFileFactories()
     {
-        $this->fileFactories[$priority][] = new LocalFileFactory($extensions, $mimeTypes, $callable);
+        $config = $this->config->getConfig();
+
+        foreach ($config['derby']['media'] as $m) {
+            $factory = $m['factory'];
+            $this->registerFileFactory(new $factory($m['extensions'], $m['mime_types']));
+        }
+    }
+
+    /**
+     * @param \Derby\Media\LocalFileFactoryInterface $factory
+     * @param int $priority
+     */
+    public function registerFileFactory(LocalFileFactoryInterface $factory, $priority = 10)
+    {
+        $this->fileFactories[$priority][] = $factory;
     }
 
     /**
@@ -90,7 +109,7 @@ class Manager implements ManagerInterface
     {
         foreach ($this->fileFactories as $priorityGroup) {
             foreach ($priorityGroup as $fileFactory) {
-                /** @var LocalFileFactory $fileFactory */
+                /** @var \Derby\Media\AbstractLocalFileFactory $fileFactory */
                 if ($fileFactory->supports($file)) {
                     return $fileFactory->build($file->getKey(), $file->getAdapter());
                 }

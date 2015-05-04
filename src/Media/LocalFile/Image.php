@@ -5,10 +5,10 @@ namespace Derby\Media\LocalFile;
 use Derby\Adapter\LocalFileAdapterInterface;
 use Derby\Media\Local;
 use Derby\Media\LocalFile;
-use Imagine\Image\AbstractImagine;
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
 use Derby\Exception\InvalidImageException;
+use Imagine\Image\ImagineInterface;
 use Imagine\Image\Point;
 
 class Image extends LocalFile
@@ -20,11 +20,11 @@ class Image extends LocalFile
     const TYPE_MEDIA_FILE_IMAGE = 'MEDIA\LOCAL\IMAGE';
 
     /**
-     * @var AbstractImagine
+     * @var ImagineInterface
      */
     protected $imagine;
 
-    public function __construct($key, LocalFileAdapterInterface $adapter, AbstractImagine $imagine)
+    public function __construct($key, LocalFileAdapterInterface $adapter, ImagineInterface $imagine)
     {
         $this->imagine = $imagine;
         parent::__construct($key, $adapter);

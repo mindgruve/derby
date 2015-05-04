@@ -18,30 +18,30 @@ derby:
         - class: 'Derby\Media\Adapter\OpenCloudAdapter'
           name: 'opencloud'
     media:
-        - class: 'Derby\Media\LocalFile\Audio'
+        - factory: 'Derby\Media\LocalFileFactory\AudioFactory'
           extensions: [ 'mp3', 'wav', 'wma' ]
           mime_types: [ 'audio/mpeg',  'audio/vnd.wave', 'audio/wav', 'audio/wave',  'audio/x-wav' ]
-        - class: 'Derby\Media\LocalFile\Document'
+        - factory: 'Derby\Media\LocalFileFactory\DocumentFactory'
           extensions: [ 'doc', 'rtf' ]
           mime_types: [ 'application/msword', 'text/rtf', 'application/rtf' ]
-        - class: 'Derby\Media\LocalFile\Image'
+        - factory: 'Derby\Media\LocalFileFactory\ImageFactory'
           extensions: [ 'jpg', 'jpeg', 'gif', 'bmp', 'png' ]
           mime_types: [ 'image/jpeg', 'image/gif', 'image/bmp', 'image/x-bmp', 'image/png' ]
-        - class: 'Derby\Media\LocalFile\Pdf'
+        - factory: 'Derby\Media\LocalFileFactory\PdfFactory'
           extensions: [ 'pdf' ]
           mime_types: [ 'application/pdf', 'application/x-pdf' ]
-        - class: 'Derby\Media\LocalFile\Presentation'
+        - factory: 'Derby\Media\LocalFileFactory\PresentationFactory'
           extensions: [ 'ppt', 'pptx' ]
           mime_types: [ 'application/vnd.ms-powerpointtd>', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ]
-        - class: 'Derby\Media\LocalFile\Spreadsheet'
+        - factory: 'Derby\Media\LocalFileFactory\SpreadsheetFactory'
           extensions: [ 'xls', 'xlsx', 'xlsm' ]
           mime_types: [ 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroEnabled.12' ]
-        - class: 'Derby\Media\LocalFile\Video'
+        - factory: 'Derby\Media\LocalFileFactory\VideoFactory'
           extensions: [ 'webm', 'vob', 'ogg', 'wmv', 'avi', 'mov', 'qt', 'mp4', 'mpg',  'mpeg' ]
           mime_types: [ 'video/webm', 'video/dvd',  'video/mpeg', 'video/x-ms-vob', 'video/ogg', 'application/ogg', 'video/vnd.avi', 'video/avi', 'video/msvideo', 'video/x-msvideo', 'video/quicktime', 'video/x-ms-wmv', 'video/mp4', 'video/mpeg' ]
-        - class: 'Derby\Media\LocalFile\Text'
+        - factory: 'Derby\Media\LocalFileFactory\TextFactory'
           extensions: [ 'txt' ]
           mime_types: [ 'text/plain' ]
-        - class: 'Derby\Media\LocalFile'
+        - factory: 'Derby\Media\LocalFileFactory\LocalFactory'
           extensions: [ '*' ]
           mime_types: [ '*' ]
