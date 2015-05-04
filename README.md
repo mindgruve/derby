@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/mindgruve/derby.svg?branch=master)](https://travis-ci.org/mindgruve/derby)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mindgruve/derby/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mindgruve/derby/?branch=master)
 
 # derby
 
