@@ -32,7 +32,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             ['txt'],
             ['text/plain'],
             function ($key, $adapter) {
-                return new Media\Local\Text($key, $adapter);
+                return new Media\LocalFile\Text($key, $adapter);
             }
         );
 
@@ -40,7 +40,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             ['html'],
             ['text/plain'],
             function ($key, $adapter) {
-                return new Media\Local\Html($key, $adapter);
+                return new Media\LocalFile\Html($key, $adapter);
             }
         );
 
@@ -49,7 +49,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             ['jpg', 'jpeg', 'gif', 'bmp', 'png'],
             ['image/jpeg', 'image/gif', 'image/bmp', 'image/x-bmp', 'image/png'],
             function ($key, $adapter) use ($imagine) {
-                return new Media\Local\Image($key, $adapter, $imagine);
+                return new Media\LocalFile\Image($key, $adapter, $imagine);
             }
         );
 
@@ -57,17 +57,17 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
         // Build HTML File
         $file = $manager->buildFile('test-1.html', $localAdapter, 'test1');
-        $this->assertTrue($file instanceof Media\Local\Html);
+        $this->assertTrue($file instanceof Media\LocalFile\Html);
 
         $file = $manager->getMedia('test-1.html', $localAdapter);
-        $this->assertTrue($file instanceof Media\Local\Html);
+        $this->assertTrue($file instanceof Media\LocalFile\Html);
 
         // Build Text File
         $file = $manager->buildFile('test-2.txt', $localAdapter, 'test2');
-        $this->assertTrue($file instanceof Media\Local\Text);
+        $this->assertTrue($file instanceof Media\LocalFile\Text);
 
         $file = $manager->getMedia('test-2.txt', $localAdapter);
-        $this->assertTrue($file instanceof Media\Local\Text);
+        $this->assertTrue($file instanceof Media\LocalFile\Text);
 
         // Build Image File
         $file = $manager->buildFile(
@@ -75,10 +75,10 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             $localAdapter,
             file_get_contents(__DIR__ . '/../Data/test-236x315.jpg')
         );
-        $this->assertTrue($file instanceof Media\Local\Image);
+        $this->assertTrue($file instanceof Media\LocalFile\Image);
 
         $file = $manager->getMedia('test-3.jpg', $localAdapter);
-        $this->assertTrue($file instanceof Media\Local\Image);
+        $this->assertTrue($file instanceof Media\LocalFile\Image);
     }
 
     public function testWildcardFileRegistration()
@@ -90,7 +90,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             ['*'],
             ['text/*'],
             function ($key, $adapter) {
-                return new Media\Local\Text($key, $adapter);
+                return new Media\LocalFile\Text($key, $adapter);
             }
         );
 
@@ -98,11 +98,11 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
         // Build HTML File
         $file = $manager->buildFile('test-1.html', $localAdapter, 'test1');
-        $this->assertTrue($file instanceof Media\Local\Text);
+        $this->assertTrue($file instanceof Media\LocalFile\Text);
 
         // Build Text File
         $file = $manager->buildFile('test-2.txt', $localAdapter, 'test2');
-        $this->assertTrue($file instanceof Media\Local\Text);
+        $this->assertTrue($file instanceof Media\LocalFile\Text);
     }
 
     public function testGracefulDegradation()
@@ -114,7 +114,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             ['*'],
             ['text/*'],
             function ($key, $adapter) {
-                return new Media\Local\Text($key, $adapter);
+                return new Media\LocalFile\Text($key, $adapter);
             }
         );
 
@@ -122,11 +122,11 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
         // Build HTML File
         $file = $manager->buildFile('test-1.html', $localAdapter, 'test1');
-        $this->assertTrue($file instanceof Media\Local\Text);
+        $this->assertTrue($file instanceof Media\LocalFile\Text);
 
         // Build Text File
         $file = $manager->buildFile('test-2.txt', $localAdapter, 'test2');
-        $this->assertTrue($file instanceof Media\Local\Text);
+        $this->assertTrue($file instanceof Media\LocalFile\Text);
 
         // Will return Generic Local File b.c we haven't registered image media
         $file = $manager->buildFile(
@@ -134,7 +134,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             $localAdapter,
             file_get_contents(__DIR__ . '/../Data/test-236x315.jpg')
         );
-        $this->assertFalse($file instanceof Media\Local\Image);
+        $this->assertFalse($file instanceof Media\LocalFile\Image);
         $this->assertTrue($file instanceof Media\LocalFile);
     }
 

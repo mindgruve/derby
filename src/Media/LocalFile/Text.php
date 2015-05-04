@@ -6,12 +6,12 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media\Local;
+namespace Derby\Media\LocalFile;
 
 use Derby\Media\LocalFile;
 
 /**
- * Derby\Media\Local\Text
+ * Derby\Media\LocalFile\Text
  *
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>

@@ -3,7 +3,7 @@
 namespace Derby\Tests\Unit\File;
 
 use Derby\Media\LocalFile;
-use Derby\Media\Local\Pdf;
+use Derby\Media\LocalFile\Pdf;
 use PHPUnit_Framework_TestCase;
 use Mockery;
 

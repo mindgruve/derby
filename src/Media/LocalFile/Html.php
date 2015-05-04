@@ -7,12 +7,12 @@
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
 
-namespace Derby\Media\Local;
+namespace Derby\Media\LocalFile;
 
 use Derby\Media\LocalFile;
 
 /**
- * Derby\Media\Local\Html
+ * Derby\Media\LocalFile\Html
  *
  * @author Kevin Simpson <ksimpson@mindgruve.com>
  * @author John Pancoast <jpancoast@mindgruve.com>

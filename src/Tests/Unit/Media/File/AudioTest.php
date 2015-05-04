@@ -3,7 +3,7 @@
 namespace Derby\Tests\Unit\File;
 
 use Derby\Media\LocalFile;
-use Derby\Media\Local\Audio;
+use Derby\Media\LocalFile\Audio;
 use PHPUnit_Framework_TestCase;
 use Mockery;
 

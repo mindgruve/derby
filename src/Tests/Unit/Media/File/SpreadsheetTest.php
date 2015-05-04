@@ -5,7 +5,7 @@ namespace Derby\Tests\Unit\File;
 use Derby\Media\LocalFile;
 use PHPUnit_Framework_TestCase;
 use Mockery;
-use Derby\Media\Local\Spreadsheet;
+use Derby\Media\LocalFile\Spreadsheet;
 
 class SpreadsheetTest extends PHPUnit_Framework_TestCase
 {

@@ -11,7 +11,7 @@ namespace Derby\Tests\Integration\Media\Local;
 
 use Derby\Adapter\LocalFileAdapter;
 use Derby\Manager;
-use Derby\Media\Local\Image;
+use Derby\Media\LocalFile\Image;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
 
@@ -80,7 +80,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             $mediaManager  = new Manager();
             $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
             $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-            $sut           = new Image($key, $sourceAdapter, $imagine);
+            $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
             /**
              * RESIZE TO 100 x 75 OUTBOUND
@@ -97,7 +97,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
                 $targetAdapter,
                 100,
                 75,
-                Image::THUMBNAIL_OUTBOUND,
+                \Derby\Media\LocalFile\Image::THUMBNAIL_OUTBOUND,
                 $quality
             );
             $this->assertFileExists($target->getPath());
@@ -121,7 +121,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
                 $targetAdapter,
                 100,
                 75,
-                Image::THUMBNAIL_INSET,
+                \Derby\Media\LocalFile\Image::THUMBNAIL_INSET,
                 $quality
             );
             $this->assertFileExists($target->getPath());
@@ -146,7 +146,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mediaManager  = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new Image($key, $sourceAdapter, $imagine);
+        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -169,7 +169,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mediaManager  = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new Image($key, $sourceAdapter, $imagine);
+        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -192,7 +192,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mediaManager  = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new Image($key, $sourceAdapter, $imagine);
+        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -215,7 +215,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mediaManager  = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new Image($key, $sourceAdapter, $imagine);
+        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -238,7 +238,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mediaManager  = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new Image($key, $sourceAdapter, $imagine);
+        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -296,7 +296,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             $mediaManager  = new Manager();
             $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
             $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-            $sut           = new Image($key, $sourceAdapter, $imagine);
+            $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
             /**
              * RESIZE TO 100 x 75 OUTBOUND
@@ -313,7 +313,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
                 $targetAdapter,
                 100,
                 75,
-                Image::THUMBNAIL_OUTBOUND,
+                \Derby\Media\LocalFile\Image::THUMBNAIL_OUTBOUND,
                 $quality
             );
             $this->assertFileExists($target->getPath());
@@ -337,7 +337,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
                 $targetAdapter,
                 100,
                 75,
-                Image::THUMBNAIL_INSET,
+                \Derby\Media\LocalFile\Image::THUMBNAIL_INSET,
                 $quality
             );
             $this->assertFileExists($target->getPath());
@@ -362,7 +362,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mediaManager  = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new Image($key, $sourceAdapter, $imagine);
+        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -385,7 +385,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mediaManager  = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new Image($key, $sourceAdapter, $imagine);
+        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -408,7 +408,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mediaManager  = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new Image($key, $sourceAdapter, $imagine);
+        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -431,7 +431,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mediaManager  = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new Image($key, $sourceAdapter, $imagine);
+        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -454,7 +454,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mediaManager  = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new Image($key, $sourceAdapter, $imagine);
+        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -512,7 +512,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             $mediaManager  = new Manager();
             $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
             $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-            $sut           = new Image($key, $sourceAdapter, $imagine);
+            $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
             /**
              * RESIZE TO 100 x 75 OUTBOUND
@@ -529,7 +529,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
                 $targetAdapter,
                 100,
                 75,
-                Image::THUMBNAIL_OUTBOUND,
+                \Derby\Media\LocalFile\Image::THUMBNAIL_OUTBOUND,
                 $quality
             );
             $this->assertFileExists($target->getPath());
@@ -553,7 +553,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
                 $targetAdapter,
                 100,
                 75,
-                Image::THUMBNAIL_INSET,
+                \Derby\Media\LocalFile\Image::THUMBNAIL_INSET,
                 $quality
             );
             $this->assertFileExists($target->getPath());
@@ -578,7 +578,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mediaManager  = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new Image($key, $sourceAdapter, $imagine);
+        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -601,7 +601,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mediaManager  = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new Image($key, $sourceAdapter, $imagine);
+        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -624,7 +624,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mediaManager  = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new Image($key, $sourceAdapter, $imagine);
+        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -647,7 +647,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mediaManager  = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new Image($key, $sourceAdapter, $imagine);
+        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -670,7 +670,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mediaManager  = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new Image($key, $sourceAdapter, $imagine);
+        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);

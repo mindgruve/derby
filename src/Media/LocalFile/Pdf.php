@@ -1,6 +1,6 @@
 <?php
 
-namespace Derby\Media\Local;
+namespace Derby\Media\LocalFile;
 
 use Derby\Media\LocalFile;
 

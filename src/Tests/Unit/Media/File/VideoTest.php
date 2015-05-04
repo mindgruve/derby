@@ -4,7 +4,7 @@ namespace Derby\Tests\Unit\File;
 
 use PHPUnit_Framework_TestCase;
 use Derby\Media\LocalFile;
-use Derby\Media\Local\Video;
+use Derby\Media\LocalFile\Video;
 use Mockery;
 
 class VideoTest extends PHPUnit_Framework_TestCase

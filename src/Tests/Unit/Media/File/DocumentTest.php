@@ -2,7 +2,7 @@
 
 namespace Derby\Tests\Unit\File;
 
-use Derby\Media\Local\Document;
+use Derby\Media\LocalFile\Document;
 use Derby\Media\LocalFile;
 use PHPUnit_Framework_TestCase;
 use Mockery;
