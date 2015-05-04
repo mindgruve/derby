@@ -3,6 +3,7 @@
 namespace Derby\Media\Adapter\Embed;
 
 use Derby\Adapter\EmbedAdapterInterface;
+use Derby\MediaInterface;
 use Google_Client;
 use Google_Service_YouTube;
 
@@ -54,6 +55,15 @@ class YouTubeAdapter implements EmbedAdapterInterface
     public function render($key)
     {
         // TODO: Implement render() method.
+    }
+
+    /**
+     * @param $key
+     * @return MediaInterface
+     */
+    public function getMedia($key)
+    {
+        // TODO: Implement getMedia() method.
     }
 
 
