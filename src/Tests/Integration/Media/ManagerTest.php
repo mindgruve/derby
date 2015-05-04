@@ -28,7 +28,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $config  = mockery::mock('Derby\Config');
         $manager = new Manager($config);
 
-        $manager->registerFile(
+        $manager->registerFileFactory(
             ['txt'],
             ['text/plain'],
             function ($key, $adapter) {
@@ -36,7 +36,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             }
         );
 
-        $manager->registerFile(
+        $manager->registerFileFactory(
             ['html'],
             ['text/plain'],
             function ($key, $adapter) {
@@ -45,7 +45,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         );
 
         $imagine = new Imagine();
-        $manager->registerFile(
+        $manager->registerFileFactory(
             ['jpg', 'jpeg', 'gif', 'bmp', 'png'],
             ['image/jpeg', 'image/gif', 'image/bmp', 'image/x-bmp', 'image/png'],
             function ($key, $adapter) use ($imagine) {
@@ -86,7 +86,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $config  = mockery::mock('Derby\Config');
         $manager = new Manager($config);
 
-        $manager->registerFile(
+        $manager->registerFileFactory(
             ['*'],
             ['text/*'],
             function ($key, $adapter) {
@@ -110,7 +110,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $config  = mockery::mock('Derby\Config');
         $manager = new Manager($config);
 
-        $manager->registerFile(
+        $manager->registerFileFactory(
             ['*'],
             ['text/*'],
             function ($key, $adapter) {
