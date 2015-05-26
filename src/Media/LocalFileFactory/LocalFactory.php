@@ -25,6 +25,6 @@ class LocalFactory extends AbstractLocalFileFactory
      */
     public function build($key, LocalFileAdapterInterface $adapter)
     {
-        return new Local($key, $adapter);
+        return new LocalFile($key, $adapter);
     }
 }
