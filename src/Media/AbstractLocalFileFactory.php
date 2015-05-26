@@ -91,6 +91,8 @@ abstract class AbstractLocalFileFactory implements LocalFileFactoryInterface
             }
         }
 
-        return $matchExt && $matchMimeType;
+        return $media->getFileExtension() == ''
+            ? $matchMimeType === true
+            : ($matchExt && $matchMimeType) === true;
     }
 }
