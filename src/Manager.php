@@ -136,8 +136,9 @@ class Manager implements ManagerInterface
     public function transfer(MediaInterface $file, GaufretteAdapterInterface $adapter)
     {
         if ($adapter instanceof LocalFileAdapterInterface) {
-            $local = $this->convertFile(new LocalFile($file->getKey(), $adapter));
+            $local = new LocalFile($file->getKey(), $adapter);
             $local->write($file->read());
+            $local = $this->convertFile($local);
 
             return $local;
         } elseif ($adapter instanceof RemoteFileAdapterInterface) {
