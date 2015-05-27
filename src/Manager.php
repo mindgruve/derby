@@ -8,8 +8,10 @@
 
 namespace Derby;
 
+use Derby\Adapter\GaufretteAdapterInterface;
 use Derby\Adapter\LocalFileAdapterInterface;
 use Derby\Adapter\RemoteFileAdapterInterface;
+use Derby\Exception\UnknownTransferAdapterException;
 use Derby\Media\AbstractLocalFileFactory;
 use Derby\Media\LocalFile;
 use Derby\Media\LocalFileFactoryInterface;
@@ -120,29 +122,32 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * @param RemoteFile $file
-     * @param LocalFileAdapterInterface $localAdapter
-     * @return LocalFileInterface
+     * Transfer the file to another adapter
+     *
+     * Note that you will receive a different file object depending on whether you're sending to a
+     * local or remote file adapter. This will not be the same file object you passed in. Y> ou will
+     * have 2 independent objects.
+     *
+     * @param MediaInterface $file The file
+     * @param GaufretteAdapterInterface $adapter A gaufrette adapter
+     * @return LocalFileInterface|RemoteFileInterface The file object returned depends on the type of gaufrette adapter you're transferring to.
+     * @throws UnknownTransferAdapterException When adapter is not a local or remote adapter
      */
-    public function downloadFile(RemoteFile $file, LocalFileAdapterInterface $localAdapter)
+    public function transfer(MediaInterface $file, GaufretteAdapterInterface $adapter)
     {
-        $local = $this->convertFile(new LocalFile($file->getKey(), $localAdapter));
-        $local->write($file->read());
+        if ($adapter instanceof LocalFileAdapterInterface) {
+            $local = $this->convertFile(new LocalFile($file->getKey(), $adapter));
+            $local->write($file->read());
 
-        return $local;
-    }
+            return $local;
+        } elseif ($adapter instanceof RemoteFileAdapterInterface) {
+            $remote = new RemoteFile($file->getKey(), $adapter);
+            $remote->write($file->read());
 
-    /**
-     * @param LocalFile $file
-     * @param RemoteFileAdapterInterface $adapter
-     * @return RemoteFile
-     */
-    public function uploadFile(LocalFile $file, RemoteFileAdapterInterface $adapter)
-    {
-        $remote = new RemoteFile($file->getKey(), $adapter);
-        $remote->write($file->read());
-
-        return $remote;
+            return $remote;
+        } else {
+            throw new UnknownTransferAdapterException('Adapter must be a local or remote file adapter to transfer to.');
+        }
     }
 
     /**
