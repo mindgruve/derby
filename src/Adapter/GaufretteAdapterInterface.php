@@ -45,5 +45,4 @@ interface GaufretteAdapterInterface extends AdapterInterface
      * @return mixed
      */
     public function read($key);
-
 }
