@@ -125,7 +125,7 @@ class Manager implements ManagerInterface
      * Transfer the file to another adapter
      *
      * Note that you will receive a different file object depending on whether you're sending to a
-     * local or remote file adapter. This will not be the same file object you passed in. Y> ou will
+     * local or remote file adapter. This will not be the same file object you passed in. You will
      * have 2 independent objects.
      *
      * @param MediaInterface $file The file
