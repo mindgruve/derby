@@ -109,6 +109,18 @@ class LocalFile extends Media implements LocalFileInterface
     /**
      * {@inheritDoc}
      */
+    public function getSize()
+    {
+        if (!$this->exists()) {
+            return null;
+        }
+
+        return filesize($this->getPath());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getPath($key = null)
     {
         return $this->adapter->getPath($key ?: $this->key);

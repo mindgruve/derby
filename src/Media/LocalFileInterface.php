@@ -75,6 +75,12 @@ interface LocalFileInterface extends MediaInterface
     public function getMimeType();
 
     /**
+     * Get file size
+     * @return int|null Size or null if file doesn't exist
+     */
+    public function getSize();
+
+    /**
      * Get file path
      *
      * If key not passed, internal key that was passed during construction
