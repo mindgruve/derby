@@ -137,4 +137,22 @@ class Image extends LocalFile
         $target = new Image($key, $adapter, $this->imagine);
         $this->imagine->open($this->getPath())->flipVertically()->save($target->getPath());
     }
+
+    /**
+     * Get width
+     * @return int
+     */
+    public function getWidth()
+    {
+        return $this->imagine->open($this->getPath())->getSize()->getWidth();
+    }
+
+    /**
+     * Get heigth
+     * @return int
+     */
+    public function getHeight()
+    {
+        return $this->imagine->open($this->getPath())->getSize()->getHeight();
+    }
 }
