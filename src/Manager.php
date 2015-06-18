@@ -130,19 +130,20 @@ class Manager implements ManagerInterface
      *
      * @param MediaInterface $file The file
      * @param GaufretteAdapterInterface $adapter A gaufrette adapter
+     * @param string $key File key (name) used in place of the file being transferred. Useful for overriding the default
      * @return LocalFileInterface|RemoteFileInterface The file object returned depends on the type of gaufrette adapter you're transferring to.
      * @throws UnknownTransferAdapterException When adapter is not a local or remote adapter
      */
-    public function transfer(MediaInterface $file, GaufretteAdapterInterface $adapter)
+    public function transfer(MediaInterface $file, GaufretteAdapterInterface $adapter, $key = null)
     {
         if ($adapter instanceof LocalFileAdapterInterface) {
-            $local = new LocalFile($file->getKey(), $adapter);
+            $local = new LocalFile($key ?: $file->getKey(), $adapter);
             $local->write($file->read());
             $local = $this->convertFile($local);
 
             return $local;
         } elseif ($adapter instanceof RemoteFileAdapterInterface) {
-            $remote = new RemoteFile($file->getKey(), $adapter);
+            $remote = new RemoteFile($key ?: $file->getKey(), $adapter);
             $remote->write($file->read());
 
             return $remote;
