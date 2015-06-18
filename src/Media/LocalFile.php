@@ -109,8 +109,8 @@ class LocalFile extends Media implements LocalFileInterface
     /**
      * {@inheritDoc}
      */
-    public function getPath($key = null)
+    public function getPath()
     {
-        return $this->adapter->getPath($key ?: $this->key);
+        return $this->adapter->getPath($this->key);
     }
 }

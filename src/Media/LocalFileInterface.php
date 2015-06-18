@@ -77,11 +77,7 @@ interface LocalFileInterface extends MediaInterface
     /**
      * Get file path
      *
-     * If key not passed, internal key that was passed during construction
-     * will be used.
-     *
-     * @param string|null $key
      * @return string
      */
-    public function getPath($key = null);
+    public function getPath();
 }
