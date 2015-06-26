@@ -96,6 +96,10 @@ class Manager implements ManagerInterface
     {
         $media = $adapter->getMedia($key);
 
+        if (!$media->exists()) {
+            return null;
+        }
+
         if ($media instanceof LocalFile) {
             $media = $this->convertFile($media);
         }
