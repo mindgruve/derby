@@ -87,7 +87,7 @@ class ReadOnlyRemoteFile extends Media implements ReadOnlyRemoteFileInterface
     /**
      * {@inheritDoc}
      */
-    public function getExtension()
+    public function getFileExtension()
     {
         $url = $this->getUrl();
 

@@ -40,5 +40,5 @@ interface ReadOnlyRemoteFileInterface extends MediaInterface
      * Get extension
      * @return string
      */
-    public function getExtension();
+    public function getFileExtension();
 }
