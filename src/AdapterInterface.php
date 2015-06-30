@@ -12,12 +12,6 @@ interface AdapterInterface
 
     /**
      * @param $key
-     * @return bool
-     */
-    public function exists($key);
-
-    /**
-     * @param $key
      * @return MediaInterface
      */
     public function getMedia($key);
