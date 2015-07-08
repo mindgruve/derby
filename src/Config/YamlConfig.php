@@ -1,22 +1,12 @@
 <?php
-/**
- * @package mindgruve/derby
- * @copyright (c) 2015 Mindgruve
- * @author Kevin Simpson <simpkevin@gmail.com>
- * @author John Pancoast <shideon@gmail.com>
- */
 
-namespace Derby;
+namespace Derby\Config;
+
+use Derby\ConfigInterface;
 use Symfony\Component\Yaml\Parser;
 use Derby\Exception\InvalidConfigException;
 
-/**
- * Derby\Config
- *
- * @author Kevin Simpson <simpkevin@gmail.com>
- * @author John Pancoast <shideon@gmail.com>
- */
-class Config
+class YamlConfig implements ConfigInterface
 {
     /**
      * Config
@@ -42,7 +32,7 @@ class Config
         $parser = new Parser();
         $this->config = $parser->parse(file_get_contents($configPath));
 
-        if (!$this->isConfigValid()) {
+        if (!$this->isValid()) {
             throw new InvalidConfigException('Invalid config values');
         }
     }
@@ -55,11 +45,20 @@ class Config
         return $this->config;
     }
 
+    public function setConfig(array $config)
+    {
+        $this->config = $config;
+
+        if (!$this->isValid()) {
+            throw new InvalidConfigException('Invalid config values');
+        }
+    }
+
     /**
      * Is the config valid
      * @return bool
      */
-    public function isConfigValid()
+    public function isValid()
     {
         // although our default config has more settings, the only hard dependency
         // is [derby][media] and [derby][defaults][tmp_path] at the moment. Anything else isn't
@@ -89,6 +88,6 @@ class Config
      */
     public static function getDefaultConfigPath()
     {
-        return __DIR__.'/../config/media_config.yml';
+        return __DIR__ . '/../../config/media_config.yml';
     }
 }

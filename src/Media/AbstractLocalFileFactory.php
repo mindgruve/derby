@@ -83,7 +83,7 @@ abstract class AbstractLocalFileFactory implements LocalFileFactoryInterface
                 $matchExt = true;
             }
         }
-        
+
         $matchMimeType = false;
         foreach ($this->mimeTypes as $mimeType) {
             if (fnmatch($mimeType, $media->getMimeType())) {

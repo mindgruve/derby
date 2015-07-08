@@ -28,38 +28,9 @@ use Derby\Media\SearchInterface;
 class Manager implements ManagerInterface
 {
     /**
-     * @var Config
-     */
-    protected $config;
-
-    /**
      * @var array
      */
     protected $fileFactories = [];
-
-    /**
-     * @param Config $config
-     */
-    public function __construct(Config $config = null)
-    {
-        $this->config = $config ?: new Config();
-        $this->loadConfigFileFactories();
-    }
-
-    /**
-     * Local file factories from existing config
-     *
-     * @todo This functionality will likely change when we implement a service container
-     */
-    private function loadConfigFileFactories()
-    {
-        $config = $this->config->getConfig();
-
-        foreach ($config['derby']['media'] as $m) {
-            $factory = $m['factory'];
-            $this->registerFileFactory(new $factory($m['extensions'], $m['mime_types']));
-        }
-    }
 
     /**
      * @param \Derby\Media\LocalFileFactoryInterface $factory

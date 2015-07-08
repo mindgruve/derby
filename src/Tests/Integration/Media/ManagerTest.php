@@ -10,7 +10,9 @@
 namespace Derby\Tests\Integration\Media;
 
 use Derby\Adapter\LocalFileAdapter;
+use Derby\Config;
 use Derby\Manager;
+use Derby\ManagerFactory;
 use Derby\Media;
 use Imagine\Gd\Imagine;
 use Mockery;
@@ -25,38 +27,18 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 {
     public function testRegisterFile()
     {
-        $config  = mockery::mock('Derby\Config');
-        $manager = new Manager($config);
-
-        $manager->registerFileFactory(
-            ['txt'],
-            ['text/plain'],
-            function ($key, $adapter) {
-                return new Media\LocalFile\Text($key, $adapter);
-            }
-        );
-
-        $manager->registerFileFactory(
-            ['html'],
-            ['text/plain'],
-            function ($key, $adapter) {
-                return new Media\LocalFile\Html($key, $adapter);
-            }
-        );
-
+        $manager = new Manager();
         $imagine = new Imagine();
-        $manager->registerFileFactory(
-            ['jpg', 'jpeg', 'gif', 'bmp', 'png'],
-            ['image/jpeg', 'image/gif', 'image/bmp', 'image/x-bmp', 'image/png'],
-            function ($key, $adapter) use ($imagine) {
-                return new Media\LocalFile\Image($key, $adapter, $imagine);
-            }
-        );
+
+        $manager->registerFileFactory(new Media\LocalFileFactory\TextFactory(['txt'],['text/plain']));
+        $manager->registerFileFactory(new Media\LocalFileFactory\HtmlFactory(['html'],['text/html', 'text/plain']));
+        $manager->registerFileFactory(new Media\LocalFileFactory\ImageFactory(['jpg', 'jpeg', 'gif', 'bmp', 'png'],['image/jpeg', 'image/gif', 'image/bmp', 'image/x-bmp', 'image/png']));
 
         $localAdapter = new LocalFileAdapter(__DIR__ . '/../Temp/', true);
 
         // Build HTML File
         $file = $manager->buildFile('test-1.html', $localAdapter, 'test1');
+
         $this->assertTrue($file instanceof Media\LocalFile\Html);
 
         $file = $manager->getMedia('test-1.html', $localAdapter);
@@ -86,13 +68,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $config  = mockery::mock('Derby\Config');
         $manager = new Manager($config);
 
-        $manager->registerFileFactory(
-            ['*'],
-            ['text/*'],
-            function ($key, $adapter) {
-                return new Media\LocalFile\Text($key, $adapter);
-            }
-        );
+        $manager->registerFileFactory(new Media\LocalFileFactory\TextFactory(['*'],['text/*']));
 
         $localAdapter = new LocalFileAdapter(__DIR__ . '/../Temp/', true);
 
@@ -110,13 +86,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $config  = mockery::mock('Derby\Config');
         $manager = new Manager($config);
 
-        $manager->registerFileFactory(
-            ['*'],
-            ['text/*'],
-            function ($key, $adapter) {
-                return new Media\LocalFile\Text($key, $adapter);
-            }
-        );
+        $manager->registerFileFactory(new Media\LocalFileFactory\TextFactory(['*'],['text/*']));
 
         $localAdapter = new LocalFileAdapter(__DIR__ . '/../Temp/', true);
 
