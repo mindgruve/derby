@@ -2,39 +2,35 @@
 
 namespace Derby\Config;
 
+use Derby\Adapter\CdnAdapterInterface;
 use Derby\ConfigInterface;
-use Symfony\Component\Yaml\Parser;
 use Derby\Exception\InvalidConfigException;
+use Mockery\CountValidator\Exception;
+use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Config\Definition\Processor;
 
 class YamlConfig implements ConfigInterface
 {
-    /**
-     * Config
-     * @var array
-     */
-    private $config = [];
+
+    protected $config = array();
 
     /**
-     * @param string|null $configPath
+     * @param array $configPaths
      */
-    public function __construct($configPath = null)
+    public function __construct(array $configPaths = array())
     {
-        $this->load($configPath ?: self::getDefaultConfigPath());
-    }
+        $config = array();
+        $configPaths = ($configPaths) ? $configPaths : array(realpath(__DIR__ . '/../../config/media.yml'));
 
-    /**
-     * Load media config
-     * @param string $configPath
-     * @throws InvalidConfigException If config invalid
-     */
-    public function load($configPath)
-    {
-        $parser = new Parser();
-        $this->config = $parser->parse(file_get_contents($configPath));
-
-        if (!$this->isValid()) {
-            throw new InvalidConfigException('Invalid config values');
+        foreach ($configPaths as $configPath) {
+            if (file_exists($configPath)) {
+                $config = array_merge($config, Yaml::parse(file_get_contents($configPath)));
+            } else {
+                throw new Exception('File does not exist - ' . $configPath);
+            }
         }
+
+        $this->setConfig($config);
     }
 
     /**
@@ -45,49 +41,78 @@ class YamlConfig implements ConfigInterface
         return $this->config;
     }
 
-    public function setConfig(array $config)
-    {
-        $this->config = $config;
-
-        if (!$this->isValid()) {
-            throw new InvalidConfigException('Invalid config values');
-        }
-    }
-
     /**
-     * Is the config valid
-     * @return bool
+     * @param array $config
+     * @throws InvalidConfigException
      */
-    public function isValid()
+    public function validate(array $config = array())
     {
-        // although our default config has more settings, the only hard dependency
-        // is [derby][media] and [derby][defaults][tmp_path] at the moment. Anything else isn't
-        // used and not required yet.
-        // @todo I think we should look into symfony's tree builder or options resolver
 
-        if (!isset($this->config['derby']['defaults']['tmp_path'])) {
-            return false;
+        $config = ($config) ? $config['derby'] : $this->config['derby'];
+        $configs = array($config);
+
+        $processor = new Processor();
+        $validation = new MediaValidation();
+
+        try {
+            $processor->processConfiguration(
+                $validation,
+                $configs
+            );
+        } catch (\Exception  $e) {
+            throw new InvalidConfigException($e->getMessage());
         }
 
-        if (!isset($this->config['derby']['media'])) {
-            return false;
+
+        $requiredClasses = array(
+            $config['defaults']['media'],
+            $config['defaults']['file'],
+            $config['defaults']['embed'],
+            $config['defaults']['group'],
+            $config['thumbnails']['library'],
+            $config['thumbnails']['adapter'],
+        );
+
+        foreach($config['adapters'] as $adapter){
+            $requiredClasses[] = $adapter['class'];
         }
 
-        foreach ($this->config['derby']['media'] as $m) {
-            if (!isset($m['factory'], $m['extensions'], $m['mime_types'])) {
-                return false;
+        foreach($config['media'] as $adapter){
+            $requiredClasses[] = $adapter['factory'];
+        }
+
+        // confirm that all the classes defined in the configuration exist
+        foreach ($requiredClasses as $class) {
+            if (!class_exists($class)) {
+                throw new InvalidConfigException('Class not defined - ' . $class);
             }
         }
 
-        return true;
+        // validate interfaces
+        if(!in_array('Derby\Adapter\CdnAdapterInterface', class_implements($config['thumbnails']['adapter']))){
+            throw new InvalidConfigException('Class ('.$config['thumbnails']['adapter'].')should be an instance of Derby\Adapter\CdnAdapterInterface');
+        }
+
+        foreach($config['adapters'] as $adapter){
+            if(!in_array('Derby\AdapterInterface', class_implements($adapter['class']))){
+                throw new InvalidConfigException('Class ('.$adapter['class'].')should be an instance of Derby\AdapterInterface');
+            };
+        }
+
+        foreach($config['media'] as $media){
+            if(!in_array('Derby\Media\LocalFileFactoryInterface', class_implements($media['factory']))){
+                throw new InvalidConfigException('Class ('.$media['factory'].')should be an instance of Derby\Media\LocalFileFactoryInterface');
+            };
+        }
+
     }
 
     /**
-     * Get default config path
-     * @return string
+     * @param array $config
      */
-    public static function getDefaultConfigPath()
+    public function setConfig(array $config)
     {
-        return __DIR__ . '/../../config/media_config.yml';
+        $this->validate($config);
+        $this->config = $config;
     }
 }

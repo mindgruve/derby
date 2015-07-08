@@ -2,20 +2,20 @@ derby:
     defaults:
         tmp_path:   '/tmp/derby'
         media:      'Derby\Media'
-        file:       'Derby\Media\Local'
+        file:       'Derby\Media\LocalFile'
         embed:      'Derby\Media\Embed'
         group:      'Derby\Media\Group'
-        alias:      'Derby\Media\Alias'
     thumbnails:
-        library:      'Imagine\Imagick\Imagine'
-        localAdapter: 'Derby\Media\Adapter\LocalAdapter'
-        webAdapter:   'Derby\Media\Adapter\WebAdapter'
-    adapter:
-        - class: 'Derby\Media\Adapter\YouTubeAdapter'
+        library:  'Imagine\Imagick\Imagine'
+        adapter:  'Derby\Adapter\File\LocalCdnAdapter'
+    adapters:
+        - class: 'Derby\Adapter\LocalFileAdapter'
+          name: local
+        - class: 'Derby\Adapter\Embed\YouTubeAdapter'
           name: 'youtube'
-        - class: 'Derby\Media\Adapter\FlickrAdapter'
+        - class: 'Derby\Adapter\Embed\FlickrAdapter'
           name: 'flickr'
-        - class: 'Derby\Media\Adapter\OpenCloudAdapter'
+        - class: 'Derby\Adapter\File\OpenCloudAdapter'
           name: 'opencloud'
     media:
         - factory: 'Derby\Media\LocalFileFactory\AudioFactory'

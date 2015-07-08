@@ -4,11 +4,20 @@ namespace Derby;
 
 interface ConfigInterface
 {
-
+    /**
+     * @param array $config
+     */
     public function setConfig(array $config);
 
+    /**
+     * @return array
+     */
     public function getConfig();
 
-    public function isValid();
+    /**
+     * @param array $config
+     * @throws InvalidConfigException
+     */
+    public function validate(array $config = array());
 
 }

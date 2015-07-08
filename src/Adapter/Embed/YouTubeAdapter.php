@@ -1,6 +1,6 @@
 <?php
 
-namespace Derby\Media\Adapter\Embed;
+namespace Derby\Adapter\Embed;
 
 use Derby\Adapter\EmbedAdapterInterface;
 use Derby\MediaInterface;
