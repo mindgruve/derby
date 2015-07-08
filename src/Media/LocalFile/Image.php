@@ -3,6 +3,7 @@
 namespace Derby\Media\LocalFile;
 
 use Derby\Adapter\LocalFileAdapterInterface;
+use Derby\Exception\NoResizeDimensionsException;
 use Derby\Media\Local;
 use Derby\Media\LocalFile;
 use Imagine\Image\Box;
@@ -39,28 +40,46 @@ class Image extends LocalFile
     /**
      * @param $key
      * @param $adapter
-     * @param $width
-     * @param $height
+     * @param int $width
+     * @param int $height
      * @param string $mode
      * @param int $quality
      * @return Image
      * @throws InvalidImageException
+     * @throws NoResizeDimensionsException
      */
-    public function resize($key, $adapter, $width, $height, $mode = ImageInterface::THUMBNAIL_OUTBOUND, $quality = 75)
+    public function resize($key, $adapter, $width = 0, $height = 0, $mode = ImageInterface::THUMBNAIL_OUTBOUND, $quality = 75)
     {
-        $target = new Image($key, $adapter, $this->imagine);
+        // if we were provided both width and height then we know the size of the new image
+        // otherwise we resize proportionally.
+        if ($width > 0 && $height > 0) {
+            $size = new Box($width, $height);
+        } elseif ($width > 0) {
+            $size = $this->imagine
+                ->open($this->getPath())
+                ->getSize()
+                ->widen($width);
+        } elseif ($height > 0) {
+            $size = $this->imagine
+                ->open($this->getPath())
+                ->getSize()
+                ->heighten($height);
+        } else {
+            throw new NoResizeDimensionsException('You must provide $width and/or $height to resize an image');
+        }
 
-        $size  = new Box($width, $height);
-        $image = $this->imagine->open($this->getPath())
+        $image = $this->imagine
+            ->open($this->getPath())
             ->thumbnail($size, $mode);
 
-        $pathInfo = pathinfo(strtolower($target->getPath()));
+        $target = new Image($key, $adapter, $this->imagine);
+        $extension = $target->getFileExtension();
 
-        if (!isset($pathInfo['extension'])) {
+        if (!$extension) {
             throw new InvalidImageException('No image extension');
         }
 
-        switch ($pathInfo['extension']) {
+        switch ($extension) {
             case 'jpg':
             case 'jpeg':
                 $image->save($target->getPath(), array('jpeg_quality' => $quality));
