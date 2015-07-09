@@ -6,25 +6,25 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media\LocalFile\Factory;
+namespace Derby\Media\LocalFile;
 
 use Derby\Adapter\LocalFileAdapterInterface;
-use Derby\Media\LocalFile\Pdf;
+use Derby\Media\LocalFile\Audio;
 
 /**
- * Derby\Media\LocalFileFactory\PdfFactory
+ * Derby\Media\LocalFileFactory\AudioFactory
  *
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-class PdfFactory extends AbstractFileFactory
+class AudioFactory extends AbstractFileFactory
 {
     /**
      * {@inheritDoc}
      */
     public function build($key, LocalFileAdapterInterface $adapter)
     {
-        return new Pdf($key, $adapter);
+        return new Audio($key, $adapter);
     }
 
     /**

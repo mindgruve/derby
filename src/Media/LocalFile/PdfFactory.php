@@ -6,25 +6,25 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media\LocalFile\Factory;
+namespace Derby\Media\LocalFile;
 
 use Derby\Adapter\LocalFileAdapterInterface;
-use Derby\Media\LocalFile\Spreadsheet;
+use Derby\Media\LocalFile\Pdf;
 
 /**
- * Derby\Media\LocalFileFactory\SpreadsheetFactory
+ * Derby\Media\LocalFileFactory\PdfFactory
  *
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-class SpreadsheetFactory extends AbstractFileFactory
+class PdfFactory extends AbstractFileFactory
 {
     /**
      * {@inheritDoc}
      */
     public function build($key, LocalFileAdapterInterface $adapter)
     {
-        return new Spreadsheet($key, $adapter);
+        return new Pdf($key, $adapter);
     }
 
     /**

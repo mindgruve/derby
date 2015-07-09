@@ -16,7 +16,7 @@ use Derby\Media\LocalFile;
 use Derby\Media\LocalFileInterface;
 use Derby\Media\RemoteFile;
 use Derby\Media\SearchInterface;
-use Derby\LocalFile\Factory\FactoryInterface;
+use Derby\Media\LocalFile\FactoryInterface;
 
 /**
  * Derby\Manager
@@ -32,10 +32,10 @@ class Manager implements ManagerInterface
     protected $fileFactories = [];
 
     /**
-     * @param \Derby\Media\LocalFileFactoryInterface $factory
+     * @param FactoryInterface $factory
      * @param int $priority
      */
-    public function registerFileFactory(LocalFile\Factory\FactoryInterface $factory, $priority = 10)
+    public function registerFileFactory(FactoryInterface $factory, $priority = 10)
     {
         $this->fileFactories[$priority][] = $factory;
     }

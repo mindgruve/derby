@@ -6,25 +6,25 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media\LocalFile\Factory;
+namespace Derby\Media\LocalFile;
 
 use Derby\Adapter\LocalFileAdapterInterface;
-use Derby\Media\LocalFile\Audio;
+use Derby\Media\LocalFile\Video;
 
 /**
- * Derby\Media\LocalFileFactory\AudioFactory
+ * Derby\Media\LocalFileFactory\VideoFactory
  *
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-class AudioFactory extends AbstractFileFactory
+class VideoFactory extends AbstractFileFactory
 {
     /**
      * {@inheritDoc}
      */
     public function build($key, LocalFileAdapterInterface $adapter)
     {
-        return new Audio($key, $adapter);
+        return new Video($key, $adapter);
     }
 
     /**

@@ -14,9 +14,7 @@ use Derby\Config;
 use Derby\Manager;
 use Derby\ManagerFactory;
 use Derby\Media;
-use Imagine\Gd\Imagine;
 use Mockery;
-use Derby\Config\YamlConfig;
 
 /**
  * Derby\Tests\Integration\Media\ManagerTest
@@ -28,8 +26,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 {
     public function testRegisterFile()
     {
-        $manager = ManagerFactory::build(new YamlConfig());
-        $imagine = new Imagine();
+        $manager = ManagerFactory::build();
 
         $localAdapter = new LocalFileAdapter(__DIR__ . '/../Temp/', true);
 
@@ -48,24 +45,23 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $file = $manager->getMedia('test-2.txt', $localAdapter);
         $this->assertTrue($file instanceof Media\LocalFile\Text);
 
-//        // Build Image File
-//        $file = $manager->buildFile(
-//            'test-3.jpg',
-//            $localAdapter,
-//            file_get_contents(__DIR__ . '/../Data/test-236x315.jpg')
-//        );
-//        $this->assertTrue($file instanceof Media\LocalFile\Image);
-//
-//        $file = $manager->getMedia('test-3.jpg', $localAdapter);
-//        $this->assertTrue($file instanceof Media\LocalFile\Image);
+        // Build Image File
+        $file = $manager->buildFile(
+            'test-3.jpg',
+            $localAdapter,
+            file_get_contents(__DIR__ . '/../Data/test-236x315.jpg')
+        );
+        $this->assertTrue($file instanceof Media\LocalFile\Image);
+
+        $file = $manager->getMedia('test-3.jpg', $localAdapter);
+        $this->assertTrue($file instanceof Media\LocalFile\Image);
     }
 
     public function testWildcardFileRegistration()
     {
-        $config  = mockery::mock('Derby\Config');
-        $manager = new Manager($config);
+        $manager = new Manager();
 
-        $manager->registerFileFactory(new Media\LocalFile\Factory\TextFactory(['*'],['text/*']));
+        $manager->registerFileFactory(new Media\LocalFile\TextFactory(['*'],['text/*']));
 
         $localAdapter = new LocalFileAdapter(__DIR__ . '/../Temp/', true);
 
@@ -80,10 +76,9 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testGracefulDegradation()
     {
-        $config  = mockery::mock('Derby\Config');
-        $manager = new Manager($config);
+        $manager = new Manager();
 
-        $manager->registerFileFactory(new Media\LocalFile\Factory\TextFactory(['*'],['text/*']));
+        $manager->registerFileFactory(new Media\LocalFile\TextFactory(['*'],['text/*']));
 
         $localAdapter = new LocalFileAdapter(__DIR__ . '/../Temp/', true);
 
@@ -104,6 +99,4 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($file instanceof Media\LocalFile\Image);
         $this->assertTrue($file instanceof Media\LocalFile);
     }
-
-
 }
