@@ -7,10 +7,9 @@
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
 
-namespace Derby\Media;
+namespace Derby\Media\LocalFile\Factory;
 
 use Derby\Adapter\LocalFileAdapterInterface;
-use Derby\AdapterInterface;
 use Derby\Media\LocalFile;
 use Derby\MediaInterface;
 
@@ -22,7 +21,7 @@ use Derby\MediaInterface;
  * @author Kevin Simpson <ksimpson@mindgruve.com>
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
-abstract class AbstractLocalFileFactory implements LocalFileFactoryInterface
+abstract class AbstractFileFactory implements FactoryInterface
 {
     /**
      * Supported extensions
@@ -40,16 +39,6 @@ abstract class AbstractLocalFileFactory implements LocalFileFactoryInterface
      * {@inheritDoc}
      */
     abstract public function build($key, LocalFileAdapterInterface $adapter);
-
-    /**
-     * @param array $extensions
-     * @param array $mimetypes
-     */
-    public function __construct(array $extensions, array $mimetypes)
-    {
-        $this->setExtensions($extensions);
-        $this->setMimeTypes($mimetypes);
-    }
 
     /**
      * {@inheritDoc}

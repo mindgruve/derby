@@ -18,30 +18,33 @@ derby:
         - class: 'Derby\Adapter\File\OpenCloudAdapter'
           name: 'opencloud'
     media:
-        - factory: 'Derby\Media\LocalFileFactory\AudioFactory'
+        - factory: 'Derby\Media\LocalFile\Factory\AudioFactory'
           extensions: [ 'mp3', 'wav', 'wma' ]
           mime_types: [ 'audio/mpeg',  'audio/vnd.wave', 'audio/wav', 'audio/wave',  'audio/x-wav' ]
-        - factory: 'Derby\Media\LocalFileFactory\DocumentFactory'
+        - factory: 'Derby\Media\LocalFile\Factory\DocumentFactory'
           extensions: [ 'doc', 'rtf' ]
           mime_types: [ 'application/msword', 'text/rtf', 'application/rtf' ]
-        - factory: 'Derby\Media\LocalFileFactory\ImageFactory'
-          extensions: [ 'jpg', 'jpeg', 'gif', 'bmp', 'png' ]
-          mime_types: [ 'image/jpeg', 'image/gif', 'image/bmp', 'image/x-bmp', 'image/png' ]
-        - factory: 'Derby\Media\LocalFileFactory\PdfFactory'
+#        - factory: 'Derby\Media\LocalFile\Factory\ImageFactory'
+#          extensions: [ 'jpg', 'jpeg', 'gif', 'bmp', 'png' ]
+#          mime_types: [ 'image/jpeg', 'image/gif', 'image/bmp', 'image/x-bmp', 'image/png' ]
+        - factory: 'Derby\Media\LocalFile\Factory\PdfFactory'
           extensions: [ 'pdf' ]
           mime_types: [ 'application/pdf', 'application/x-pdf' ]
-        - factory: 'Derby\Media\LocalFileFactory\PresentationFactory'
+        - factory: 'Derby\Media\LocalFile\Factory\PresentationFactory'
           extensions: [ 'ppt', 'pptx' ]
           mime_types: [ 'application/vnd.ms-powerpointtd>', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ]
-        - factory: 'Derby\Media\LocalFileFactory\SpreadsheetFactory'
+        - factory: 'Derby\Media\LocalFile\Factory\SpreadsheetFactory'
           extensions: [ 'xls', 'xlsx', 'xlsm' ]
           mime_types: [ 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroEnabled.12' ]
-        - factory: 'Derby\Media\LocalFileFactory\VideoFactory'
+        - factory: 'Derby\Media\LocalFile\Factory\VideoFactory'
           extensions: [ 'webm', 'vob', 'ogg', 'wmv', 'avi', 'mov', 'qt', 'mp4', 'mpg',  'mpeg' ]
           mime_types: [ 'video/webm', 'video/dvd',  'video/mpeg', 'video/x-ms-vob', 'video/ogg', 'application/ogg', 'video/vnd.avi', 'video/avi', 'video/msvideo', 'video/x-msvideo', 'video/quicktime', 'video/x-ms-wmv', 'video/mp4', 'video/mpeg' ]
-        - factory: 'Derby\Media\LocalFileFactory\TextFactory'
+        - factory: 'Derby\Media\LocalFile\Factory\HtmlFactory'
+          extensions: [ 'html' ]
+          mime_types: [ 'text/plain', 'txt/html' ]
+        - factory: 'Derby\Media\LocalFile\Factory\TextFactory'
           extensions: [ 'txt' ]
           mime_types: [ 'text/plain' ]
-        - factory: 'Derby\Media\LocalFileFactory\LocalFactory'
+        - factory: 'Derby\Media\LocalFile\Factory\LocalFactory'
           extensions: [ '*' ]
           mime_types: [ '*' ]

@@ -6,10 +6,9 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media\LocalFileFactory;
+namespace Derby\Media\LocalFile\Factory;
 
 use Derby\Adapter\LocalFileAdapterInterface;
-use Derby\Media\AbstractLocalFileFactory;
 use Derby\Media\LocalFile\Audio;
 
 /**
@@ -18,7 +17,7 @@ use Derby\Media\LocalFile\Audio;
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-class AudioFactory extends AbstractLocalFileFactory
+class AudioFactory extends AbstractFileFactory
 {
     /**
      * {@inheritDoc}
@@ -26,5 +25,15 @@ class AudioFactory extends AbstractLocalFileFactory
     public function build($key, LocalFileAdapterInterface $adapter)
     {
         return new Audio($key, $adapter);
+    }
+
+    /**
+     * @param array $extensions
+     * @param array $mimetypes
+     */
+    public function __construct(array $extensions, array $mimetypes)
+    {
+        $this->setExtensions($extensions);
+        $this->setMimeTypes($mimetypes);
     }
 }

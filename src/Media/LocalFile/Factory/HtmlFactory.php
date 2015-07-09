@@ -6,10 +6,9 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media\LocalFileFactory;
+namespace Derby\Media\LocalFile\Factory;
 
 use Derby\Adapter\LocalFileAdapterInterface;
-use Derby\Media\AbstractLocalFileFactory;
 use Derby\Media\LocalFile\Html;
 
 /**
@@ -18,7 +17,7 @@ use Derby\Media\LocalFile\Html;
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-class HtmlFactory extends AbstractLocalFileFactory
+class HtmlFactory extends AbstractFileFactory
 {
     /**
      * {@inheritDoc}
@@ -26,5 +25,15 @@ class HtmlFactory extends AbstractLocalFileFactory
     public function build($key, LocalFileAdapterInterface $adapter)
     {
         return new Html($key, $adapter);
+    }
+
+    /**
+     * @param array $extensions
+     * @param array $mimetypes
+     */
+    public function __construct(array $extensions, array $mimetypes)
+    {
+        $this->setExtensions($extensions);
+        $this->setMimeTypes($mimetypes);
     }
 }

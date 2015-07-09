@@ -12,12 +12,11 @@ use Derby\Adapter\GaufretteAdapterInterface;
 use Derby\Adapter\LocalFileAdapterInterface;
 use Derby\Adapter\RemoteFileAdapterInterface;
 use Derby\Exception\UnknownTransferAdapterException;
-use Derby\Media\AbstractLocalFileFactory;
 use Derby\Media\LocalFile;
-use Derby\Media\LocalFileFactoryInterface;
 use Derby\Media\LocalFileInterface;
 use Derby\Media\RemoteFile;
 use Derby\Media\SearchInterface;
+use Derby\LocalFile\Factory\FactoryInterface;
 
 /**
  * Derby\Manager
@@ -36,7 +35,7 @@ class Manager implements ManagerInterface
      * @param \Derby\Media\LocalFileFactoryInterface $factory
      * @param int $priority
      */
-    public function registerFileFactory(LocalFileFactoryInterface $factory, $priority = 10)
+    public function registerFileFactory(LocalFile\Factory\FactoryInterface $factory, $priority = 10)
     {
         $this->fileFactories[$priority][] = $factory;
     }

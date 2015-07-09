@@ -99,11 +99,11 @@ class YamlConfig implements ConfigInterface
             };
         }
 
-        foreach($config['media'] as $media){
-            if(!in_array('Derby\Media\LocalFileFactoryInterface', class_implements($media['factory']))){
-                throw new InvalidConfigException('Class ('.$media['factory'].')should be an instance of Derby\Media\LocalFileFactoryInterface');
-            };
-        }
+//        foreach($config['media'] as $media){
+//            if(!in_array('Derby\Media\LocalFile\AbstractFileFactory', class_implements($media['factory']))){
+//                throw new InvalidConfigException('Class ('.$media['factory'].')should be an instance of Derby\Media\LocalFile\AbstractFileFactory');
+//            };
+//        }
 
     }
 

@@ -26,7 +26,6 @@ class MediaValidation implements ConfigurationInterface
                         ->scalarNode('file')->end()
                         ->scalarNode('embed')->end()
                         ->scalarNode('group')->end()
-//                        ->scalarNode('alias')->end()
                     ->end()
                 ->end()
                 ->arrayNode('thumbnails')

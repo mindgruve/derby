@@ -6,7 +6,7 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media;
+namespace Derby\Media\LocalFile\Factory;
 
 use Derby\Adapter\LocalFileAdapterInterface;
 use Derby\MediaInterface;
@@ -17,7 +17,7 @@ use Derby\MediaInterface;
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-interface LocalFileFactoryInterface
+interface FactoryInterface
 {
     /**
      * Set extensions this file supports
