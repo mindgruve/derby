@@ -21,7 +21,7 @@ class ManagerFactory
 
         $container->compile();
 
-        $mediaManager = new Manager();
+        $mediaManager = $container->get('media.manager');
         $taggedServices = $container->findTaggedServiceIds('media.factory');
 
         foreach ($taggedServices as $serviceKey => $tags) {

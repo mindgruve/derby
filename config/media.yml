@@ -2,12 +2,19 @@ parameters:
     media.tmp_path: /tmp/derby
 
 services:
+    # Media Manager
+    media.manager:
+        class: Derby\Manager
+
+    # Imagine
     imagine.imagick:
         class: Imagine\Imagick\Imagine
     imagine.gd:
         class: Imagine\Gd\Imagine
     imagine.Gmagick:
         class: Imagine\Gmagick\Imagine
+
+    # Media Adapters
     media.adapter.local_file:
         class: Derby\Adapter\LocalFileAdapter
         arguments: [ %media.tmp_path%, false, '0777' ]
@@ -18,6 +25,8 @@ services:
             - [ 'audio/mpeg',  'audio/vnd.wave', 'audio/wav', 'audio/wave',  'audio/x-wav' ]
         tags:
             - { name: media.factory, priority: 10, kevin: true}
+
+    # Media Factories
     media.factory.document:
         class: Derby\Media\LocalFile\DocumentFactory
         arguments:
