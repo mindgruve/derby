@@ -24,7 +24,7 @@ services:
             - [ 'mp3', 'wav', 'wma' ]
             - [ 'audio/mpeg',  'audio/vnd.wave', 'audio/wav', 'audio/wave',  'audio/x-wav' ]
         tags:
-            - { name: media.factory, priority: 10, kevin: true}
+            - { name: media.factory, priority: 10 }
 
     # Media Factories
     media.factory.document:
