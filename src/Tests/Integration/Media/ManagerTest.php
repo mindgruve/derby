@@ -10,7 +10,6 @@
 namespace Derby\Tests\Integration\Media;
 
 use Derby\Adapter\LocalFileAdapter;
-use Derby\Config;
 use Derby\Manager;
 use Derby\ManagerFactory;
 use Derby\Media;
