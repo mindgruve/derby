@@ -81,6 +81,8 @@ class ImageTransformer
                 }
             }
         }
+
+        return $newImage;
     }
 
     protected function greyscale(Image $image, $key, $adapter)
