@@ -70,7 +70,7 @@ class Manager implements ManagerInterface
 
     /**
      * @param $adapterKey
-     * @return mixed
+     * @return \Derby\AdapterInterface
      */
     public function getAdapter($adapterKey)
     {
