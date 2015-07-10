@@ -94,11 +94,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
             $target = $sut->resize(
                 $targetKey,
-                $targetAdapter,
                 100,
                 75,
                 \Derby\Media\LocalFile\Image::THUMBNAIL_OUTBOUND,
-                $quality
+                $quality,
+                $targetAdapter
             );
             $this->assertFileExists($target->getPath());
             $imageDimensions = getimagesize($target->getPath());
@@ -118,11 +118,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
             $target = $sut->resize(
                 $targetKey,
-                $targetAdapter,
                 100,
                 75,
                 \Derby\Media\LocalFile\Image::THUMBNAIL_INSET,
-                $quality
+                $quality,
+                $targetAdapter
             );
             $this->assertFileExists($target->getPath());
             $imageDimensions = getimagesize($target->getPath());
@@ -152,7 +152,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             $targetAdapter->delete($targetKey);
         }
 
-        $sut->crop($targetKey, $targetAdapter, new Point(150, 150), new Box(45, 45));
+        $sut->crop($targetKey, new Point(150, 150), new Box(45, 45), $targetAdapter);
     }
 
     public function testImagickRotate()
@@ -175,7 +175,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             $targetAdapter->delete($targetKey);
         }
 
-        $sut->rotate($targetKey, $targetAdapter, 90);
+        $sut->rotate($targetKey, 90, $targetAdapter);
     }
 
     public function testImagickGreyscale()
@@ -310,11 +310,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
             $target = $sut->resize(
                 $targetKey,
-                $targetAdapter,
                 100,
                 75,
                 \Derby\Media\LocalFile\Image::THUMBNAIL_OUTBOUND,
-                $quality
+                $quality,
+                $targetAdapter
             );
             $this->assertFileExists($target->getPath());
             $imageDimensions = getimagesize($target->getPath());
@@ -334,11 +334,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
             $target = $sut->resize(
                 $targetKey,
-                $targetAdapter,
                 100,
                 75,
                 \Derby\Media\LocalFile\Image::THUMBNAIL_INSET,
-                $quality
+                $quality,
+                $targetAdapter
             );
             $this->assertFileExists($target->getPath());
             $imageDimensions = getimagesize($target->getPath());
@@ -368,7 +368,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             $targetAdapter->delete($targetKey);
         }
 
-        $sut->crop($targetKey, $targetAdapter, new Point(150, 150), new Box(45, 45));
+        $sut->crop($targetKey, new Point(150, 150), new Box(45, 45), $targetAdapter);
     }
 
     public function testGdRotate()
@@ -391,7 +391,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             $targetAdapter->delete($targetKey);
         }
 
-        $sut->rotate($targetKey, $targetAdapter, 90);
+        $sut->rotate($targetKey, 90, $targetAdapter);
     }
 
     public function testGdGreyscale()
@@ -526,11 +526,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
             $target = $sut->resize(
                 $targetKey,
-                $targetAdapter,
                 100,
                 75,
                 \Derby\Media\LocalFile\Image::THUMBNAIL_OUTBOUND,
-                $quality
+                $quality,
+                $targetAdapter
             );
             $this->assertFileExists($target->getPath());
             $imageDimensions = getimagesize($target->getPath());
@@ -550,11 +550,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
             $target = $sut->resize(
                 $targetKey,
-                $targetAdapter,
                 100,
                 75,
                 \Derby\Media\LocalFile\Image::THUMBNAIL_INSET,
-                $quality
+                $quality,
+                $targetAdapter
             );
             $this->assertFileExists($target->getPath());
             $imageDimensions = getimagesize($target->getPath());
@@ -584,7 +584,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             $targetAdapter->delete($targetKey);
         }
 
-        $sut->crop($targetKey, $targetAdapter, new Point(150, 150), new Box(45, 45));
+        $sut->crop($targetKey, new Point(150, 150), new Box(45, 45), $targetAdapter);
     }
 
     public function testGmagickRotate()
@@ -607,7 +607,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             $targetAdapter->delete($targetKey);
         }
 
-        $sut->rotate($targetKey, $targetAdapter, 90);
+        $sut->rotate($targetKey, 90, $targetAdapter);
     }
 
     public function testGmagickGreyscale()

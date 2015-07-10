@@ -4,7 +4,6 @@ namespace Derby\Media\LocalFile;
 
 use Derby\Adapter\LocalFileAdapterInterface;
 use Derby\Exception\NoResizeDimensionsException;
-use Derby\Media\Local;
 use Derby\Media\LocalFile;
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
@@ -16,6 +15,9 @@ class Image extends LocalFile
 {
     const THUMBNAIL_INSET = ImageInterface::THUMBNAIL_INSET;
     const THUMBNAIL_OUTBOUND = ImageInterface::THUMBNAIL_OUTBOUND;
+
+    const DEFAULT_MODE = ImageInterface::THUMBNAIL_OUTBOUND;
+    const DEFAULT_QUALITY = 75;
 
 
     const TYPE_MEDIA_FILE_IMAGE = 'MEDIA\LOCAL\IMAGE';
@@ -48,8 +50,13 @@ class Image extends LocalFile
      * @throws InvalidImageException
      * @throws NoResizeDimensionsException
      */
-    public function resize($key, $adapter, $width = 0, $height = 0, $mode = ImageInterface::THUMBNAIL_OUTBOUND, $quality = 75)
+    public function resize($key, $width = 0, $height = 0, $mode = self::DEFAULT_MODE, $quality = self::DEFAULT_QUALITY, $adapter = null)
     {
+
+        if(!$adapter){
+            $adapter = $this->getAdapter();
+        }
+
         // if we were provided both width and height then we know the size of the new image
         // otherwise we resize proportionally.
         if ($width > 0 && $height > 0) {
@@ -102,8 +109,12 @@ class Image extends LocalFile
      * @param Box $box
      * @return Image
      */
-    public function crop($key, LocalFileAdapterInterface $adapter,  Point $point, Box $box)
+    public function crop($key,  Point $point, Box $box, LocalFileAdapterInterface $adapter = null)
     {
+        if(!$adapter){
+            $adapter = $this->getAdapter();
+        }
+
         $target = new Image($key, $adapter, $this->imagine);
 
         $this->imagine->open($this->getPath())->crop($point, $box)->save($target->getPath());
@@ -117,8 +128,13 @@ class Image extends LocalFile
      * @param $degrees
      * @return Image
      */
-    public function rotate($key, LocalFileAdapterInterface $adapter, $degrees)
+    public function rotate($key, $degrees, LocalFileAdapterInterface $adapter = null)
     {
+
+        if(!$adapter){
+            $adapter = $this->getAdapter();
+        }
+
         $target = new Image($key, $adapter, $this->imagine);
         $this->imagine->open($this->getPath())->rotate($degrees)->save($target->getPath());
 
@@ -129,8 +145,12 @@ class Image extends LocalFile
      * @param $key
      * @param LocalFileAdapterInterface $adapter
      */
-    public function greyscale($key, LocalFileAdapterInterface $adapter)
+    public function greyscale($key, LocalFileAdapterInterface $adapter = null)
     {
+        if(!$adapter){
+            $adapter = $this->getAdapter();
+        }
+
         $target = new Image($key, $adapter, $this->imagine);
         $image  = $this->imagine->open($this->getPath());
         $image->effects()->grayscale();
@@ -141,8 +161,12 @@ class Image extends LocalFile
      * @param $key
      * @param LocalFileAdapterInterface $adapter
      */
-    public function flipHorizontally($key, LocalFileAdapterInterface $adapter)
+    public function flipHorizontally($key, LocalFileAdapterInterface $adapter = null)
     {
+        if(!$adapter){
+            $adapter = $this->getAdapter();
+        }
+
         $target = new Image($key, $adapter, $this->imagine);
         $this->imagine->open($this->getPath())->flipHorizontally()->save($target->getPath());
     }
@@ -151,8 +175,12 @@ class Image extends LocalFile
      * @param $key
      * @param LocalFileAdapterInterface $adapter
      */
-    public function flipVertically($key,LocalFileAdapterInterface $adapter)
+    public function flipVertically($key,LocalFileAdapterInterface $adapter = null)
     {
+        if(!$adapter){
+            $adapter = $this->getAdapter();
+        }
+
         $target = new Image($key, $adapter, $this->imagine);
         $this->imagine->open($this->getPath())->flipVertically()->save($target->getPath());
     }
@@ -173,5 +201,12 @@ class Image extends LocalFile
     public function getHeight()
     {
         return $this->imagine->open($this->getPath())->getSize()->getHeight();
+    }
+
+    /**
+     * @return ImagineInterface
+     */
+    public function getImagine(){
+        return $this->imagine;
     }
 }
