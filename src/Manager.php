@@ -17,6 +17,7 @@ use Derby\Media\LocalFileInterface;
 use Derby\Media\RemoteFile;
 use Derby\Media\SearchInterface;
 use Derby\Media\LocalFile\FactoryInterface;
+use Mockery\CountValidator\Exception;
 
 /**
  * Derby\Manager
@@ -32,13 +33,63 @@ class Manager implements ManagerInterface
     protected $fileFactories = [];
 
     /**
+     * @var array
+     */
+    protected $adapters = [];
+
+    /**
      * @param FactoryInterface $factory
      * @param int $priority
      */
-    public function registerFileFactory(FactoryInterface $factory, $priority = 10)
+    public function registerFileFactory(FactoryInterface $factory, $priority = null)
     {
+        // set default priority
+        if (!$priority) {
+            $priority = 10;
+        }
+
         $this->fileFactories[$priority][] = $factory;
     }
+
+    /**
+     * @param AdapterInterface $adapter
+     * @param $adapterKey
+     */
+    public function registerAdapter(AdapterInterface $adapter, $adapterKey)
+    {
+        $this->setAdapter($adapter, $adapterKey);
+    }
+
+    /**
+     * @param $adapterKey
+     */
+    public function unregisterAdapter($adapterKey)
+    {
+        unset($this->adapters[$adapterKey]);
+    }
+
+    /**
+     * @param $adapterKey
+     * @return mixed
+     */
+    public function getAdapter($adapterKey)
+    {
+        if (isset($this->adapters[$adapterKey])) {
+            return $this->adapters[$adapterKey];
+        }
+
+        throw new Exception('Adapter Key Not Found');
+    }
+
+    /**
+     * @param AdapterInterface $adapter
+     * @param $adapterKey
+     */
+    public function setAdapter(AdapterInterface $adapter, $adapterKey)
+    {
+        $this->adapters[$adapterKey] = $adapter;
+    }
+
 
     /**
      * @param $key

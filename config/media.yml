@@ -18,6 +18,10 @@ services:
     media.adapter.local_file:
         class: Derby\Adapter\LocalFileAdapter
         arguments: [ %media.tmp_path%, false, '0777' ]
+        tags:
+            - { name: media.adapter, key: temp }
+
+    # Media Factories
     media.factory.audio:
         class: Derby\Media\LocalFile\AudioFactory
         arguments:
@@ -25,8 +29,6 @@ services:
             - [ 'audio/mpeg',  'audio/vnd.wave', 'audio/wav', 'audio/wave',  'audio/x-wav' ]
         tags:
             - { name: media.factory, priority: 10 }
-
-    # Media Factories
     media.factory.document:
         class: Derby\Media\LocalFile\DocumentFactory
         arguments:
