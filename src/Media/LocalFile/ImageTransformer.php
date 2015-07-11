@@ -13,8 +13,6 @@ class ImageTransformer
      */
     protected $filters;
 
-    protected $key;
-
     protected $adapter;
 
 
@@ -23,7 +21,9 @@ class ImageTransformer
      */
     public function __construct(array $filters = array())
     {
-        $this->filters = $filters;
+        foreach ($filters as $filterKey => $filter) {
+            $this->addFilter($filterKey, $filter);
+        }
     }
 
     /**
