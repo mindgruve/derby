@@ -21,6 +21,8 @@ use Gaufrette\Adapter\Local;
  */
 class LocalFile extends Media implements LocalFileInterface
 {
+    const TYPE_MEDIA_LOCAL_FILE = 'MEDIA/LOCAL_FILE';
+
     /**
      * @param $key
      * @param LocalFileAdapterInterface $adapter

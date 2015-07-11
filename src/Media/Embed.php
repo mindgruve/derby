@@ -8,6 +8,8 @@ use Derby\Media;
 class Embed extends Media implements EmbedInterface
 {
 
+    const TYPE_MEDIA_EMBED = 'MEDIA/EMBED';
+
     /**
      * @var string
      */

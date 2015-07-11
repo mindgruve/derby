@@ -6,7 +6,7 @@ use Derby\Media\LocalFile;
 
 class Pdf extends LocalFile
 {
-    const TYPE_MEDIA_FILE_PDF = 'MEDIA\LOCAL\PDF';
+    const TYPE_MEDIA_FILE_PDF = 'MEDIA/LOCAL_FILE/PDF';
 
     public function getMediaType()
     {

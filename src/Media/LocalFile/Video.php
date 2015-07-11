@@ -7,7 +7,7 @@ use Derby\Media\LocalFile;
 class Video extends LocalFile
 {
 
-    const TYPE_MEDIA_FILE_VIDEO = 'MEDIA/LOCAL/VIDEO';
+    const TYPE_MEDIA_FILE_VIDEO = 'MEDIA/LOCAL_FILE/VIDEO';
 
     public function getMediaType()
     {

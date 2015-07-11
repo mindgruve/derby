@@ -19,4 +19,11 @@ use Derby\Media\LocalFile;
  */
 class Html extends LocalFile
 {
+    const TYPE_MEDIA_FILE_HTML = 'MEDIA/LOCAL_FILE/HTML';
+
+    public function getMediaType()
+    {
+        return self::TYPE_MEDIA_FILE_HTML;
+    }
+
 }

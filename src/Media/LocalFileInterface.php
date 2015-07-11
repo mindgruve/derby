@@ -20,7 +20,6 @@ use Derby\AdapterInterface;
  */
 interface LocalFileInterface extends MediaInterface
 {
-    const TYPE_MEDIA_LOCAL_FILE = 'MEDIA\LOCAL_FILE';
 
     /**
      * Read data from file

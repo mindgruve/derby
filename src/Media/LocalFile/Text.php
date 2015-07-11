@@ -18,4 +18,11 @@ use Derby\Media\LocalFile;
  */
 class Text extends LocalFile
 {
+    const TYPE_MEDIA_FILE_TEXT = 'MEDIA/LOCAL_FILE/TEXT';
+
+    public function getMediaType()
+    {
+        return self::TYPE_MEDIA_FILE_TEXT;
+    }
+
 }

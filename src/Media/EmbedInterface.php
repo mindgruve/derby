@@ -6,8 +6,6 @@ use Derby\MediaInterface;
 
 interface EmbedInterface extends MediaInterface
 {
-    const TYPE_MEDIA_EMBED = 'MEDIA\EMBED';
-
     /**
      * Returns the embed HTML
      * @param array $options

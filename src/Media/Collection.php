@@ -11,6 +11,8 @@ use Iterator;
 class Collection extends Media implements CollectionInterface
 {
 
+    const MEDIA_COLLECTION = 'MEDIA/COLLECTION';
+
     /**
      * @var string
      */

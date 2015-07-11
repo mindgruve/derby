@@ -21,7 +21,7 @@ class Image extends LocalFile
     const DEFAULT_QUALITY = 75;
 
 
-    const TYPE_MEDIA_FILE_IMAGE = 'MEDIA\LOCAL\IMAGE';
+    const TYPE_MEDIA_FILE_IMAGE = 'MEDIA/LOCAL_FILE/IMAGE';
 
     /**
      * @var ImagineInterface

@@ -7,7 +7,7 @@ use Derby\Media\LocalFile;
 class Spreadsheet extends LocalFile
 {
 
-    const TYPE_MEDIA_FILE_SPREADSHEET = 'MEDIA/LOCAL/SPREADSHEET';
+    const TYPE_MEDIA_FILE_SPREADSHEET = 'MEDIA/LOCAL_FILE/SPREADSHEET';
 
     public function getMediaType()
     {

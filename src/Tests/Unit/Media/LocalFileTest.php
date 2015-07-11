@@ -46,7 +46,7 @@ class LocalFileTest extends PHPUnit_Framework_TestCase
 
         $sut = new LocalFile($key, $adapter);
 
-        $this->assertEquals(LocalFileInterface::TYPE_MEDIA_LOCAL_FILE, $sut->getMediaType());
+        $this->assertEquals(LocalFile::TYPE_MEDIA_LOCAL_FILE, $sut->getMediaType());
     }
 
     public function testDeleteSuccessful()

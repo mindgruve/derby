@@ -34,7 +34,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
 
         $sut = new Media\Collection($key, $adapter);
 
-        $this->assertEquals(Media\CollectionInterface::MEDIA_COLLECTION, $sut->getMediaType());
+        $this->assertEquals(Media\Collection::MEDIA_COLLECTION, $sut->getMediaType());
     }
 
     public function testConstructor()

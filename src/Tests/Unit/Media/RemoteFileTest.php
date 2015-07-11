@@ -64,7 +64,7 @@ class RemoteFileTest extends PHPUnit_Framework_TestCase
 
         $sut = new RemoteFile($key, $adapter);
 
-        $this->assertEquals(RemoteFileInterface::TYPE_MEDIA_REMOTE_FILE, $sut->getMediaType());
+        $this->assertEquals(RemoteFile::TYPE_MEDIA_REMOTE_FILE, $sut->getMediaType());
     }
 
     public function testDeleteSuccessful()

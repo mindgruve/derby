@@ -42,6 +42,6 @@ class EmbedTest extends PHPUnit_Framework_TestCase
 
         $sut = new Embed($key, $adapter);
         
-        $this->assertEquals(EmbedInterface::TYPE_MEDIA_EMBED, $sut->getMediaType());
+        $this->assertEquals(Embed::TYPE_MEDIA_EMBED, $sut->getMediaType());
     }
 }

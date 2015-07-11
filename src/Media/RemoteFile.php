@@ -21,6 +21,8 @@ use Derby\Media;
  */
 class RemoteFile extends Media implements RemoteFileInterface
 {
+    const TYPE_MEDIA_REMOTE_FILE = 'MEDIA/REMOTE_FILE';
+
     /**
      * @param $key
      * @param RemoteFileAdapterInterface $adapter

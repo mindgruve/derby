@@ -19,8 +19,6 @@ use Derby\MediaInterface;
  */
 interface RemoteFileInterface extends MediaInterface
 {
-    const TYPE_MEDIA_REMOTE_FILE = 'MEDIA\REMOTE_FILE';
-
     /**
      * Read data from file
      * @return string|boolean if cannot read content
