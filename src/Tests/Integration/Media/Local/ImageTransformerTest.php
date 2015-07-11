@@ -7,27 +7,6 @@ use Derby\Media\LocalFile\ImageTransformer;
 
 class ImageTransformerTest extends \PHPUnit_Framework_TestCase
 {
-    public function testIdentityTransformeGD()
-    {
-
-        if (!extension_loaded('gd')) {
-            return;
-        }
-
-        $imagine = new \Imagine\Gd\Imagine;
-
-        $key = 'test-236x315.jpg';
-
-        $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
-        $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-
-        $image = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
-
-
-        $sut = new ImageTransformer();
-        $sut->apply($image, 'test-transformer-1.jpg', $targetAdapter);
-
-    }
 
     public function testGreyScaleGD()
     {
@@ -36,7 +15,6 @@ class ImageTransformerTest extends \PHPUnit_Framework_TestCase
         }
 
         $imagine = new \Imagine\Gd\Imagine;
-
         $key = 'test-236x315.jpg';
 
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
@@ -44,11 +22,13 @@ class ImageTransformerTest extends \PHPUnit_Framework_TestCase
         $image = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
         $sut = new ImageTransformer();
 
-        $sut->addFilter(array(
-            'greyscale' => true,
-        ));
+        $sut->addFilter(
+            'greyscale',
+            array(
+                'greyscale' => true,
+            ));
 
-        $sut->apply($image, 'test-transformer-2.jpg', $targetAdapter);
+        $sut->apply('greyscale', $image, 'test-transformer-2.jpg', $targetAdapter);
     }
 
     public function testFlipHorizontallyGD()
@@ -66,11 +46,13 @@ class ImageTransformerTest extends \PHPUnit_Framework_TestCase
         $image = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
         $sut = new ImageTransformer();
 
-        $sut->addFilter(array(
-            'flipHorizontally' => true,
-        ));
+        $sut->addFilter(
+            'fliphorizontally',
+            array(
+                'flipHorizontally' => true,
+            ));
 
-        $sut->apply($image, 'test-transformer-3.jpg', $targetAdapter);
+        $sut->apply('fliphorizontally', $image, 'test-transformer-3.jpg', $targetAdapter);
     }
 
     public function testFlipVerticallyGD()
@@ -88,11 +70,13 @@ class ImageTransformerTest extends \PHPUnit_Framework_TestCase
         $image = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
         $sut = new ImageTransformer();
 
-        $sut->addFilter(array(
-            'flipVertically' => true,
-        ));
+        $sut->addFilter(
+            'flipvertically',
+            array(
+                'flipVertically' => true,
+            ));
 
-        $sut->apply($image, 'test-transformer-4.jpg', $targetAdapter);
+        $sut->apply('flipvertically', $image, 'test-transformer-4.jpg', $targetAdapter);
     }
 
     public function testResizeGD()
@@ -110,14 +94,16 @@ class ImageTransformerTest extends \PHPUnit_Framework_TestCase
         $image = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
         $sut = new ImageTransformer();
 
-        $sut->addFilter(array(
-            'resize' => array(
-                'height' => 100,
-                'width' => 50
-            )
-        ));
+        $sut->addFilter(
+            'resize',
+            array(
+                'resize' => array(
+                    'height' => 100,
+                    'width' => 50
+                )
+            ));
 
-        $sut->apply($image, 'test-transformer-5.jpg', $targetAdapter);
+        $sut->apply('resize', $image, 'test-transformer-5.jpg', $targetAdapter);
     }
 
     public function testCropGD()
@@ -135,16 +121,17 @@ class ImageTransformerTest extends \PHPUnit_Framework_TestCase
         $image = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
         $sut = new ImageTransformer();
 
-        $sut->addFilter(array(
-            'crop' => array(
-                'x' => 50,
-                'y' => 50,
-                'height' => 100,
-                'width' => 50
-            )
-        ));
+        $sut->addFilter('crop',
+            array(
+                'crop' => array(
+                    'x' => 50,
+                    'y' => 50,
+                    'height' => 100,
+                    'width' => 50
+                )
+            ));
 
-        $sut->apply($image, 'test-transformer-6.jpg', $targetAdapter);
+        $sut->apply('crop', $image, 'test-transformer-6.jpg', $targetAdapter);
     }
 
     public function testRotateGD()
@@ -162,13 +149,15 @@ class ImageTransformerTest extends \PHPUnit_Framework_TestCase
         $image = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
         $sut = new ImageTransformer();
 
-        $sut->addFilter(array(
-            'rotate' => array(
-                'degrees' => 20
-            )
-        ));
+        $sut->addFilter(
+            'rotate',
+            array(
+                'rotate' => array(
+                    'degrees' => 20
+                )
+            ));
 
-        $sut->apply($image, 'test-transformer-7.jpg', $targetAdapter);
+        $sut->apply('rotate', $image, 'test-transformer-7.jpg', $targetAdapter);
     }
 
     public function testMultipleFiltersGD()
@@ -186,17 +175,19 @@ class ImageTransformerTest extends \PHPUnit_Framework_TestCase
         $image = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
         $sut = new ImageTransformer();
 
-        $sut->addFilter(array(
-            'greyscale' => true,
-            'flipVertically' => true,
-            'crop' => array(
-                'x' => 100,
-                'y' => 100,
-                'height' => 100,
-                'width' => 100
-            )
-        ));
+        $sut->addFilter(
+            'multiple',
+            array(
+                'greyscale' => true,
+                'flipVertically' => true,
+                'crop' => array(
+                    'x' => 100,
+                    'y' => 100,
+                    'height' => 100,
+                    'width' => 100
+                )
+            ));
 
-        $sut->apply($image, 'test-transformer-8.jpg', $targetAdapter);
+        $sut->apply('multiple', $image, 'test-transformer-8.jpg', $targetAdapter);
     }
 }

@@ -8,21 +8,6 @@ use Imagine\Image\Point;
 
 class ImageTransformer
 {
-
-    /**
-     * @var array
-     */
-    protected $identityTransform = array(
-        array(
-            'greyscale' => false,
-            'flipVertically' => false,
-            'flipHorizontally' => false,
-            'rotate' => false,
-            'crop' => false,
-            'resize' => false,
-        )
-    );
-
     /**
      * @var array
      */
@@ -35,52 +20,52 @@ class ImageTransformer
 
     public function __construct()
     {
-        $this->filters = $this->identityTransform;
+        $this->filters = array();
     }
 
-    public function addFilter(array $filter = array())
+    public function addFilter($filterKey, array $filter = array())
     {
-        $this->filters[] = $filter;
+        $this->filters[$filterKey] = $filter;
     }
 
     /**
+     * @param $filterKey
      * @param Image $image
-     * @param LocalFileAdapterInterface $newAdapter
      * @param $newKey
+     * @param LocalFileAdapterInterface $newAdapter
      * @return Image
      */
-    public function apply(Image $image, $newKey, LocalFileAdapterInterface $newAdapter)
+    public function apply($filterKey, Image $image, $newKey, LocalFileAdapterInterface $newAdapter)
     {
-        if (!$newAdapter) {
-            $newAdapter = $image->getAdapter();
+        if (!isset($this->filters[$filterKey])) {
+            return $image;
         }
 
+        $filter = $this->filters[$filterKey];
         $newImage = new Image($newKey, $newAdapter, $image->getImagine());
         $newImage->write($image->read());
 
-        foreach ($this->filters as $filter) {
-            foreach ($filter as $action => $parameters) {
-                if ($parameters) {
-                    switch (strtolower(trim($action))) {
-                        case 'greyscale':
-                            $newImage = $this->greyscale($newImage, $newKey, $newAdapter);
-                            break;
-                        case 'flipvertically':
-                            $newImage = $this->flipVertically($newImage, $newKey, $newAdapter);
-                            break;
-                        case 'fliphorizontally':
-                            $newImage = $this->flipHorizontally($newImage, $newKey, $newAdapter);
-                            break;
-                        case 'resize':
-                            $newImage = $this->resize($newImage, $newKey, $newAdapter, $parameters);
-                            break;
-                        case 'crop':
-                            $newImage = $this->crop($newImage, $newKey, $newAdapter, $parameters);
-                            break;
-                        case 'rotate':
-                            $newImage = $this->rotate($newImage, $newKey, $newAdapter, $parameters);
-                            break;
-                    }
+        foreach ($filter as $action => $parameters) {
+            if ($parameters) {
+                switch (strtolower(trim($action))) {
+                    case 'greyscale':
+                        $newImage = $this->greyscale($newImage, $newKey, $newAdapter);
+                        break;
+                    case 'flipvertically':
+                        $newImage = $this->flipVertically($newImage, $newKey, $newAdapter);
+                        break;
+                    case 'fliphorizontally':
+                        $newImage = $this->flipHorizontally($newImage, $newKey, $newAdapter);
+                        break;
+                    case 'resize':
+                        $newImage = $this->resize($newImage, $newKey, $newAdapter, $parameters);
+                        break;
+                    case 'crop':
+                        $newImage = $this->crop($newImage, $newKey, $newAdapter, $parameters);
+                        break;
+                    case 'rotate':
+                        $newImage = $this->rotate($newImage, $newKey, $newAdapter, $parameters);
+                        break;
                 }
             }
         }
@@ -128,7 +113,7 @@ class ImageTransformer
         $width = isset($parameters['width']) ? $parameters['width'] : 0;
         $point = new Point($x, $y);
         $box = new Box($width, $height);
-        $image->crop($key, $adapter,  $point, $box);
+        $image->crop($key, $adapter, $point, $box);
 
         return $image;
     }
