@@ -2,6 +2,7 @@
 
 namespace Derby\Media\LocalFile;
 
+use Derby\Adapter\LocalFileAdapterInterface;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
 
@@ -44,9 +45,11 @@ class ImageTransformer
 
     /**
      * @param Image $image
+     * @param LocalFileAdapterInterface $newAdapter
+     * @param $newKey
      * @return Image
      */
-    public function apply(Image $image, $newKey, $newAdapter = null)
+    public function apply(Image $image, $newKey, LocalFileAdapterInterface $newAdapter)
     {
         if (!$newAdapter) {
             $newAdapter = $image->getAdapter();
@@ -112,7 +115,7 @@ class ImageTransformer
         $width = isset($parameters['width']) ? $parameters['width'] : 0;
         $mode = isset($parameters['mode']) ? $parameters['mode'] : Image::DEFAULT_MODE;
         $quality = isset($parameters['quality']) ? $parameters['quality'] : Image::DEFAULT_QUALITY;
-        $image->resize($key, $width, $height, $mode, $quality, $adapter);
+        $image->resize($key, $adapter, $width, $height, $mode, $quality);
 
         return $image;
     }
@@ -125,7 +128,7 @@ class ImageTransformer
         $width = isset($parameters['width']) ? $parameters['width'] : 0;
         $point = new Point($x, $y);
         $box = new Box($width, $height);
-        $image->crop($key, $point, $box, $adapter);
+        $image->crop($key, $adapter,  $point, $box);
 
         return $image;
     }
@@ -133,7 +136,7 @@ class ImageTransformer
     public function rotate(Image $image, $key, $adapter, $parameters)
     {
         $degrees = isset($parameters['degrees']) ? $parameters['degrees'] : 0;
-        $image->rotate($key, $degrees, $adapter);
+        $image->rotate($key, $adapter, $degrees);
 
         return $image;
     }

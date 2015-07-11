@@ -45,42 +45,42 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $images = array(
             array(
-                'file'      => 'test-236x315.jpg',
+                'file' => 'test-236x315.jpg',
                 'mime_type' => 'image/jpeg',
-                'outbound'  => array(100, 75),
-                'inset'     => array(56, 75),
+                'outbound' => array(100, 75),
+                'inset' => array(56, 75),
             ),
             array(
-                'file'      => 'test-243x284.jpg',
+                'file' => 'test-243x284.jpg',
                 'mime_type' => 'image/jpeg',
-                'outbound'  => array(100, 75),
-                'inset'     => array(64, 75),
+                'outbound' => array(100, 75),
+                'inset' => array(64, 75),
             ),
             array(
-                'file'      => 'test-420x280.jpg',
+                'file' => 'test-420x280.jpg',
                 'mime_type' => 'image/jpeg',
-                'outbound'  => array(100, 75),
-                'inset'     => array(100, 67),
+                'outbound' => array(100, 75),
+                'inset' => array(100, 67),
             ),
             array(
-                'file'      => 'test-420x315.jpg',
+                'file' => 'test-420x315.jpg',
                 'mime_type' => 'image/jpeg',
-                'outbound'  => array(100, 75),
-                'inset'     => array(100, 75),
+                'outbound' => array(100, 75),
+                'inset' => array(100, 75),
             ),
         );
 
         foreach ($images as $image) {
-            $key      = $image['file'];
-            $quality  = 75;
+            $key = $image['file'];
+            $quality = 75;
             $mimeType = $image['mime_type'];
             $outbound = $image['outbound'];
-            $inset    = $image['inset'];
+            $inset = $image['inset'];
 
-            $mediaManager  = new Manager();
+            $mediaManager = new Manager();
             $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
             $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-            $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
+            $sut = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
             /**
              * RESIZE TO 100 x 75 OUTBOUND
@@ -94,11 +94,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
             $target = $sut->resize(
                 $targetKey,
+                $targetAdapter,
                 100,
                 75,
                 \Derby\Media\LocalFile\Image::THUMBNAIL_OUTBOUND,
-                $quality,
-                $targetAdapter
+                $quality
             );
             $this->assertFileExists($target->getPath());
             $imageDimensions = getimagesize($target->getPath());
@@ -118,11 +118,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
             $target = $sut->resize(
                 $targetKey,
+                $targetAdapter,
                 100,
                 75,
                 \Derby\Media\LocalFile\Image::THUMBNAIL_INSET,
-                $quality,
-                $targetAdapter
+                $quality
             );
             $this->assertFileExists($target->getPath());
             $imageDimensions = getimagesize($target->getPath());
@@ -140,19 +140,19 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $imagine = new \Imagine\Imagick\Imagine;
 
-        $key       = 'test-236x315.jpg';
+        $key = 'test-236x315.jpg';
         $targetKey = 'imagick-crop-' . $key;
 
-        $mediaManager  = new Manager();
+        $mediaManager = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
+        $sut = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
         }
 
-        $sut->crop($targetKey, new Point(150, 150), new Box(45, 45), $targetAdapter);
+        $sut->crop($targetKey, $targetAdapter, new Point(150, 150), new Box(45, 45));
     }
 
     public function testImagickRotate()
@@ -163,13 +163,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $imagine = new \Imagine\Imagick\Imagine;
 
-        $key       = 'test-236x315.jpg';
+        $key = 'test-236x315.jpg';
         $targetKey = 'imagick-rotate-' . $key;
 
-        $mediaManager  = new Manager();
+        $mediaManager = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
+        $sut = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -186,13 +186,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $imagine = new \Imagine\Imagick\Imagine;
 
-        $key       = 'test-236x315.jpg';
+        $key = 'test-236x315.jpg';
         $targetKey = 'imagick-greyscale-' . $key;
 
-        $mediaManager  = new Manager();
+        $mediaManager = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
+        $sut = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -209,13 +209,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $imagine = new \Imagine\Imagick\Imagine;
 
-        $key       = 'test-236x315.jpg';
+        $key = 'test-236x315.jpg';
         $targetKey = 'imagick-flip-horizontally-' . $key;
 
-        $mediaManager  = new Manager();
+        $mediaManager = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
+        $sut = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -232,13 +232,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $imagine = new \Imagine\Imagick\Imagine;
 
-        $key       = 'test-236x315.jpg';
+        $key = 'test-236x315.jpg';
         $targetKey = 'imagick-flip-vertically-' . $key;
 
-        $mediaManager  = new Manager();
+        $mediaManager = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
+        $sut = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -261,42 +261,42 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $images = array(
             array(
-                'file'      => 'test-236x315.jpg',
+                'file' => 'test-236x315.jpg',
                 'mime_type' => 'image/jpeg',
-                'outbound'  => array(100, 75),
-                'inset'     => array(56, 75),
+                'outbound' => array(100, 75),
+                'inset' => array(56, 75),
             ),
             array(
-                'file'      => 'test-243x284.jpg',
+                'file' => 'test-243x284.jpg',
                 'mime_type' => 'image/jpeg',
-                'outbound'  => array(100, 75),
-                'inset'     => array(64, 75),
+                'outbound' => array(100, 75),
+                'inset' => array(64, 75),
             ),
             array(
-                'file'      => 'test-420x280.jpg',
+                'file' => 'test-420x280.jpg',
                 'mime_type' => 'image/jpeg',
-                'outbound'  => array(100, 75),
-                'inset'     => array(100, 67),
+                'outbound' => array(100, 75),
+                'inset' => array(100, 67),
             ),
             array(
-                'file'      => 'test-420x315.jpg',
+                'file' => 'test-420x315.jpg',
                 'mime_type' => 'image/jpeg',
-                'outbound'  => array(100, 75),
-                'inset'     => array(100, 75),
+                'outbound' => array(100, 75),
+                'inset' => array(100, 75),
             ),
         );
 
         foreach ($images as $image) {
-            $key      = $image['file'];
-            $quality  = 75;
+            $key = $image['file'];
+            $quality = 75;
             $mimeType = $image['mime_type'];
             $outbound = $image['outbound'];
-            $inset    = $image['inset'];
+            $inset = $image['inset'];
 
-            $mediaManager  = new Manager();
+            $mediaManager = new Manager();
             $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
             $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-            $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
+            $sut = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
             /**
              * RESIZE TO 100 x 75 OUTBOUND
@@ -310,11 +310,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
             $target = $sut->resize(
                 $targetKey,
+                $targetAdapter,
                 100,
                 75,
                 \Derby\Media\LocalFile\Image::THUMBNAIL_OUTBOUND,
-                $quality,
-                $targetAdapter
+                $quality
             );
             $this->assertFileExists($target->getPath());
             $imageDimensions = getimagesize($target->getPath());
@@ -334,11 +334,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
             $target = $sut->resize(
                 $targetKey,
+                $targetAdapter,
                 100,
                 75,
                 \Derby\Media\LocalFile\Image::THUMBNAIL_INSET,
-                $quality,
-                $targetAdapter
+                $quality
             );
             $this->assertFileExists($target->getPath());
             $imageDimensions = getimagesize($target->getPath());
@@ -356,19 +356,19 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $imagine = new \Imagine\Gd\Imagine;
 
-        $key       = 'test-236x315.jpg';
+        $key = 'test-236x315.jpg';
         $targetKey = 'gd-crop-' . $key;
 
-        $mediaManager  = new Manager();
+        $mediaManager = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
+        $sut = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
         }
 
-        $sut->crop($targetKey, new Point(150, 150), new Box(45, 45), $targetAdapter);
+        $sut->crop($targetKey, $targetAdapter, new Point(150, 150), new Box(45, 45));
     }
 
     public function testGdRotate()
@@ -379,19 +379,19 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $imagine = new \Imagine\Gd\Imagine;
 
-        $key       = 'test-236x315.jpg';
+        $key = 'test-236x315.jpg';
         $targetKey = 'gd-rotate-' . $key;
 
-        $mediaManager  = new Manager();
+        $mediaManager = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
+        $sut = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
         }
 
-        $sut->rotate($targetKey, 90, $targetAdapter);
+        $sut->rotate($targetKey, $targetAdapter, 90);
     }
 
     public function testGdGreyscale()
@@ -402,13 +402,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $imagine = new \Imagine\Gd\Imagine;
 
-        $key       = 'test-236x315.jpg';
+        $key = 'test-236x315.jpg';
         $targetKey = 'gd-greyscale-' . $key;
 
-        $mediaManager  = new Manager();
+        $mediaManager = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
+        $sut = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -425,13 +425,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $imagine = new \Imagine\Gd\Imagine;
 
-        $key       = 'test-236x315.jpg';
+        $key = 'test-236x315.jpg';
         $targetKey = 'gd-flip-horizontally-' . $key;
 
-        $mediaManager  = new Manager();
+        $mediaManager = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
+        $sut = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -448,13 +448,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $imagine = new \Imagine\Gd\Imagine;
 
-        $key       = 'test-236x315.jpg';
+        $key = 'test-236x315.jpg';
         $targetKey = 'gd-flip-vertically-' . $key;
 
-        $mediaManager  = new Manager();
+        $mediaManager = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
+        $sut = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -477,42 +477,42 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $images = array(
             array(
-                'file'      => 'test-236x315.jpg',
+                'file' => 'test-236x315.jpg',
                 'mime_type' => 'image/jpeg',
-                'outbound'  => array(100, 75),
-                'inset'     => array(56, 75),
+                'outbound' => array(100, 75),
+                'inset' => array(56, 75),
             ),
             array(
-                'file'      => 'test-243x284.jpg',
+                'file' => 'test-243x284.jpg',
                 'mime_type' => 'image/jpeg',
-                'outbound'  => array(100, 75),
-                'inset'     => array(64, 75),
+                'outbound' => array(100, 75),
+                'inset' => array(64, 75),
             ),
             array(
-                'file'      => 'test-420x280.jpg',
+                'file' => 'test-420x280.jpg',
                 'mime_type' => 'image/jpeg',
-                'outbound'  => array(100, 75),
-                'inset'     => array(100, 67),
+                'outbound' => array(100, 75),
+                'inset' => array(100, 67),
             ),
             array(
-                'file'      => 'test-420x315.jpg',
+                'file' => 'test-420x315.jpg',
                 'mime_type' => 'image/jpeg',
-                'outbound'  => array(100, 75),
-                'inset'     => array(100, 75),
+                'outbound' => array(100, 75),
+                'inset' => array(100, 75),
             ),
         );
 
         foreach ($images as $image) {
-            $key      = $image['file'];
-            $quality  = 75;
+            $key = $image['file'];
+            $quality = 75;
             $mimeType = $image['mime_type'];
             $outbound = $image['outbound'];
-            $inset    = $image['inset'];
+            $inset = $image['inset'];
 
-            $mediaManager  = new Manager();
+            $mediaManager = new Manager();
             $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
             $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-            $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
+            $sut = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
             /**
              * RESIZE TO 100 x 75 OUTBOUND
@@ -526,11 +526,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
             $target = $sut->resize(
                 $targetKey,
+                $targetAdapter,
                 100,
                 75,
                 \Derby\Media\LocalFile\Image::THUMBNAIL_OUTBOUND,
-                $quality,
-                $targetAdapter
+                $quality
             );
             $this->assertFileExists($target->getPath());
             $imageDimensions = getimagesize($target->getPath());
@@ -550,11 +550,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
             $target = $sut->resize(
                 $targetKey,
+                $targetAdapter,
                 100,
                 75,
                 \Derby\Media\LocalFile\Image::THUMBNAIL_INSET,
-                $quality,
-                $targetAdapter
+                $quality
             );
             $this->assertFileExists($target->getPath());
             $imageDimensions = getimagesize($target->getPath());
@@ -572,19 +572,19 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $imagine = new \Imagine\Gd\Imagine;
 
-        $key       = 'test-236x315.jpg';
+        $key = 'test-236x315.jpg';
         $targetKey = 'gmagick-crop-' . $key;
 
-        $mediaManager  = new Manager();
+        $mediaManager = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
+        $sut = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
         }
 
-        $sut->crop($targetKey, new Point(150, 150), new Box(45, 45), $targetAdapter);
+        $sut->crop($targetKey, $targetAdapter, new Point(150, 150), new Box(45, 45));
     }
 
     public function testGmagickRotate()
@@ -595,19 +595,19 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $imagine = new \Imagine\Gmagick\Imagine;
 
-        $key       = 'test-236x315.jpg';
+        $key = 'test-236x315.jpg';
         $targetKey = 'gmagick-rotate-' . $key;
 
-        $mediaManager  = new Manager();
+        $mediaManager = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
+        $sut = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
         }
 
-        $sut->rotate($targetKey, 90, $targetAdapter);
+        $sut->rotate($targetKey, $targetAdapter, 90);
     }
 
     public function testGmagickGreyscale()
@@ -618,13 +618,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $imagine = new \Imagine\Gmagick\Imagine;
 
-        $key       = 'test-236x315.jpg';
+        $key = 'test-236x315.jpg';
         $targetKey = 'gmagick-greyscale-' . $key;
 
-        $mediaManager  = new Manager();
+        $mediaManager = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
+        $sut = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -641,13 +641,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $imagine = new \Imagine\Gmagick\Imagine;
 
-        $key       = 'test-236x315.jpg';
+        $key = 'test-236x315.jpg';
         $targetKey = 'gmagick-flip-horizontally-' . $key;
 
-        $mediaManager  = new Manager();
+        $mediaManager = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
+        $sut = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);
@@ -664,13 +664,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $imagine = new \Imagine\Gmagick\Imagine;
 
-        $key       = 'test-236x315.jpg';
+        $key = 'test-236x315.jpg';
         $targetKey = 'gmagick-flip-vertically-' . $key;
 
-        $mediaManager  = new Manager();
+        $mediaManager = new Manager();
         $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
         $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-        $sut           = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
+        $sut = new \Derby\Media\LocalFile\Image($key, $sourceAdapter, $imagine);
 
         if ($mediaManager->exists($targetKey, $targetAdapter)) {
             $targetAdapter->delete($targetKey);

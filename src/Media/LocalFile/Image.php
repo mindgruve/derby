@@ -2,6 +2,7 @@
 
 namespace Derby\Media\LocalFile;
 
+use Derby\Adapter\LocalFileAdapter;
 use Derby\Adapter\LocalFileAdapterInterface;
 use Derby\Exception\NoResizeDimensionsException;
 use Derby\Media\LocalFile;
@@ -41,7 +42,7 @@ class Image extends LocalFile
 
     /**
      * @param $key
-     * @param $adapter
+     * @param LocalFileAdapter $adapter
      * @param int $width
      * @param int $height
      * @param string $mode
@@ -50,7 +51,7 @@ class Image extends LocalFile
      * @throws InvalidImageException
      * @throws NoResizeDimensionsException
      */
-    public function resize($key, $width = 0, $height = 0, $mode = self::DEFAULT_MODE, $quality = self::DEFAULT_QUALITY, $adapter = null)
+    public function resize($key, LocalFileAdapter $adapter, $width = 0, $height = 0, $mode = self::DEFAULT_MODE, $quality = self::DEFAULT_QUALITY)
     {
 
         if(!$adapter){
@@ -104,12 +105,12 @@ class Image extends LocalFile
 
     /**
      * @param $key
-     * @param LocalFileAdapterInterface $adapter
+     * @param LocalFileAdapter $adapter
      * @param Point $point
      * @param Box $box
      * @return Image
      */
-    public function crop($key,  Point $point, Box $box, LocalFileAdapterInterface $adapter = null)
+    public function crop($key, LocalFileAdapter $adapter, Point $point, Box $box)
     {
         if(!$adapter){
             $adapter = $this->getAdapter();
@@ -124,11 +125,11 @@ class Image extends LocalFile
 
     /**
      * @param $key
-     * @param LocalFileAdapterInterface $adapter
+     * @param LocalFileAdapter $adapter
      * @param $degrees
      * @return Image
      */
-    public function rotate($key, $degrees, LocalFileAdapterInterface $adapter = null)
+    public function rotate($key, LocalFileAdapter $adapter, $degrees)
     {
 
         if(!$adapter){
@@ -145,7 +146,7 @@ class Image extends LocalFile
      * @param $key
      * @param LocalFileAdapterInterface $adapter
      */
-    public function greyscale($key, LocalFileAdapterInterface $adapter = null)
+    public function greyscale($key, LocalFileAdapterInterface $adapter)
     {
         if(!$adapter){
             $adapter = $this->getAdapter();
@@ -161,7 +162,7 @@ class Image extends LocalFile
      * @param $key
      * @param LocalFileAdapterInterface $adapter
      */
-    public function flipHorizontally($key, LocalFileAdapterInterface $adapter = null)
+    public function flipHorizontally($key, LocalFileAdapterInterface $adapter)
     {
         if(!$adapter){
             $adapter = $this->getAdapter();
@@ -175,7 +176,7 @@ class Image extends LocalFile
      * @param $key
      * @param LocalFileAdapterInterface $adapter
      */
-    public function flipVertically($key,LocalFileAdapterInterface $adapter = null)
+    public function flipVertically($key,LocalFileAdapterInterface $adapter)
     {
         if(!$adapter){
             $adapter = $this->getAdapter();
