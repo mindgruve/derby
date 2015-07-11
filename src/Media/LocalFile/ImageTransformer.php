@@ -23,6 +23,13 @@ class ImageTransformer
         $this->filters = array();
     }
 
+    public function addFilters(array $filters = array())
+    {
+        foreach ($filters as $filterKey => $filter) {
+            $this->addFilter($filterKey, $filter);
+        }
+    }
+
     public function addFilter($filterKey, array $filter = array())
     {
         $this->filters[$filterKey] = $filter;
