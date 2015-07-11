@@ -54,7 +54,7 @@ class Image extends LocalFile
     public function resize($key, LocalFileAdapter $adapter, $width = 0, $height = 0, $mode = self::DEFAULT_MODE, $quality = self::DEFAULT_QUALITY)
     {
 
-        if(!$adapter){
+        if (!$adapter) {
             $adapter = $this->getAdapter();
         }
 
@@ -112,7 +112,7 @@ class Image extends LocalFile
      */
     public function crop($key, LocalFileAdapter $adapter, Point $point, Box $box)
     {
-        if(!$adapter){
+        if (!$adapter) {
             $adapter = $this->getAdapter();
         }
 
@@ -132,7 +132,7 @@ class Image extends LocalFile
     public function rotate($key, LocalFileAdapter $adapter, $degrees)
     {
 
-        if(!$adapter){
+        if (!$adapter) {
             $adapter = $this->getAdapter();
         }
 
@@ -148,12 +148,12 @@ class Image extends LocalFile
      */
     public function greyscale($key, LocalFileAdapterInterface $adapter)
     {
-        if(!$adapter){
+        if (!$adapter) {
             $adapter = $this->getAdapter();
         }
 
         $target = new Image($key, $adapter, $this->imagine);
-        $image  = $this->imagine->open($this->getPath());
+        $image = $this->imagine->open($this->getPath());
         $image->effects()->grayscale();
         $image->save($target->getPath());
     }
@@ -164,7 +164,7 @@ class Image extends LocalFile
      */
     public function flipHorizontally($key, LocalFileAdapterInterface $adapter)
     {
-        if(!$adapter){
+        if (!$adapter) {
             $adapter = $this->getAdapter();
         }
 
@@ -176,9 +176,9 @@ class Image extends LocalFile
      * @param $key
      * @param LocalFileAdapterInterface $adapter
      */
-    public function flipVertically($key,LocalFileAdapterInterface $adapter)
+    public function flipVertically($key, LocalFileAdapterInterface $adapter)
     {
-        if(!$adapter){
+        if (!$adapter) {
             $adapter = $this->getAdapter();
         }
 
@@ -207,7 +207,35 @@ class Image extends LocalFile
     /**
      * @return ImagineInterface
      */
-    public function getImagine(){
+    public function getImagine()
+    {
         return $this->imagine;
+    }
+
+    public function streamToBrowser()
+    {
+        switch ($this->getFileExtension()) {
+            case 'png':
+                $im = imagecreatefrompng($this->getPath());
+                header('Content-Type: image/png');
+                imagepng($im);
+                imagedestroy($im);
+                exit;
+                break;
+            case 'jpeg':
+            case 'jpg':
+                $im = imagecreatefromjpeg($this->getPath());
+                header('Content-Type: image/jpeg');
+                imagejpeg($im);
+                imagedestroy($im);
+                exit;
+                break;
+            case 'gif':
+                $im = imagecreatefromgif($this->getPath());
+                header('Content-Type: image/jpeg');
+                imagegif($im);
+                imagedestroy($im);
+                break;
+        }
     }
 }
