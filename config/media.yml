@@ -1,5 +1,12 @@
 parameters:
     media.tmp_path: /tmp/derby
+    media.filters:
+        square-outbound:    { resize: { height: 200, width: 200, quality: 80, mode: outbound } }
+        square-inset:       { resize: { height: 200, width: 200, quality: 80, mode: inset } }
+        greyscale:          { greyscale: true }
+        flip-vertically:    { flipVertically: true }
+        flip-horizontally:  { flipVertically: true }
+        rotate-90:          { rotate: { degrees: 90 } }
 
 services:
     # Media Manager
