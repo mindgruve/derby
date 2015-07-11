@@ -18,11 +18,17 @@ class ImageTransformer
     protected $adapter;
 
 
+    /**
+     * @param array $filters
+     */
     public function __construct(array $filters = array())
     {
         $this->filters = $filters;
     }
 
+    /**
+     * @param array $filters
+     */
     public function addFilters(array $filters = array())
     {
         foreach ($filters as $filterKey => $filter) {
@@ -30,15 +36,34 @@ class ImageTransformer
         }
     }
 
+    /**
+     * @param $filterKey
+     * @param array $filter
+     */
     public function addFilter($filterKey, array $filter = array())
     {
         $this->filters[$filterKey] = $filter;
     }
 
+    /**
+     * @param $filterKey
+     * @return bool
+     */
+    public function hasFilter($filterKey)
+    {
+        if (isset($this->filters[$filterKey])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $filterKey
+     */
     public function removeFilter($filterKey)
     {
-
-        if (isset($this->filters[$filterKey])) {
+        if ($this->hasFilter($filterKey)) {
             unset($this->filters[$filterKey]);
         }
     }
