@@ -18,9 +18,9 @@ class ImageTransformer
     protected $adapter;
 
 
-    public function __construct()
+    public function __construct(array $filters = array())
     {
-        $this->filters = array();
+        $this->filters = $filters;
     }
 
     public function addFilters(array $filters = array())
@@ -33,6 +33,14 @@ class ImageTransformer
     public function addFilter($filterKey, array $filter = array())
     {
         $this->filters[$filterKey] = $filter;
+    }
+
+    public function removeFilter($filterKey)
+    {
+
+        if (isset($this->filters[$filterKey])) {
+            unset($this->filters[$filterKey]);
+        }
     }
 
     /**
