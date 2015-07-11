@@ -8,7 +8,7 @@ use Derby\MediaInterface;
 use SplObjectStorage;
 use Iterator;
 
-class Group extends Media implements GroupInterface
+class Collection extends Media implements CollectionInterface
 {
 
     /**
