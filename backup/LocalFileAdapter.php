@@ -6,7 +6,7 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Adapter;
+namespace Derby\Adapter\Backup;
 
 use Derby\Config;
 use Derby\Media\LocalFile;

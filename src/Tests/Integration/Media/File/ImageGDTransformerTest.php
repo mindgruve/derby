@@ -1,10 +1,12 @@
 <?php
 
-namespace Derby\Tests\Integration\Media\Local;
+namespace Derby\Tests\Integration\Media\File;
 
+use Derby\Adapter\FileAdapter;
 use Derby\Adapter\LocalFileAdapter;
-use Derby\Media\LocalFile\Image;
-use Derby\Media\LocalFile\ImageTransformer;
+use Derby\Media\File\Image;
+use Derby\Media\File\ImageTransformer;
+use Gaufrette\Adapter\Local;
 
 class ImageGDTransformerTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,8 +28,8 @@ class ImageGDTransformerTest extends \PHPUnit_Framework_TestCase
         $imagine = new \Imagine\Gd\Imagine;
         $sourceKey = 'test-236x315.jpg';
         $targetKey = 'transform' . $index . '.jpg';
-        $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
-        $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
+        $sourceAdapter = new FileAdapter(new Local(__DIR__ . '/../../Data/'));
+        $targetAdapter = new FileAdapter(new Local(__DIR__ . '/../../Temp/'));
         $this->originalFile = new Image($sourceKey, $sourceAdapter, $imagine);
         $this->newFile = new Image('transform' . $index . '.jpg', $targetAdapter, $imagine);
         if($targetAdapter->exists($targetKey)){

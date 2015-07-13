@@ -50,4 +50,9 @@ interface MediaInterface
      * @return string
      */
     public function getKey();
+
+    /**
+     * @return boolean
+     */
+    public function exists();
 }

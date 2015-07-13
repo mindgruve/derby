@@ -1,6 +1,6 @@
 <?php
 
-namespace Derby\Media\LocalFile;
+namespace Derby\Media\File;
 
 use Derby\Adapter\LocalFileAdapterInterface;
 use Imagine\Image\Box;

@@ -6,10 +6,9 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media\LocalFile;
+namespace Derby\Media\file;
 
-use Derby\Adapter\LocalFileAdapterInterface;
-use Derby\Media\LocalFile\Spreadsheet;
+use Derby\Adapter\FileAdapterInterface;
 
 /**
  * Derby\Media\LocalFileFactory\SpreadsheetFactory
@@ -17,23 +16,21 @@ use Derby\Media\LocalFile\Spreadsheet;
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-class SpreadsheetFactory extends AbstractFileFactory
+class SpreadsheetFactory extends FileFactory
 {
     /**
      * {@inheritDoc}
      */
-    public function build($key, LocalFileAdapterInterface $adapter)
+    public function build($key, FileAdapterInterface $adapter)
     {
         return new Spreadsheet($key, $adapter);
     }
 
     /**
      * @param array $extensions
-     * @param array $mimetypes
      */
-    public function __construct(array $extensions, array $mimetypes)
+    public function __construct(array $extensions)
     {
         $this->setExtensions($extensions);
-        $this->setMimeTypes($mimetypes);
     }
 }

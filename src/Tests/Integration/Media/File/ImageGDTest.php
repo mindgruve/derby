@@ -9,9 +9,9 @@
 
 namespace Derby\Tests\Integration\Media\Local;
 
-use Derby\Adapter\LocalFileAdapter;
-use Derby\Media\LocalFile\Image;
-use Imagine\Image\Box;
+use Derby\Adapter\FileAdapter;
+use Derby\Media\File\Image;
+use Gaufrette\Adapter\Local;
 use Imagine\Image\Point;
 
 /**
@@ -24,17 +24,17 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var \Derby\Media\LocalFile\Image
+     * @var \Derby\Media\File\Image
      */
     protected $sourceFile;
 
     /**
-     * @var \Derby\Media\LocalFile\Image
+     * @var \Derby\Media\File\Image
      */
     protected $targetFile;
 
     /**
-     * @var \Derby\Media\LocalFile\Image
+     * @var \Derby\Media\File\Image
      */
     protected $secondaryTargetFile;
 
@@ -46,11 +46,11 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
     public function setUpImages($sourceKey, $targetKey, $secondaryTargetKey = null)
     {
         $imagine = new \Imagine\Gd\Imagine();
-        $sourceAdapter = new LocalFileAdapter(__DIR__ . '/../../Data/');
-        $targetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
+        $sourceAdapter = new FileAdapter(new Local(__DIR__ . '/../../Data/'));
+        $targetAdapter = new FileAdapter(new Local(__DIR__ . '/../../Temp/'));
 
-        $this->sourceFile = new \Derby\Media\LocalFile\Image($sourceKey, $sourceAdapter, $imagine);
-        $this->targetFile = new \Derby\Media\LocalFile\Image($targetKey, $targetAdapter, $imagine);
+        $this->sourceFile = new \Derby\Media\File\Image($sourceKey, $sourceAdapter, $imagine);
+        $this->targetFile = new \Derby\Media\File\Image($targetKey, $targetAdapter, $imagine);
 
 
         if ($targetAdapter->exists($targetKey)) {
@@ -58,8 +58,8 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
         }
 
         if ($secondaryTargetKey) {
-            $secondaryTargetAdapter = new LocalFileAdapter(__DIR__ . '/../../Temp/');
-            $this->secondaryTargetFile = new \Derby\Media\LocalFile\Image($secondaryTargetKey, $secondaryTargetAdapter, $imagine);
+            $secondaryTargetAdapter = new FileAdapter(new Local(__DIR__ . '/../../Temp/'));
+            $this->secondaryTargetFile = new \Derby\Media\File\Image($secondaryTargetKey, $secondaryTargetAdapter, $imagine);
             if ($secondaryTargetAdapter->exists($secondaryTargetKey)) {
                 $secondaryTargetAdapter->delete($secondaryTargetKey);
             }
@@ -87,11 +87,11 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
         $this->setUpImages('test-236x315.jpg', 'testImageSave.jpg');
         $this->targetFile->write($this->sourceFile->read());
 
-        $this->assertEquals(md5_file($this->sourceFile->getPath()), md5_file($this->targetFile->getPath()));
+        $this->assertEquals(md5($this->sourceFile->read()), md5($this->targetFile->read()));
 
         $this->targetFile->greyscale()->save();
 
-        $this->assertNotEquals(md5_file($this->sourceFile->getPath()), md5_file($this->targetFile->getPath()));
+        $this->assertNotEquals(md5($this->sourceFile->read()), md5($this->targetFile->read()));
     }
 
     public function testSaveAs()
@@ -102,15 +102,15 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
         $this->setUpImages('test-236x315.jpg', 'testSaveAs.jpg', 'testSaveAs2.jpg');
         $this->targetFile->write($this->sourceFile->read());
 
-        $this->assertEquals(md5_file($this->sourceFile->getPath()), md5_file($this->targetFile->getPath()));
+        $this->assertEquals(md5($this->sourceFile->read()), md5($this->targetFile->read()));
 
         $this->targetFile->greyscale();
 
-        $this->assertEquals(md5_file($this->sourceFile->getPath()), md5_file($this->targetFile->getPath()));
+        $this->assertEquals(md5($this->sourceFile->read()), md5($this->targetFile->read()));
 
         $this->targetFile->save($this->secondaryTargetFile);
 
-        $this->assertNotEquals(md5_file($this->targetFile->getPath()), md5_file($this->secondaryTargetFile->getPath()));
+        $this->assertNotEquals(md5($this->targetFile->read()), md5($this->secondaryTargetFile->read()));
     }
 
     public function testNoChangesUntilSave()
@@ -121,7 +121,7 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
         $this->setUpImages('test-236x315.jpg', 'testNoChangesUntilSave.jpg');
         $this->targetFile->write($this->sourceFile->read());
 
-        $this->assertEquals(md5_file($this->sourceFile->getPath()), md5_file($this->targetFile->getPath()));
+        $this->assertEquals(md5($this->sourceFile->read()), md5($this->targetFile->read()));
 
         $this->targetFile
             ->greyscale()
@@ -131,12 +131,12 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
             ->flipHorizontally()
             ->flipVertically();
 
-        $this->assertEquals(md5_file($this->sourceFile->getPath()), md5_file($this->targetFile->getPath()));
+        $this->assertEquals(md5($this->sourceFile->read()), md5($this->targetFile->read()));
 
         /** Save causes all the changes to be written to disk */
         $this->targetFile->save();
 
-        $this->assertNotEquals(md5_file($this->sourceFile->getPath()), md5_file($this->targetFile->getPath()));
+        $this->assertNotEquals(md5($this->sourceFile->read()), md5($this->targetFile->read()));
     }
 
 
@@ -154,25 +154,21 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
         $images = array(
             array(
                 'file' => 'test-236x315.jpg',
-                'mime_type' => 'image/jpeg',
                 'outbound' => array(100, 75),
                 'inset' => array(56, 75),
             ),
             array(
                 'file' => 'test-243x284.jpg',
-                'mime_type' => 'image/jpeg',
                 'outbound' => array(100, 75),
                 'inset' => array(64, 75),
             ),
             array(
                 'file' => 'test-420x280.jpg',
-                'mime_type' => 'image/jpeg',
                 'outbound' => array(100, 75),
                 'inset' => array(100, 67),
             ),
             array(
                 'file' => 'test-420x315.jpg',
-                'mime_type' => 'image/jpeg',
                 'outbound' => array(100, 75),
                 'inset' => array(100, 75),
             ),
@@ -181,7 +177,6 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
         foreach ($images as $image) {
             $sourceKey = $image['file'];
             $targetKey = 'gd-resize-outbound-' . $sourceKey;
-            $mimeType = $image['mime_type'];
             $outbound = $image['outbound'];
             $inset = $image['inset'];
 
@@ -197,11 +192,12 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
                 Image::THUMBNAIL_OUTBOUND
             )->save($this->targetFile);
 
-            $this->assertFileExists($this->targetFile->getPath());
-            $imageDimensions = getimagesize($this->targetFile->getPath());
+            $this->assertNotNull($this->targetFile->read());
+            $tmpFile = $this->targetFile->createTempFile();
+
+            $imageDimensions = getimagesize($tmpFile->getPath());
             $this->assertEquals($outbound[0], $imageDimensions[0]);
             $this->assertEquals($outbound[1], $imageDimensions[1]);
-            $this->assertEquals($mimeType, $imageDimensions['mime']);
 
             /**
              * RESIZE TO 100 x 75 INSET
@@ -215,11 +211,14 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
                 75,
                 Image::THUMBNAIL_INSET
             )->save($this->targetFile);
-            $this->assertFileExists($target->getPath());
-            $imageDimensions = getimagesize($target->getPath());
+
+            $this->assertNotNull($this->targetFile->read());
+            $tmpFile = $this->targetFile->createTempFile();
+
+            $this->assertFileExists($tmpFile->getPath());
+            $imageDimensions = getimagesize($tmpFile->getPath());
             $this->assertEquals($inset[0], $imageDimensions[0]);
             $this->assertEquals($inset[1], $imageDimensions[1]);
-            $this->assertEquals($mimeType, $imageDimensions['mime']);
         }
     }
 

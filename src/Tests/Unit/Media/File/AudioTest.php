@@ -2,15 +2,15 @@
 
 namespace Derby\Tests\Unit\File;
 
-use Derby\Media\LocalFile;
-use Derby\Media\LocalFile\Audio;
+use Derby\Media\File;
+use Derby\Media\file\Audio;
 use PHPUnit_Framework_TestCase;
 use Mockery;
 
 class AudioTest extends PHPUnit_Framework_TestCase
 {
 
-    protected static $fileAdapterInterface = 'Derby\Adapter\LocalFileAdapterInterface';
+    protected static $fileAdapterInterface = 'Derby\Adapter\FileAdapterInterface';
 
     public function testInterface()
     {
@@ -19,7 +19,7 @@ class AudioTest extends PHPUnit_Framework_TestCase
 
         $sut = new Audio($key, $adapter);
 
-        $this->assertTrue($sut instanceof LocalFile);
+        $this->assertTrue($sut instanceof File);
     }
 
     public function testType()

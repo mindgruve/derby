@@ -2,14 +2,14 @@
 
 namespace Derby\Tests\Unit\File;
 
-use Derby\Media\LocalFile;
-use Derby\Media\LocalFile\Presentation;
+use Derby\Media\File;
+use Derby\Media\File\Presentation;
 use PHPUnit_Framework_TestCase;
 use Mockery;
 
 class PresentationTest extends PHPUnit_Framework_TestCase
 {
-    protected static $fileAdapterInterface = 'Derby\Adapter\LocalFileAdapterInterface';
+    protected static $fileAdapterInterface = 'Derby\Adapter\FileAdapterInterface';
 
     public function testInterface()
     {
@@ -18,7 +18,7 @@ class PresentationTest extends PHPUnit_Framework_TestCase
 
         $sut = new Presentation($key, $adapter);
 
-        $this->assertTrue($sut instanceof LocalFile);
+        $this->assertTrue($sut instanceof File);
     }
 
     public function testType()

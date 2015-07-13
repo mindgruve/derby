@@ -7,9 +7,9 @@
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
 
-namespace Derby\Media\LocalFile;
+namespace Derby\Media\File;
 
-use Derby\Media\LocalFile;
+use Derby\Media\File;
 
 /**
  * Derby\Media\LocalFile\Html
@@ -17,9 +17,9 @@ use Derby\Media\LocalFile;
  * @author Kevin Simpson <ksimpson@mindgruve.com>
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
-class Html extends LocalFile
+class Html extends File
 {
-    const TYPE_MEDIA_FILE_HTML = 'MEDIA/LOCAL_FILE/HTML';
+    const TYPE_MEDIA_FILE_HTML = 'MEDIA/FILE/HTML';
 
     public function getMediaType()
     {

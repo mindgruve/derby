@@ -6,10 +6,9 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media\LocalFile;
+namespace Derby\Media\File;
 
-use Derby\Adapter\LocalFileAdapterInterface;
-use Derby\Media\LocalFile\Pdf;
+use Derby\Adapter\FileAdapterInterface;
 
 /**
  * Derby\Media\LocalFileFactory\PdfFactory
@@ -17,23 +16,21 @@ use Derby\Media\LocalFile\Pdf;
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-class PdfFactory extends AbstractFileFactory
+class PdfFactory extends FileFactory
 {
     /**
      * {@inheritDoc}
      */
-    public function build($key, LocalFileAdapterInterface $adapter)
+    public function build($key, FileAdapterInterface $adapter)
     {
         return new Pdf($key, $adapter);
     }
 
     /**
      * @param array $extensions
-     * @param array $mimetypes
      */
-    public function __construct(array $extensions, array $mimetypes)
+    public function __construct(array $extensions)
     {
         $this->setExtensions($extensions);
-        $this->setMimeTypes($mimetypes);
     }
 }

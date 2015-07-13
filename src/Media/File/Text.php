@@ -6,9 +6,9 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media\LocalFile;
+namespace Derby\Media\File;
 
-use Derby\Media\LocalFile;
+use Derby\Media\File;
 
 /**
  * Derby\Media\LocalFile\Text
@@ -16,9 +16,9 @@ use Derby\Media\LocalFile;
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-class Text extends LocalFile
+class Text extends File
 {
-    const TYPE_MEDIA_FILE_TEXT = 'MEDIA/LOCAL_FILE/TEXT';
+    const TYPE_MEDIA_FILE_TEXT = 'MEDIA/FILE/TEXT';
 
     public function getMediaType()
     {

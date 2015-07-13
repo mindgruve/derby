@@ -84,4 +84,9 @@ class Media implements MediaInterface
     {
         $this->key = $key;
     }
+
+    public function exists()
+    {
+        return $this->adapter->exists($this->key);
+    }
 }

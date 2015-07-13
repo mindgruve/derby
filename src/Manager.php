@@ -8,15 +8,14 @@
 
 namespace Derby;
 
-use Derby\Adapter\GaufretteAdapterInterface;
-use Derby\Adapter\LocalFileAdapterInterface;
-use Derby\Adapter\RemoteFileAdapterInterface;
+use Derby\Adapter\FileAdapterInterface;
 use Derby\Exception\UnknownTransferAdapterException;
+use Derby\Media\File;
+use Derby\Media\FileInterface;
 use Derby\Media\LocalFile;
 use Derby\Media\LocalFileInterface;
-use Derby\Media\RemoteFile;
 use Derby\Media\SearchInterface;
-use Derby\Media\LocalFile\FactoryInterface;
+use Derby\Media\File\FactoryInterface;
 use Mockery\CountValidator\Exception;
 
 /**
@@ -93,13 +92,13 @@ class Manager implements ManagerInterface
 
     /**
      * @param $key
-     * @param LocalFileAdapterInterface $adapter
+     * @param FileAdapterInterface $adapter
      * @param null $data
      * @return LocalFileInterface|mixed
      */
-    public function buildFile($key, LocalFileAdapterInterface $adapter, $data = null)
+    public function buildFile($key, FileAdapterInterface $adapter, $data = null)
     {
-        $local = new LocalFile($key, $adapter);
+        $local = new File($key, $adapter);
 
         if ($data) {
             $local->write($data);
@@ -121,7 +120,7 @@ class Manager implements ManagerInterface
             return null;
         }
 
-        if ($media instanceof LocalFile) {
+        if ($media instanceof File) {
             $media = $this->convertFile($media);
         }
 
@@ -129,14 +128,14 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * @param LocalFileInterface $file
-     * @return LocalFileInterface|mixed
+     * @param FileInterface $file
+     * @return FileInterface
      */
-    public function convertFile(LocalFileInterface $file)
+    public function convertFile(FileInterface $file)
     {
         foreach ($this->fileFactories as $priorityGroup) {
             foreach ($priorityGroup as $fileFactory) {
-                /** @var \Derby\Media\AbstractLocalFileFactory $fileFactory */
+                /** @var \Derby\Media\File\FileFactory $fileFactory */
                 if ($fileFactory->supports($file)) {
                     return $fileFactory->build($file->getKey(), $file->getAdapter());
                 }
@@ -146,34 +145,17 @@ class Manager implements ManagerInterface
         return $file;
     }
 
-    /**
-     * Transfer the file to another adapter
-     *
-     * Note that you will receive a different file object depending on whether you're sending to a
-     * local or remote file adapter. This will not be the same file object you passed in. You will
-     * have 2 independent objects.
-     *
-     * @param MediaInterface $file The file
-     * @param GaufretteAdapterInterface $adapter A gaufrette adapter
-     * @param string $key File key (name) used in place of the file being transferred. Useful for overriding the default
-     * @return LocalFileInterface|RemoteFileInterface The file object returned depends on the type of gaufrette adapter you're transferring to.
-     * @throws UnknownTransferAdapterException When adapter is not a local or remote adapter
-     */
-    public function transfer(MediaInterface $file, GaufretteAdapterInterface $adapter, $key = null)
+    public function transfer(MediaInterface $media, AdapterInterface $adapter, $newKey = null)
     {
-        if ($adapter instanceof LocalFileAdapterInterface) {
-            $local = new LocalFile($key ?: $file->getKey(), $adapter);
-            $local->write($file->read());
-            $local = $this->convertFile($local);
+        if (!$newKey) {
+            $newKey = $media->getKey();
+        }
 
-            return $local;
-        } elseif ($adapter instanceof RemoteFileAdapterInterface) {
-            $remote = new RemoteFile($key ?: $file->getKey(), $adapter);
-            $remote->write($file->read());
-
-            return $remote;
+        if ($media instanceof FileInterface && $adapter instanceof FileAdapterInterface) {
+            $adapter->write($newKey, $media->read());
+            return $this->convertFile(new File($newKey, $adapter));
         } else {
-            throw new UnknownTransferAdapterException('Adapter must be a local or remote file adapter to transfer to.');
+            throw new UnknownTransferAdapterException('Adapter must be file adapter to transfer to.');
         }
     }
 

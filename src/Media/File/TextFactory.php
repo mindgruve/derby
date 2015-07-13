@@ -6,10 +6,10 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media\LocalFile;
+namespace Derby\Media\File;
 
-use Derby\Adapter\LocalFileAdapterInterface;
-use Derby\Media\LocalFile\Text;
+use Derby\Adapter\FileAdapterInterface;
+use Derby\Media\File\Text;
 
 /**
  * Derby\Media\LocalFile\Factory\TextFactory
@@ -17,23 +17,21 @@ use Derby\Media\LocalFile\Text;
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-class TextFactory extends AbstractFileFactory
+class TextFactory extends FileFactory
 {
     /**
      * {@inheritDoc}
      */
-    public function build($key, LocalFileAdapterInterface $adapter)
+    public function build($key, FileAdapterInterface $adapter)
     {
         return new Text($key, $adapter);
     }
 
     /**
      * @param array $extensions
-     * @param array $mimetypes
      */
-    public function __construct(array $extensions, array $mimetypes)
+    public function __construct(array $extensions)
     {
         $this->setExtensions($extensions);
-        $this->setMimeTypes($mimetypes);
     }
 }

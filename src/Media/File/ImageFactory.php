@@ -6,11 +6,11 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media\LocalFile;
+namespace Derby\Media\File;
 
+use Derby\Adapter\FileAdapterInterface;
 use Derby\Adapter\LocalFileAdapterInterface;
-use Derby\Media\LocalFile\Image;
-use Imagine\Gd\Imagine;
+use Derby\Media\File\Image;
 use Imagine\Image\AbstractImagine;
 
 /**
@@ -19,7 +19,7 @@ use Imagine\Image\AbstractImagine;
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-class ImageFactory extends AbstractFileFactory
+class ImageFactory extends FileFactory
 {
 
     protected $imagine;
@@ -27,19 +27,18 @@ class ImageFactory extends AbstractFileFactory
     /**
      * {@inheritDoc}
      */
-    public function build($key, LocalFileAdapterInterface $adapter)
+    public function build($key, FileAdapterInterface $adapter)
     {
         return new Image($key, $adapter, $this->imagine);
     }
 
     /**
      * @param array $extensions
-     * @param array $mimetypes
+     * @param AbstractImagine $imagine
      */
-    public function __construct(array $extensions, array $mimetypes, AbstractImagine $imagine)
+    public function __construct(array $extensions,  AbstractImagine $imagine)
     {
         $this->imagine = $imagine;
         $this->setExtensions($extensions);
-        $this->setMimeTypes($mimetypes);
     }
 }

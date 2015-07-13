@@ -21,82 +21,77 @@ services:
     imagine.Gmagick:
         class: Imagine\Gmagick\Imagine
 
+    # Gaufrette Adapters
+    gaufrette.adapter.local:
+        class: Gaufrette\Adapter\Local
+        arguments: [ %media.tmp_path%, false, '0777' ]
+
     # Media Adapters
     media.adapter.local_file:
-        class: Derby\Adapter\LocalFileAdapter
-        arguments: [ %media.tmp_path%, false, '0777' ]
+        class: Derby\Adapter\FileAdapter
+        arguments: [ @gaufrette.adapter.local ]
         tags:
             - { name: media.adapter, key: temp }
 
     # Media Factories
     media.factory.audio:
-        class: Derby\Media\LocalFile\AudioFactory
+        class: Derby\Media\File\AudioFactory
         arguments:
             - [ 'mp3', 'wav', 'wma' ]
-            - [ 'audio/mpeg',  'audio/vnd.wave', 'audio/wav', 'audio/wave',  'audio/x-wav' ]
         tags:
             - { name: media.factory, priority: 10 }
     media.factory.document:
-        class: Derby\Media\LocalFile\DocumentFactory
+        class: Derby\Media\File\DocumentFactory
         arguments:
             - [ 'doc', 'rtf' ]
-            - [ 'application/msword', 'text/rtf', 'application/rtf' ]
         tags:
             - { name: media.factory, priority: 10 }
     media.factory.html:
-        class: Derby\Media\LocalFile\HtmlFactory
+        class: Derby\Media\File\HtmlFactory
         arguments:
             - [ 'html' ]
-            - [ 'text/plain', 'txt/html' ]
         tags:
             - { name: media.factory, priority: 10 }
     media.factory.image:
-        class: Derby\Media\LocalFile\ImageFactory
+        class: Derby\Media\File\ImageFactory
         arguments:
             - [ 'jpg', 'jpeg', 'gif', 'bmp', 'png' ]
-            - [ 'image/jpeg', 'image/gif', 'image/bmp', 'image/x-bmp', 'image/png' ]
             - @imagine.gd
         tags:
             - { name: media.factory, priority: 10 }
     media.factory.pdf:
-        class: Derby\Media\LocalFile\PdfFactory
+        class: Derby\Media\File\PdfFactory
         arguments:
             - [ 'pdf' ]
-            - [ 'application/pdf', 'application/x-pdf' ]
         tags:
             - { name: media.factory, priority: 10 }
     media.factory.presentation:
-        class: Derby\Media\LocalFile\PresentationFactory
+        class: Derby\Media\File\PresentationFactory
         arguments:
             - [ 'ppt', 'pptx' ]
-            - [ 'application/vnd.ms-powerpointtd>', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ]
         tags:
             - { name: media.factory, priority: 10 }
     media.factory.spreadsheet:
-        class: Derby\Media\LocalFile\SpreadsheetFactory
+        class: Derby\Media\File\SpreadsheetFactory
         arguments:
             - [ 'xls', 'xlsx', 'xlsm' ]
-            - [ 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroEnabled.12' ]
         tags:
             - { name: media.factory, priority: 10 }
     media.factory.text:
-        class: Derby\Media\LocalFile\TextFactory
+        class: Derby\Media\File\TextFactory
         arguments:
             - [ 'txt' ]
-            - [ 'text/plain' ]
         tags:
             - { name: media.factory, priority: 10 }
     media.factory.video:
-        class: Derby\Media\LocalFile\VideoFactory
+        class: Derby\Media\File\VideoFactory
         arguments:
             - [ 'webm', 'vob', 'ogg', 'wmv', 'avi', 'mov', 'qt', 'mp4', 'mpg',  'mpeg' ]
-            - [ 'video/webm', 'video/dvd',  'video/mpeg', 'video/x-ms-vob', 'video/ogg', 'application/ogg', 'video/vnd.avi', 'video/avi', 'video/msvideo', 'video/x-msvideo', 'video/quicktime', 'video/x-ms-wmv', 'video/mp4', 'video/mpeg' ]
         tags:
             - { name: media.factory, priority: 10 }
-    media.factory.local:
-        class: Derby\Media\LocalFile\LocalFactory
+    media.factory.file:
+        class: Derby\Media\File\FileFactory
         arguments:
-            - [ '*' ]
             - [ '*' ]
         tags:
             - { name: media.factory, priority: 100 }

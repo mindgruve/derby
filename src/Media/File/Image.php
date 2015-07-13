@@ -1,10 +1,10 @@
 <?php
 
-namespace Derby\Media\LocalFile;
+namespace Derby\Media\File;
 
-use Derby\Adapter\LocalFileAdapter;
-use Derby\Adapter\LocalFileAdapterInterface;
+use Derby\AdapterInterface;
 use Derby\Exception\NoResizeDimensionsException;
+use Derby\Media\File;
 use Derby\Media\LocalFile;
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
@@ -13,7 +13,7 @@ use Imagine\Image\ImagineInterface;
 use Imagine\Image\Palette\Color\ColorInterface;
 use Imagine\Image\Point;
 
-class Image extends LocalFile
+class Image extends File
 {
     const THUMBNAIL_INSET = ImageInterface::THUMBNAIL_INSET;
     const THUMBNAIL_OUTBOUND = ImageInterface::THUMBNAIL_OUTBOUND;
@@ -22,7 +22,7 @@ class Image extends LocalFile
     const DEFAULT_QUALITY = 75;
 
 
-    const TYPE_MEDIA_FILE_IMAGE = 'MEDIA/LOCAL_FILE/IMAGE';
+    const TYPE_MEDIA_FILE_IMAGE = 'MEDIA/FILE/IMAGE';
 
     /**
      * @var ImagineInterface
@@ -40,13 +40,16 @@ class Image extends LocalFile
     protected $quality = 75;
 
 
-    public function __construct($key, LocalFileAdapterInterface $adapter, ImagineInterface $imagine)
+    public function __construct($key, AdapterInterface $adapter, ImagineInterface $imagine)
     {
         $this->imagine = $imagine;
         parent::__construct($key, $adapter);
     }
 
 
+    /**
+     * @return string
+     */
     public function getMediaType()
     {
         return self::TYPE_MEDIA_FILE_IMAGE;

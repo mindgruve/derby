@@ -1,6 +1,6 @@
 <?php
 
-namespace Derby\Media;
+namespace Derby\Media\Backcup;
 
 use Derby\Adapter\GaufretteAdapterInterface;
 use Derby\Media;
