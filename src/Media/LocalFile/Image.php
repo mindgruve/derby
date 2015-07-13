@@ -10,6 +10,7 @@ use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
 use Derby\Exception\InvalidImageException;
 use Imagine\Image\ImagineInterface;
+use Imagine\Image\Palette\Color\ColorInterface;
 use Imagine\Image\Point;
 
 class Image extends LocalFile
@@ -28,6 +29,17 @@ class Image extends LocalFile
      */
     protected $imagine;
 
+    /**
+     * @var \Imagine\Image\AbstractImage
+     */
+    protected $image;
+
+    /**
+     * @var int
+     */
+    protected $quality = 75;
+
+
     public function __construct($key, LocalFileAdapterInterface $adapter, ImagineInterface $imagine)
     {
         $this->imagine = $imagine;
@@ -41,22 +53,94 @@ class Image extends LocalFile
     }
 
     /**
-     * @param $key
-     * @param LocalFileAdapter $adapter
+     * In Memory representation of Image
+     * @return \Imagine\Image\AbstractImage
+     */
+    public function getImage()
+    {
+        if (!$this->image) {
+            $this->image = $this->imagine->load($this->read());
+        }
+
+        return $this->image;
+    }
+
+    public function setQuality($quality = self::DEFAULT_QUALITY)
+    {
+        $quality = (int)$quality;
+        if ($quality < 0 || $quality > 100) {
+            throw new \Exception('Quality must be between 0 and 100');
+        }
+
+        $this->quality = $quality;
+    }
+
+    public function getQuality()
+    {
+        return $this->quality;
+    }
+
+    /**
+     * @param Image $newFile
+     * @return Image
+     * @throws InvalidImageException
+     */
+    public function save(Image $newFile = null)
+    {
+        $image = $this->getImage();
+        if ($newFile) {
+            $target = $newFile;
+        } else {
+            $target = $this;
+        }
+
+        $extension = $target->getFileExtension();
+
+        if (!$extension) {
+            throw new InvalidImageException('No image extension');
+        }
+
+        switch ($extension) {
+            case 'jpg':
+            case 'jpeg':
+                $target->write($image->get('jpeg'), array('jpeg_quality' => $this->quality));
+                break;
+            case 'png':
+                $pngCompression = floor($this->quality / 10);
+                $target->write($image->get('png'), array('png_compression_level' => $pngCompression));
+                break;
+            default:
+                throw new InvalidImageException('Invalid image extension');
+        }
+
+        return $target;
+    }
+
+    /**
+     * @return ImagineInterface
+     */
+    public function getImagine()
+    {
+        return $this->imagine;
+    }
+
+    /**
+     * @param $format
+     */
+    public function streamToBrowser($format)
+    {
+        $this->getImage()->show($format);
+    }
+
+    /**
      * @param int $width
      * @param int $height
      * @param string $mode
-     * @param int $quality
-     * @return Image
-     * @throws InvalidImageException
+     * @return $this
      * @throws NoResizeDimensionsException
      */
-    public function resize($key, LocalFileAdapter $adapter, $width = 0, $height = 0, $mode = self::DEFAULT_MODE, $quality = self::DEFAULT_QUALITY)
+    public function resize($width = 0, $height = 0, $mode = self::DEFAULT_MODE)
     {
-
-        if (!$adapter) {
-            $adapter = $this->getAdapter();
-        }
 
         // if we were provided both width and height then we know the size of the new image
         // otherwise we resize proportionally.
@@ -76,114 +160,71 @@ class Image extends LocalFile
             throw new NoResizeDimensionsException('You must provide $width and/or $height to resize an image');
         }
 
-        $image = $this->imagine
-            ->open($this->getPath())
-            ->thumbnail($size, $mode);
+        $this->image = $this->getImage()->thumbnail($size, $mode);
 
-        $target = new Image($key, $adapter, $this->imagine);
-        $extension = $target->getFileExtension();
-
-        if (!$extension) {
-            throw new InvalidImageException('No image extension');
-        }
-
-        switch ($extension) {
-            case 'jpg':
-            case 'jpeg':
-                $image->save($target->getPath(), array('jpeg_quality' => $quality));
-                break;
-            case 'png':
-                $pngCompression = floor($quality / 10);
-                $image->save($target->getPath(), array('png_compression_level' => $pngCompression));
-                break;
-            default:
-                throw new InvalidImageException('Invalid image extension');
-        }
-
-        return $target;
+        return $this;
     }
 
     /**
-     * @param $key
-     * @param LocalFileAdapter $adapter
-     * @param Point $point
-     * @param Box $box
-     * @return Image
+     * @param $x
+     * @param $y
+     * @param $height
+     * @param $width
+     * @return $this
      */
-    public function crop($key, LocalFileAdapter $adapter, Point $point, Box $box)
+    public function crop($x, $y, $height, $width)
     {
-        if (!$adapter) {
-            $adapter = $this->getAdapter();
-        }
 
-        $target = new Image($key, $adapter, $this->imagine);
+        $x = (int)$x;
+        $y = (int)$y;
+        $height = (int)$height;
+        $width = (int)$width;
 
-        $this->imagine->open($this->getPath())->crop($point, $box)->save($target->getPath());
+        $point = new Point($x, $y);
+        $box = new Box($height, $width);
 
-        return $target;
+        $this->getImage()->crop($point, $box);
+        return $this;
     }
 
     /**
-     * @param $key
-     * @param LocalFileAdapter $adapter
-     * @param $degrees
-     * @return Image
+     * @param $angle
+     * @param ColorInterface $background
+     * @return $this
      */
-    public function rotate($key, LocalFileAdapter $adapter, $degrees)
+    public function rotate($angle, ColorInterface $background = null)
     {
-
-        if (!$adapter) {
-            $adapter = $this->getAdapter();
-        }
-
-        $target = new Image($key, $adapter, $this->imagine);
-        $this->imagine->open($this->getPath())->rotate($degrees)->save($target->getPath());
-
-        return $target;
+        $this->image = $this->getImage()->rotate($angle, $background);
+        return $this;
     }
 
     /**
-     * @param $key
-     * @param LocalFileAdapterInterface $adapter
+     * @return $this
      */
-    public function greyscale($key, LocalFileAdapterInterface $adapter)
+    public function greyscale()
     {
-        if (!$adapter) {
-            $adapter = $this->getAdapter();
-        }
-
-        $target = new Image($key, $adapter, $this->imagine);
-        $image = $this->imagine->open($this->getPath());
-        $image->effects()->grayscale();
-        $image->save($target->getPath());
+        $this->getImage()->effects()->grayscale();
+        return $this;
     }
 
     /**
-     * @param $key
-     * @param LocalFileAdapterInterface $adapter
+     * @return $this
      */
-    public function flipHorizontally($key, LocalFileAdapterInterface $adapter)
+    public function flipHorizontally()
     {
-        if (!$adapter) {
-            $adapter = $this->getAdapter();
-        }
+        $this->getImage()->flipHorizontally();
 
-        $target = new Image($key, $adapter, $this->imagine);
-        $this->imagine->open($this->getPath())->flipHorizontally()->save($target->getPath());
+        return $this;
     }
 
     /**
-     * @param $key
-     * @param LocalFileAdapterInterface $adapter
+     * @return $this
      */
-    public function flipVertically($key, LocalFileAdapterInterface $adapter)
+    public function flipVertically()
     {
-        if (!$adapter) {
-            $adapter = $this->getAdapter();
-        }
+        $this->getImage()->flipVertically();
 
-        $target = new Image($key, $adapter, $this->imagine);
-        $this->imagine->open($this->getPath())->flipVertically()->save($target->getPath());
+        return $this;
     }
 
     /**
@@ -192,7 +233,7 @@ class Image extends LocalFile
      */
     public function getWidth()
     {
-        return $this->imagine->open($this->getPath())->getSize()->getWidth();
+        return $this->getImage()->getSize()->getWidth();
     }
 
     /**
@@ -201,41 +242,6 @@ class Image extends LocalFile
      */
     public function getHeight()
     {
-        return $this->imagine->open($this->getPath())->getSize()->getHeight();
-    }
-
-    /**
-     * @return ImagineInterface
-     */
-    public function getImagine()
-    {
-        return $this->imagine;
-    }
-
-    public function streamToBrowser()
-    {
-        switch ($this->getFileExtension()) {
-            case 'png':
-                $im = imagecreatefrompng($this->getPath());
-                header('Content-Type: image/png');
-                imagepng($im);
-                imagedestroy($im);
-                exit;
-                break;
-            case 'jpeg':
-            case 'jpg':
-                $im = imagecreatefromjpeg($this->getPath());
-                header('Content-Type: image/jpeg');
-                imagejpeg($im);
-                imagedestroy($im);
-                exit;
-                break;
-            case 'gif':
-                $im = imagecreatefromgif($this->getPath());
-                header('Content-Type: image/jpeg');
-                imagegif($im);
-                imagedestroy($im);
-                break;
-        }
+        return $this->getImage()->getSize()->getHeight();
     }
 }

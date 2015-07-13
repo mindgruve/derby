@@ -71,97 +71,90 @@ class ImageTransformer
     /**
      * @param $filterKey
      * @param Image $image
-     * @param $newKey
-     * @param LocalFileAdapterInterface $newAdapter
      * @return Image
      */
-    public function apply($filterKey, Image $image, $newKey, LocalFileAdapterInterface $newAdapter)
+    public function apply($filterKey, Image $image)
     {
         if (!isset($this->filters[$filterKey])) {
             return $image;
         }
 
         $filter = $this->filters[$filterKey];
-        $newImage = new Image($newKey, $newAdapter, $image->getImagine());
-        $newImage->write($image->read());
 
         foreach ($filter as $action => $parameters) {
             if ($parameters) {
                 switch (strtolower(trim($action))) {
                     case 'greyscale':
-                        $newImage = $this->greyscale($newImage, $newKey, $newAdapter);
+                        $image = $this->greyscale($image);
                         break;
                     case 'flipvertically':
-                        $newImage = $this->flipVertically($newImage, $newKey, $newAdapter);
+                        $image = $this->flipVertically($image);
                         break;
                     case 'fliphorizontally':
-                        $newImage = $this->flipHorizontally($newImage, $newKey, $newAdapter);
+                        $image = $this->flipHorizontally($image);
                         break;
                     case 'resize':
-                        $newImage = $this->resize($newImage, $newKey, $newAdapter, $parameters);
+                        $image = $this->resize($image, $parameters);
                         break;
                     case 'crop':
-                        $newImage = $this->crop($newImage, $newKey, $newAdapter, $parameters);
+                        $image = $this->crop($image, $parameters);
                         break;
                     case 'rotate':
-                        $newImage = $this->rotate($newImage, $newKey, $newAdapter, $parameters);
+                        $image = $this->rotate($image, $parameters);
                         break;
                 }
             }
         }
 
-        return $newImage;
+        return $image;
     }
 
-    protected function greyscale(Image $image, $key, $adapter)
+    protected function greyscale(Image $image)
     {
-        $image->greyscale($key, $adapter);
+        $image->greyscale();
 
         return $image;
     }
 
-    protected function flipVertically(Image $image, $key, $adapter)
+    protected function flipVertically(Image $image)
     {
-        $image->flipVertically($key, $adapter);
+        $image->flipVertically();
 
         return $image;
     }
 
-    protected function flipHorizontally(Image $image, $key, $adapter)
+    protected function flipHorizontally(Image $image)
     {
-        $image->flipHorizontally($key, $adapter);
+        $image->flipHorizontally();
 
         return $image;
     }
 
-    protected function resize(Image $image, $key, $adapter, $parameters)
+    protected function resize(Image $image, $parameters)
     {
         $height = isset($parameters['height']) ? $parameters['height'] : 0;
         $width = isset($parameters['width']) ? $parameters['width'] : 0;
         $mode = isset($parameters['mode']) ? $parameters['mode'] : Image::DEFAULT_MODE;
-        $quality = isset($parameters['quality']) ? $parameters['quality'] : Image::DEFAULT_QUALITY;
-        $image->resize($key, $adapter, $width, $height, $mode, $quality);
+        $image->resize($width, $height, $mode);
 
         return $image;
     }
 
-    public function crop(Image $image, $key, $adapter, $parameters)
+    public function crop(Image $image, $parameters)
     {
         $x = isset($parameters['x']) ? $parameters['x'] : 0;
         $y = isset($parameters['y']) ? $parameters['y'] : 0;
         $height = isset($parameters['height']) ? $parameters['height'] : 0;
         $width = isset($parameters['width']) ? $parameters['width'] : 0;
-        $point = new Point($x, $y);
-        $box = new Box($width, $height);
-        $image->crop($key, $adapter, $point, $box);
+        $image->crop($x, $y, $height, $width);
 
         return $image;
     }
 
-    public function rotate(Image $image, $key, $adapter, $parameters)
+    public function rotate(Image $image, $parameters)
     {
         $degrees = isset($parameters['degrees']) ? $parameters['degrees'] : 0;
-        $image->rotate($key, $adapter, $degrees);
+        $image->rotate($degrees);
 
         return $image;
     }

@@ -14,7 +14,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 
     public function testInterface()
     {
-        $key     = 'Foo';
+        $key = 'Foo';
         $adapter = Mockery::mock(self::$fileAdapterInterface);
         $imagine = Mockery::mock(self::$abstractImagine);
 
@@ -25,7 +25,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 
     public function testType()
     {
-        $key     = 'Foo';
+        $key = 'Foo';
         $adapter = Mockery::mock(self::$fileAdapterInterface);
         $imagine = Mockery::mock(self::$abstractImagine);
 
@@ -34,4 +34,27 @@ class ImageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Image::TYPE_MEDIA_FILE_IMAGE, $sut->getMediaType());
     }
 
+    public function testDefaultQuality()
+    {
+        $key = 'Foo';
+        $adapter = Mockery::mock(self::$fileAdapterInterface);
+        $imagine = Mockery::mock(self::$abstractImagine);
+
+        $sut = new Image($key, $adapter, $imagine);
+
+        $this->assertEquals(75, $sut->getQuality());
+
+    }
+
+    public function testSetQuality()
+    {
+        $key = 'Foo';
+        $adapter = Mockery::mock(self::$fileAdapterInterface);
+        $imagine = Mockery::mock(self::$abstractImagine);
+
+        $sut = new Image($key, $adapter, $imagine);
+        $sut->setQuality(85);
+
+        $this->assertEquals(85, $sut->getQuality());
+    }
 }
