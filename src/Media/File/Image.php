@@ -150,13 +150,11 @@ class Image extends File
         if ($width > 0 && $height > 0) {
             $size = new Box($width, $height);
         } elseif ($width > 0) {
-            $size = $this->imagine
-                ->open($this->getPath())
+            $size = $this->getImage()
                 ->getSize()
                 ->widen($width);
         } elseif ($height > 0) {
-            $size = $this->imagine
-                ->open($this->getPath())
+            $size = $this->getImage()
                 ->getSize()
                 ->heighten($height);
         } else {

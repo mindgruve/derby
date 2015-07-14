@@ -156,21 +156,29 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
                 'file' => 'test-236x315.jpg',
                 'outbound' => array(100, 75),
                 'inset' => array(56, 75),
+                'fixedWidth' => array(100, 0),
+                'fixedHeight' => array(0, 100),
             ),
             array(
                 'file' => 'test-243x284.jpg',
                 'outbound' => array(100, 75),
                 'inset' => array(64, 75),
+                'fixedWidth' => array(100, 0),
+                'fixedHeight' => array(0, 100),
             ),
             array(
                 'file' => 'test-420x280.jpg',
                 'outbound' => array(100, 75),
                 'inset' => array(100, 67),
+                'fixedWidth' => array(100, 0),
+                'fixedHeight' => array(0, 100),
             ),
             array(
                 'file' => 'test-420x315.jpg',
                 'outbound' => array(100, 75),
                 'inset' => array(100, 75),
+                'fixedWidth' => array(100, 0),
+                'fixedHeight' => array(0, 100),
             ),
         );
 
@@ -179,16 +187,19 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
             $targetKey = 'gd-resize-outbound-' . $sourceKey;
             $outbound = $image['outbound'];
             $inset = $image['inset'];
+            $fixedWidth = $image['fixedWidth'];
+            $fixedHeight = $image['fixedHeight'];
 
             $this->setUpImages($sourceKey, $targetKey);
+            $sourceDimensions = getimagesize($this->sourceFile->createTempFile()->getPath());
 
             /**
              * RESIZE TO 100 x 75 OUTBOUND
              */
 
             $this->sourceFile->resize(
-                100,
-                75,
+                $outbound[0],
+                $outbound[1],
                 Image::THUMBNAIL_OUTBOUND
             )->save($this->targetFile);
 
@@ -206,9 +217,9 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
             $targetKey = 'gd-resize-inset-' . $sourceKey;
             $this->setUpImages($sourceKey, $targetKey);
 
-            $target = $this->sourceFile->resize(
-                100,
-                75,
+            $this->sourceFile->resize(
+                $inset[0],
+                $inset[1],
                 Image::THUMBNAIL_INSET
             )->save($this->targetFile);
 
@@ -219,6 +230,54 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
             $imageDimensions = getimagesize($tmpFile->getPath());
             $this->assertEquals($inset[0], $imageDimensions[0]);
             $this->assertEquals($inset[1], $imageDimensions[1]);
+
+            /**
+             * RESIZE TO 100 Width
+             */
+
+            $targetKey = 'gd-resize-fixedWidth-' . $sourceKey;
+            $this->setUpImages($sourceKey, $targetKey);
+
+            $this->sourceFile->resize(
+                $fixedWidth[0],
+                $fixedWidth[1],
+                Image::THUMBNAIL_OUTBOUND
+            )->save($this->targetFile);
+
+            $this->assertNotNull($this->targetFile->read());
+            $tmpFile = $this->targetFile->createTempFile();
+
+            $this->assertFileExists($tmpFile->getPath());
+            $imageDimensions = getimagesize($tmpFile->getPath());
+            $this->assertEquals($fixedWidth[0], $imageDimensions[0]);
+
+            // should be within 1 unit
+            $this->assertLessThan(1, abs(floor($sourceDimensions[1] /$sourceDimensions[0] * 100))-$imageDimensions[1]);
+
+
+            /**
+             * RESIZE TO 100 Height
+             */
+
+            $targetKey = 'gd-resize-fixedHeight-' . $sourceKey;
+            $this->setUpImages($sourceKey, $targetKey);
+
+            $this->sourceFile->resize(
+                $fixedHeight[0],
+                $fixedHeight[1],
+                Image::THUMBNAIL_OUTBOUND
+            )->save($this->targetFile);
+
+            $this->assertNotNull($this->targetFile->read());
+            $tmpFile = $this->targetFile->createTempFile();
+
+            $this->assertFileExists($tmpFile->getPath());
+            $imageDimensions = getimagesize($tmpFile->getPath());
+
+            $this->assertEquals($fixedHeight[1], $imageDimensions[1]);
+
+            // should be within rounding error
+            $this->assertLessThan(1, abs(floor($sourceDimensions[0] /$sourceDimensions[1] * 100))-$imageDimensions[0]);
         }
     }
 
