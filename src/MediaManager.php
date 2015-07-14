@@ -16,7 +16,6 @@ use Derby\Media\LocalFile;
 use Derby\Media\LocalFileInterface;
 use Derby\Media\SearchInterface;
 use Derby\Media\File\Factory\FactoryInterface;
-use Mockery\CountValidator\Exception;
 
 /**
  * Derby\MediaManager
@@ -69,7 +68,8 @@ class MediaManager implements MediaManagerInterface
 
     /**
      * @param $adapterKey
-     * @return \Derby\AdapterInterface
+     * @return mixed
+     * @throws \Exception
      */
     public function getAdapter($adapterKey)
     {
@@ -77,7 +77,7 @@ class MediaManager implements MediaManagerInterface
             return $this->adapters[$adapterKey];
         }
 
-        throw new Exception('Adapter Key Not Found');
+        throw new \Exception('Adapter Key Not Found');
     }
 
     /**
@@ -135,7 +135,7 @@ class MediaManager implements MediaManagerInterface
     {
         foreach ($this->fileFactories as $priorityGroup) {
             foreach ($priorityGroup as $fileFactory) {
-                /** @var \Derby\Media\File\FileFactory $fileFactory */
+                /** @var \Derby\Media\File\Factory\FileFactory $fileFactory */
                 if ($fileFactory->supports($file)) {
                     return $fileFactory->build($file->getKey(), $file->getAdapter());
                 }
