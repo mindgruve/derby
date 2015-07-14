@@ -2,20 +2,19 @@
 
 namespace Derby\Tests\Unit\File;
 
-use Derby\Media\File\Audio;
-use Derby\Media\File\Factory\AudioFactory;
 use Derby\Media\File\Factory\FileFactory;
+use Derby\Media\File\Factory\SpreadsheetFactory;
+use Derby\Media\File\Spreadsheet;
 Use Mockery;
 
-class AudioFactoryTest extends \PHPUnit_Framework_TestCase
+class SpreadsheetFactoryTest extends \PHPUnit_Framework_TestCase
 {
     protected static $factoryInterface = 'Derby\Media\File\FactoryInterface';
     protected static $fileAdapterInterface = 'Derby\Adapter\FileAdapterInterface';
 
     public function testInterface()
     {
-        $sut = new AudioFactory(array());
-
+        $sut = new SpreadsheetFactory(array());
         $this->assertTrue($sut instanceof FileFactory);
     }
 
@@ -23,9 +22,9 @@ class AudioFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $adapter = Mockery::mock(self::$fileAdapterInterface);
 
-        $sut = new AudioFactory(array());
-        $audioFile = $sut->build('foo', $adapter);
-
-        $this->assertTrue($audioFile instanceof Audio);
+        $sut = new SpreadsheetFactory(array());
+        $html = $sut->build('foo', $adapter);
+        $this->assertTrue($html instanceof Spreadsheet);
     }
+
 }

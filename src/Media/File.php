@@ -107,7 +107,7 @@ class File extends Media implements FileInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @return null|string
      */
     public function getFileExtension()
     {

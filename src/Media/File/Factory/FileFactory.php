@@ -24,6 +24,14 @@ use Derby\Media\FileInterface;
 class FileFactory implements FactoryInterface
 {
     /**
+     * @param array $extensions
+     */
+    public function __construct(array $extensions)
+    {
+        $this->setExtensions($extensions);
+    }
+
+    /**
      * Supported extensions
      * @var array
      */
@@ -51,7 +59,7 @@ class FileFactory implements FactoryInterface
     public function supports(FileInterface $file)
     {
 
-        if (!$file instanceof File) {
+        if (!$file instanceof FileInterface) {
             return false;
         }
 
