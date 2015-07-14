@@ -130,8 +130,12 @@ class Image extends File
     /**
      * @param $format
      */
-    public function streamToBrowser($format)
+    public function streamToBrowser($format = null)
     {
+        if (!$format) {
+            $format = $this->getFileExtension();
+        }
+
         $this->getImage()->show($format);
     }
 
