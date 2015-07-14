@@ -16,7 +16,7 @@ use Derby\Media\SearchInterface;
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-interface ManagerInterface
+interface MediaManagerInterface
 {
     /**
      * @param $key

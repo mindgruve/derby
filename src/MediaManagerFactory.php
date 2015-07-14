@@ -6,7 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-class ManagerFactory
+class MediaManagerFactory
 {
 
     public static function build($configDir = null, $configFile = 'media.yml')

@@ -11,7 +11,7 @@ parameters:
 services:
     # Media Manager
     media.manager:
-        class: Derby\Manager
+        class: Derby\MediaManager
 
     # Imagine
     imagine.imagick:

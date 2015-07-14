@@ -19,12 +19,12 @@ use Derby\Media\File\FactoryInterface;
 use Mockery\CountValidator\Exception;
 
 /**
- * Derby\Manager
+ * Derby\MediaManager
  *
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-class Manager implements ManagerInterface
+class MediaManager implements MediaManagerInterface
 {
     /**
      * @var array

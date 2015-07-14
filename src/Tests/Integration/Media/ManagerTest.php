@@ -10,9 +10,8 @@
 namespace Derby\Tests\Integration\Media;
 
 use Derby\Adapter\FileAdapter;
-use Derby\Adapter\LocalFileAdapter;
-use Derby\Manager;
-use Derby\ManagerFactory;
+use Derby\MediaManager;
+use Derby\MediaManagerFactory;
 use Derby\Media;
 use Gaufrette\Adapter\Local;
 use Mockery;
@@ -23,11 +22,11 @@ use Mockery;
  * @author Kevin Simpson <ksimpson@mindgruve.com>
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
-class ManagerTest extends \PHPUnit_Framework_TestCase
+class MediaManagerTest extends \PHPUnit_Framework_TestCase
 {
     public function testRegisterFile()
     {
-        $manager = ManagerFactory::build();
+        $manager = MediaManagerFactory::build();
 
         $localAdapter = new FileAdapter(new Local(__DIR__ . '/../Temp/', true));
 
@@ -60,7 +59,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testWildcardFileRegistration()
     {
-        $manager = new Manager();
+        $manager = new MediaManager();
 
         $manager->registerFileFactory(new Media\File\TextFactory(['*'], ['text/*']));
 
@@ -77,7 +76,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testGracefulDegradation()
     {
-        $manager = new Manager();
+        $manager = new MediaManager();
 
         $manager->registerFileFactory(new Media\File\TextFactory(['*'], ['text/*']));
 
