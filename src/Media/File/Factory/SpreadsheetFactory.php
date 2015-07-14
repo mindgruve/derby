@@ -6,9 +6,10 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media\file;
+namespace Derby\Media\File\Factory;
 
 use Derby\Adapter\FileAdapterInterface;
+use Derby\Media\File\Spreadsheet;
 
 /**
  * Derby\Media\LocalFileFactory\SpreadsheetFactory

@@ -6,25 +6,25 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media\File;
+namespace Derby\Media\File\Factory;
 
 use Derby\Adapter\FileAdapterInterface;
-use Derby\Media\File\Document;
+use Derby\Media\File\Text;
 
 /**
- * Derby\Media\LocalFileFactory\DocumentFactory
+ * Derby\Media\LocalFile\Factory\TextFactory
  *
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-class DocumentFactory extends FileFactory
+class TextFactory extends FileFactory
 {
     /**
      * {@inheritDoc}
      */
     public function build($key, FileAdapterInterface $adapter)
     {
-        return new Document($key, $adapter);
+        return new Text($key, $adapter);
     }
 
     /**

@@ -35,62 +35,62 @@ services:
 
     # Media Factories
     media.factory.audio:
-        class: Derby\Media\File\AudioFactory
+        class: Derby\Media\File\Factory\AudioFactory
         arguments:
             - [ 'mp3', 'wav', 'wma' ]
         tags:
             - { name: media.factory, priority: 10 }
     media.factory.document:
-        class: Derby\Media\File\DocumentFactory
+        class: Derby\Media\File\Factory\DocumentFactory
         arguments:
             - [ 'doc', 'rtf' ]
         tags:
             - { name: media.factory, priority: 10 }
     media.factory.html:
-        class: Derby\Media\File\HtmlFactory
+        class: Derby\Media\File\Factory\HtmlFactory
         arguments:
             - [ 'html' ]
         tags:
             - { name: media.factory, priority: 10 }
     media.factory.image:
-        class: Derby\Media\File\ImageFactory
+        class: Derby\Media\File\Factory\ImageFactory
         arguments:
             - [ 'jpg', 'jpeg', 'gif', 'bmp', 'png' ]
             - @imagine.gd
         tags:
             - { name: media.factory, priority: 10 }
     media.factory.pdf:
-        class: Derby\Media\File\PdfFactory
+        class: Derby\Media\File\Factory\PdfFactory
         arguments:
             - [ 'pdf' ]
         tags:
             - { name: media.factory, priority: 10 }
     media.factory.presentation:
-        class: Derby\Media\File\PresentationFactory
+        class: Derby\Media\File\Factory\PresentationFactory
         arguments:
             - [ 'ppt', 'pptx' ]
         tags:
             - { name: media.factory, priority: 10 }
     media.factory.spreadsheet:
-        class: Derby\Media\File\SpreadsheetFactory
+        class: Derby\Media\File\Factory\SpreadsheetFactory
         arguments:
             - [ 'xls', 'xlsx', 'xlsm' ]
         tags:
             - { name: media.factory, priority: 10 }
     media.factory.text:
-        class: Derby\Media\File\TextFactory
+        class: Derby\Media\File\Factory\TextFactory
         arguments:
             - [ 'txt' ]
         tags:
             - { name: media.factory, priority: 10 }
     media.factory.video:
-        class: Derby\Media\File\VideoFactory
+        class: Derby\Media\File\Factory\VideoFactory
         arguments:
             - [ 'webm', 'vob', 'ogg', 'wmv', 'avi', 'mov', 'qt', 'mp4', 'mpg',  'mpeg' ]
         tags:
             - { name: media.factory, priority: 10 }
     media.factory.file:
-        class: Derby\Media\File\FileFactory
+        class: Derby\Media\File\Factory\FileFactory
         arguments:
             - [ '*' ]
         tags:

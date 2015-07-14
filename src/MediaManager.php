@@ -15,7 +15,7 @@ use Derby\Media\FileInterface;
 use Derby\Media\LocalFile;
 use Derby\Media\LocalFileInterface;
 use Derby\Media\SearchInterface;
-use Derby\Media\File\FactoryInterface;
+use Derby\Media\File\Factory\FactoryInterface;
 use Mockery\CountValidator\Exception;
 
 /**

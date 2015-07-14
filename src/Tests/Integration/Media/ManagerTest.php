@@ -61,7 +61,7 @@ class MediaManagerTest extends \PHPUnit_Framework_TestCase
     {
         $manager = new MediaManager();
 
-        $manager->registerFileFactory(new Media\File\TextFactory(['*'], ['text/*']));
+        $manager->registerFileFactory(new \Derby\Media\File\Factory\TextFactory(['*'], ['text/*']));
 
         $localAdapter = new FileAdapter(new Local(__DIR__ . '/../Temp/'));
 
@@ -78,7 +78,7 @@ class MediaManagerTest extends \PHPUnit_Framework_TestCase
     {
         $manager = new MediaManager();
 
-        $manager->registerFileFactory(new Media\File\TextFactory(['*'], ['text/*']));
+        $manager->registerFileFactory(new \Derby\Media\File\Factory\TextFactory(['*'], ['text/*']));
 
         $localAdapter = new FileAdapter(new Local(__DIR__ . '/../Temp/'));
 

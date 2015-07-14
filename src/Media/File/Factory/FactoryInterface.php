@@ -6,10 +6,11 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media\File;
+namespace Derby\Media\File\Factory;
 
 use Derby\Adapter\FileAdapterInterface;
-use Derby\MediaInterface;
+use Derby\Media\FileInterface;
+use Gaufrette\Adapter;
 
 /**
  * Derby\Media\LocalFileFactoryInterface
@@ -27,14 +28,12 @@ interface FactoryInterface
     public function setExtensions(array $extensions);
 
     /**
-     * Is the given media type supported
-     * @param MediaInterface $media
+     * @param FileInterface $file
      * @return mixed
      */
-    public function supports(MediaInterface $media);
+    public function supports(FileInterface $file);
 
     /**
-     * Build this file
      * @param $key
      * @param FileAdapterInterface $adapter
      * @return mixed

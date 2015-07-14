@@ -7,11 +7,11 @@
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
 
-namespace Derby\Media\File;
+namespace Derby\Media\File\Factory;
 
 use Derby\Adapter\FileAdapterInterface;
 use Derby\Media\File;
-use Derby\MediaInterface;
+use Derby\Media\FileInterface;
 
 /**
  * Derby\Media\Provider
@@ -48,16 +48,16 @@ class FileFactory implements FactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function supports(MediaInterface $media)
+    public function supports(FileInterface $file)
     {
 
-        if (!$media instanceof File) {
+        if (!$file instanceof File) {
             return false;
         }
 
         $matchExt = false;
         foreach ($this->extensions as $extension) {
-            if (fnmatch($extension, $media->getFileExtension())) {
+            if (fnmatch($extension, $file->getFileExtension())) {
                 $matchExt = true;
             }
         }

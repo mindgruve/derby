@@ -3,20 +3,19 @@
 namespace Derby\Tests\Integration\Media\File;
 
 use Derby\Adapter\FileAdapter;
-use Derby\Adapter\LocalFileAdapter;
 use Derby\Media\File\Image;
-use Derby\Media\File\ImageTransformer;
+use Derby\Media\Transformer\ImageTransformer;
 use Gaufrette\Adapter\Local;
 
 class ImageGDTransformerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Derby\Media\LocalFile\Image
+     * @var \Derby\Media\File\Image
      */
     protected $originalFile;
 
     /**
-     * @var \Derby\Media\LocalFile\Image
+     * @var \Derby\Media\File\Image
      */
     protected $newFile;
 

@@ -1,9 +1,8 @@
 <?php
 
-namespace Derby\Media\File;
+namespace Derby\Media\Transformer;
 
-use Derby\Adapter\LocalFileAdapterInterface;
-use Imagine\Image\Box;
+use Derby\Media\File\Image;
 use Imagine\Image\Point;
 
 class ImageTransformer
