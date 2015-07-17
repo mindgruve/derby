@@ -8,12 +8,17 @@
 
 namespace Derby;
 
+use Derby\Adapter\CollectionAdapterInterface;
+use Derby\Adapter\EmbedAdapterInterface;
 use Derby\Adapter\FileAdapterInterface;
 use Derby\Exception\UnknownTransferAdapterException;
+use Derby\Media\Collection;
+use Derby\Media\CollectionInterface;
+use Derby\Media\Embed;
+use Derby\Media\EmbedInterface;
 use Derby\Media\File;
 use Derby\Media\FileInterface;
 use Derby\Media\LocalFile;
-use Derby\Media\LocalFileInterface;
 use Derby\Media\SearchInterface;
 use Derby\Media\File\Factory\FactoryInterface;
 
@@ -37,7 +42,8 @@ class MediaManager implements MediaManagerInterface
 
     /**
      * @param FactoryInterface $factory
-     * @param int $priority
+     * @param null $priority
+     * @return $this
      */
     public function registerFileFactory(FactoryInterface $factory, $priority = null)
     {
@@ -47,28 +53,36 @@ class MediaManager implements MediaManagerInterface
         }
 
         $this->fileFactories[$priority][] = $factory;
+
+        return $this;
     }
 
     /**
+     * @param $adapterKey
      * @param AdapterInterface $adapter
-     * @param $adapterKey
+     * @return $this
      */
-    public function registerAdapter(AdapterInterface $adapter, $adapterKey)
+    public function registerAdapter($adapterKey, AdapterInterface $adapter)
     {
-        $this->setAdapter($adapter, $adapterKey);
+        $this->setAdapter($adapterKey, $adapter);
+
+        return $this;
     }
 
     /**
      * @param $adapterKey
+     * @return $this
      */
     public function unregisterAdapter($adapterKey)
     {
         unset($this->adapters[$adapterKey]);
+
+        return $this;
     }
 
     /**
      * @param $adapterKey
-     * @return mixed
+     * @return AdapterInterface
      * @throws \Exception
      */
     public function getAdapter($adapterKey)
@@ -81,52 +95,105 @@ class MediaManager implements MediaManagerInterface
     }
 
     /**
-     * @param AdapterInterface $adapter
      * @param $adapterKey
+     * @param AdapterInterface $adapter
+     * @return $this
      */
-    public function setAdapter(AdapterInterface $adapter, $adapterKey)
+    public function setAdapter($adapterKey, AdapterInterface $adapter)
     {
         $this->adapters[$adapterKey] = $adapter;
-    }
 
-
-    /**
-     * @param $key
-     * @param $adapterKey
-     * @param null $data
-     * @return FileInterface
-     */
-    public function buildFile($key, $adapterKey, $data = null)
-    {
-        $adapter = $this->getAdapter($adapterKey);
-        $local = new File($key, $adapter);
-
-        if ($data) {
-            $local->write($data);
-        }
-
-        return $this->convertFile($local);
+        return $this;
     }
 
     /**
      * @param $key
      * @param $adapterKey
-     * @return FileInterface|null
+     * @return MediaInterface|CollectionInterface|EmbedInterface|FileInterface
+     * @throws \Exception
      */
     public function getMedia($key, $adapterKey)
     {
         $adapter = $this->getAdapter($adapterKey);
-        $media = $adapter->getMedia($key);
 
-        if (!$media->exists()) {
-            return null;
-        }
-
-        if ($media instanceof File) {
-            $media = $this->convertFile($media);
+        if ($adapter instanceof FileAdapterInterface) {
+            $media = $this->getFile($key, $adapterKey);
+        } elseif ($adapter instanceof CollectionAdapterInterface) {
+            $media = $this->getCollection($key, $adapterKey);
+        } elseif ($adapter instanceof EmbedAdapterInterface) {
+            $media = $this->getEmbed($key, $adapterKey);
+        } else {
+            $media = new Media($key, $adapter);
         }
 
         return $media;
+    }
+
+    /**
+     * @param $key
+     * @param $adapterKey
+     * @return FileInterface
+     * @throws \Exception
+     */
+    public function getFile($key, $adapterKey)
+    {
+        $adapter = $this->getAdapter($adapterKey);
+        $file = $adapter->getMedia($key);
+
+        if (!$adapter instanceof FileAdapterInterface) {
+            throw new \Exception('Adapter not of type FileAdapterInterface');
+        }
+
+        if (!$file) {
+            $file = new File($key, $adapter);
+        }
+
+        return $this->convertFile($file);
+    }
+
+    /**
+     * @param $key
+     * @param $adapterKey
+     * @return EmbedInterface
+     * @throws \Exception
+     */
+    public function getEmbed($key, $adapterKey)
+    {
+        $adapter = $this->getAdapter($adapterKey);
+        $embed = $adapter->getMedia($key);
+
+        if (!$adapter instanceof EmbedAdapterInterface) {
+            throw new \Exception('Adapter not of type EmbedAdapterInterface');
+        }
+
+        if (!$embed) {
+            $embed = new Embed($key, $adapter);
+        }
+
+        return $this->convertEmbed($embed);
+    }
+
+    /**
+     * @param $key
+     * @param $adapterKey
+     * @return CollectionInterface
+     * @throws \Exception
+     */
+    public function getCollection($key, $adapterKey)
+    {
+        $adapter = $this->getAdapter($adapterKey);
+
+        if (!$adapter instanceof CollectionAdapterInterface) {
+            throw new \Exception('Adapter not of type CollectionAdapterInterface');
+        }
+
+        $collection = $adapter->getMedia($key);
+
+        if (!$collection) {
+            $collection = new Collection($key, $adapter);
+        }
+
+        return $this->convertCollection($collection);
     }
 
     /**
@@ -146,6 +213,25 @@ class MediaManager implements MediaManagerInterface
 
         return $file;
     }
+
+    /**
+     * @param EmbedInterface $embed
+     * @return EmbedInterface
+     */
+    public function convertEmbed(EmbedInterface $embed)
+    {
+        return $embed;
+    }
+
+    /**
+     * @param CollectionInterface $collection
+     * @return CollectionInterface
+     */
+    public function convertCollection(CollectionInterface $collection)
+    {
+        return $collection;
+    }
+
 
     /**
      * @param MediaInterface $media
@@ -173,7 +259,7 @@ class MediaManager implements MediaManagerInterface
     /**
      * @param SearchInterface $search
      * @param AdapterInterface[] $adapters
-     * @return mixed
+     * @return MediaInterface
      */
     public function findMedia(SearchInterface $search, array $adapters)
     {
@@ -183,7 +269,7 @@ class MediaManager implements MediaManagerInterface
     /**
      * @param $key
      * @param $adapterKey
-     * @return mixed
+     * @return boolean
      */
     public function exists($key, $adapterKey)
     {

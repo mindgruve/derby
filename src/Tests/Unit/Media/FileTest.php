@@ -78,6 +78,7 @@ class FileTest extends PHPUnit_Framework_TestCase
 
         $key = 'Foo';
         $adapter = Mockery::mock(self::$fileAdapterInterface);
+        $adapter->shouldReceive('exists')->with($key)->andReturn(true);
 
         $sut = new File($key, $adapter);
         $adapter->shouldReceive('read')->andReturn('lorem ipsum');
@@ -89,11 +90,25 @@ class FileTest extends PHPUnit_Framework_TestCase
     {
         $key = 'Foo';
         $adapter = Mockery::mock(self::$fileAdapterInterface);
+        $adapter->shouldReceive('exists')->with($key)->andReturn(true);
 
         $sut = new File($key, $adapter);
         $adapter->shouldReceive('read')->andReturn(false);
 
         $this->assertEquals(false, $sut->read());
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testReadFromNonExistentFile()
+    {
+        $key = 'Foo';
+        $adapter = Mockery::mock(self::$fileAdapterInterface);
+        $adapter->shouldReceive('exists')->with($key)->andReturn(false);
+
+        $sut = new File($key, $adapter);
+        $sut->read();
     }
 
     public function testWriteSuccessful()

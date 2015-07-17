@@ -49,10 +49,15 @@ class File extends Media implements FileInterface
 
     /**
      * Read data from file
-     * @return string|boolean if cannot read content
+     * @return bool|string if cannot read content
+     * @throws \Exception
      */
     public function read()
     {
+        if(!$this->exists()){
+            throw new \Exception('File does not exist');
+        }
+
         return $this->adapter->read($this->key);
     }
 

@@ -48,11 +48,11 @@ class MediaManagerFactory
                 }
             }
 
-            if(!$adapterKey){
+            if (!$adapterKey) {
                 $adapterKey = $serviceKey;
             }
 
-            $mediaManager->registerAdapter($adapter, $adapterKey);
+            $mediaManager->registerAdapter($adapterKey, $adapter);
         }
 
         return $mediaManager;
