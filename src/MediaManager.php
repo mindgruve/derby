@@ -92,12 +92,13 @@ class MediaManager implements MediaManagerInterface
 
     /**
      * @param $key
-     * @param FileAdapterInterface $adapter
+     * @param $adapterKey
      * @param null $data
-     * @return LocalFileInterface|mixed
+     * @return FileInterface
      */
-    public function buildFile($key, FileAdapterInterface $adapter, $data = null)
+    public function buildFile($key, $adapterKey, $data = null)
     {
+        $adapter = $this->getAdapter($adapterKey);
         $local = new File($key, $adapter);
 
         if ($data) {
@@ -109,11 +110,12 @@ class MediaManager implements MediaManagerInterface
 
     /**
      * @param $key
-     * @param AdapterInterface $adapter
-     * @return MediaInterface
+     * @param $adapterKey
+     * @return FileInterface|null
      */
-    public function getMedia($key, AdapterInterface $adapter)
+    public function getMedia($key, $adapterKey)
     {
+        $adapter = $this->getAdapter($adapterKey);
         $media = $adapter->getMedia($key);
 
         if (!$media->exists()) {
@@ -145,8 +147,17 @@ class MediaManager implements MediaManagerInterface
         return $file;
     }
 
-    public function transfer(MediaInterface $media, AdapterInterface $adapter, $newKey = null)
+    /**
+     * @param MediaInterface $media
+     * @param $adapterKey
+     * @param null $newKey
+     * @return FileInterface
+     * @throws UnknownTransferAdapterException
+     */
+    public function transfer(MediaInterface $media, $adapterKey, $newKey = null)
     {
+        $adapter = $this->getAdapter($adapterKey);
+
         if (!$newKey) {
             $newKey = $media->getKey();
         }
@@ -171,11 +182,12 @@ class MediaManager implements MediaManagerInterface
 
     /**
      * @param $key
-     * @param AdapterInterface $adapter
-     * @return bool
+     * @param $adapterKey
+     * @return mixed
      */
-    public function exists($key, AdapterInterface $adapter)
+    public function exists($key, $adapterKey)
     {
+        $adapter = $this->getAdapter($adapterKey);
         return $adapter->exists($key);
     }
 }

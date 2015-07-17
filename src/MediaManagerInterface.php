@@ -20,10 +20,10 @@ interface MediaManagerInterface
 {
     /**
      * @param $key
-     * @param AdapterInterface $adapter
-     * @return MediaInterface
+     * @param $adapterKey
+     * @return mixed
      */
-    public function getMedia($key, AdapterInterface $adapter);
+    public function getMedia($key, $adapterKey);
 
     /**
      * @param SearchInterface $search
@@ -31,12 +31,28 @@ interface MediaManagerInterface
      * @return mixed
      */
     public function findMedia(SearchInterface $search, array $adapters);
-    
+
     /**
      * @param $key
-     * @param AdapterInterface $adapter
-     * @return bool
+     * @param $adapterKey
+     * @return mixed
      */
-    public function exists($key, AdapterInterface $adapter);
+    public function exists($key, $adapterKey);
+
+    /**
+     * @param $key
+     * @param $adapterKey
+     * @param null $data
+     * @return mixed
+     */
+    public function buildFile($key, $adapterKey, $data = null);
+
+    /**
+     * @param MediaInterface $media
+     * @param $adapterKey
+     * @param null $newKey
+     * @return MediaInterface
+     */
+    public function transfer(MediaInterface $media, $adapterKey, $newKey = null);
     
 }
