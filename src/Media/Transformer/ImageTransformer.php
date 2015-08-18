@@ -72,13 +72,14 @@ class ImageTransformer
      * @param Image $image
      * @return Image
      */
-    public function apply($filterKey, Image $image)
+    public function apply($filterKey, Image $image, $resolution = 1)
     {
         if (!isset($this->filters[$filterKey])) {
             return $image;
         }
 
         $filter = $this->filters[$filterKey];
+        $resolution = (float) $resolution;
 
         foreach ($filter as $action => $parameters) {
             if ($parameters) {
@@ -93,6 +94,14 @@ class ImageTransformer
                         $image = $this->flipHorizontally($image);
                         break;
                     case 'resize':
+
+                        if($resolution && isset($parameters['width'])){
+                            $parameters['width'] = $resolution * $parameters['width'];
+                        }
+                        if($resolution && isset($parameters['height'])){
+                            $parameters['width'] = $resolution * $parameters['height'];
+                        }
+
                         $image = $this->resize($image, $parameters);
                         break;
                     case 'crop':
@@ -157,6 +166,4 @@ class ImageTransformer
 
         return $image;
     }
-
-
 }
