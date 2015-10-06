@@ -99,7 +99,7 @@ class ImageTransformer
                             $parameters['width'] = $resolution * $parameters['width'];
                         }
                         if($resolution && isset($parameters['height'])){
-                            $parameters['width'] = $resolution * $parameters['height'];
+                            $parameters['height'] = $resolution * $parameters['height'];
                         }
 
                         $image = $this->resize($image, $parameters);
