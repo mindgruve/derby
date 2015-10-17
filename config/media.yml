@@ -65,6 +65,12 @@ services:
             - [ 'pdf' ]
         tags:
             - { name: media.factory, priority: 10 }
+    media.factory.zip:
+        class: Derby\Media\File\Factory\ZipFactory
+        arguments:
+            - [ 'zip' ]
+        tags:
+            - { name: media.factory, priority: 10 }
     media.factory.presentation:
         class: Derby\Media\File\Factory\PresentationFactory
         arguments:
