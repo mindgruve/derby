@@ -15,24 +15,17 @@ class MozJpegOptimize implements EventSubscriberInterface
     protected $mozJpgPath;
 
     /**
-     * @var int
-     */
-    protected $quality;
-
-    /**
      * @var string
      */
     protected $tempDir;
 
     /**
      * @param string $mozJpgPath
-     * @param int $quality
      * @param string $tempDir
      */
-    public function __construct($mozJpgPath = '', $quality = 85, $tempDir = '/tmp/derby')
+    public function __construct($mozJpgPath = '',  $tempDir = '/tmp/derby')
     {
         $this->mozJpgPath = $mozJpgPath;
-        $this->quality = $quality;
         $this->tempDir = $tempDir;
     }
 
@@ -73,7 +66,7 @@ class MozJpegOptimize implements EventSubscriberInterface
          */
         $safeSourcePath = escapeshellarg($source->getPath());
         $safeOptimizedPath = escapeshellarg($optimized->getPath());
-        $safeQuality = escapeshellarg($this->quality);
+        $safeQuality = escapeshellarg($image->getQuality());
 
         $cmd = $this->mozJpgPath . ' -outfile ' . $safeOptimizedPath . '  -quality ' . $safeQuality . ' ' . $safeSourcePath;
         exec($cmd);

@@ -42,7 +42,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 
         $sut = new Image($key, $adapter, $imagine);
 
-        $this->assertEquals(75, $sut->getQuality());
+        $this->assertEquals(100, $sut->getQuality());
 
     }
 
