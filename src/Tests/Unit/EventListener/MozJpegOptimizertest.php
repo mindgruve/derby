@@ -20,7 +20,7 @@ class MozJpegOptimizerTest extends \PHPUnit_Framework_TestCase
         $sut = new MozJpegOptimize();
 
         $this->assertEquals(array(
-            Events::IMAGE_PRE_SAVE => array('onImagePreSave', 0),
+            Events::IMAGE_PRE_SAVE => array('onMediaImagePreSave', 0),
         ), $sut->getSubscribedEvents());
     }
 }

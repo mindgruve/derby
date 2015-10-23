@@ -42,14 +42,14 @@ class MozJpegOptimize implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            Events::IMAGE_PRE_SAVE => array('onImagePreSave', 0),
+            Events::IMAGE_PRE_SAVE => array('onMediaImagePreSave', 0),
         );
     }
 
     /**
      * @param ImagePreSave $e
      */
-    public function onImagePreSave(ImagePreSave $e)
+    public function onMediaImagePreSave(ImagePreSave $e)
     {
         $image = $e->getImage();
 
