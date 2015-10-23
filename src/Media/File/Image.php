@@ -52,6 +52,7 @@ class Image extends File
      * @param AdapterInterface $adapter
      * @param ImagineInterface $imagine
      * @param EventDispatcherInterface $dispatcher
+     * @param string $tempDir
      */
     public function __construct($key, AdapterInterface $adapter, ImagineInterface $imagine, EventDispatcherInterface $dispatcher = null)
     {
@@ -76,10 +77,18 @@ class Image extends File
     public function getInMemoryImage()
     {
         if (!$this->image) {
-            $this->image = $this->imagine->load($this->read());
+            $this->image = $this->load($this->read());
         }
 
         return $this->image;
+    }
+
+    /**
+     * @param $data
+     * @return ImageInterface
+     */
+    public function load($data){
+        return $this->imagine->load($data);
     }
 
     /**

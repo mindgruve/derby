@@ -46,12 +46,6 @@ interface FileInterface extends MediaInterface
     public function getFileExtension();
 
     /**
-     * @param null $directory
-     * @return LocalFile
-     */
-    public function createTempFile($directory = null);
-
-    /**
      * @param string $key
      * @param null $directory
      * @return LocalFile

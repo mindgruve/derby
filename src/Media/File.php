@@ -118,27 +118,16 @@ class File extends Media implements FileInterface
     }
 
     /**
-     * @param null $directory
-     * @return LocalFile
-     */
-    public function createTempFile($directory = null)
-    {
-        if (!$this->tmpFile) {
-            if (!$directory) {
-                $directory = $this->tmpDirectory;
-            }
-            $this->tmpFile = $this->copyToLocal(uniqid() . '.' . $this->getFileExtension(), $directory);
-        }
-        return $this->tmpFile;
-    }
-
-    /**
      * @param string $key
      * @param null $directory
      * @return LocalFile
      */
-    public function copyToLocal($key, $directory = null)
+    public function copyToLocal($key = null, $directory = null)
     {
+        if(!$key){
+            $key = uniqid().'.'.$this->getFileExtension();
+        }
+
         if (!$directory) {
             $directory = $this->tmpDirectory . '/' . uniqid();
         }

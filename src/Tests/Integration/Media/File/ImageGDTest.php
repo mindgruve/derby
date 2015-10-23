@@ -68,7 +68,6 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
                 $secondaryTargetAdapter->delete($secondaryTargetKey);
             }
         }
-
     }
 
     public function testGetImage()
@@ -240,7 +239,7 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
             $fixedHeight = $image['fixedHeight'];
 
             $this->setUpImages($sourceKey, $targetKey);
-            $sourceDimensions = getimagesize($this->sourceFile->createTempFile()->getPath());
+            $sourceDimensions = getimagesize($this->sourceFile->copyToLocal()->getPath());
 
             /**
              * RESIZE TO 100 x 75 OUTBOUND
@@ -253,7 +252,7 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
             )->save($this->targetFile);
 
             $this->assertNotNull($this->targetFile->read());
-            $tmpFile = $this->targetFile->createTempFile();
+            $tmpFile = $this->targetFile->copyToLocal();
 
             $imageDimensions = getimagesize($tmpFile->getPath());
             $this->assertEquals($outbound[0], $imageDimensions[0]);
@@ -273,7 +272,7 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
             )->save($this->targetFile);
 
             $this->assertNotNull($this->targetFile->read());
-            $tmpFile = $this->targetFile->createTempFile();
+            $tmpFile = $this->targetFile->copyToLocal();
 
             $this->assertFileExists($tmpFile->getPath());
             $imageDimensions = getimagesize($tmpFile->getPath());
@@ -294,7 +293,7 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
             )->save($this->targetFile);
 
             $this->assertNotNull($this->targetFile->read());
-            $tmpFile = $this->targetFile->createTempFile();
+            $tmpFile = $this->targetFile->copyToLocal();
 
             $this->assertFileExists($tmpFile->getPath());
             $imageDimensions = getimagesize($tmpFile->getPath());
@@ -318,7 +317,7 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
             )->save($this->targetFile);
 
             $this->assertNotNull($this->targetFile->read());
-            $tmpFile = $this->targetFile->createTempFile();
+            $tmpFile = $this->targetFile->copyToLocal();
 
             $this->assertFileExists($tmpFile->getPath());
             $imageDimensions = getimagesize($tmpFile->getPath());
