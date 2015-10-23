@@ -65,7 +65,6 @@ class MozJpegOptimize implements EventSubscriberInterface
          * Copy to local
          */
         $uniqid = uniqid();
-        $this->tempDir = '/vagrant/application/web/tmp';
         $source = $image->copyToLocal($uniqid . '.jpg', $this->tempDir);
         $optimized = $image->copyToLocal($uniqid . '-optimized.jpg', $this->tempDir);
 
