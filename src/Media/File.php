@@ -96,7 +96,7 @@ class File extends Media implements FileInterface
     /**
      * {@inheritDoc}
      */
-    public function copy($newKey)
+    public function copy($newKey, $newExtension = null)
     {
         $success = $this->adapter->copy($this->key, $newKey);
 

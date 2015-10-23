@@ -8,6 +8,8 @@
 
 namespace Derby;
 
+use Derby\Adapter\FileAdapter;
+
 /**
  * Derby\MediaInterface
  *
@@ -50,7 +52,7 @@ class Media implements MediaInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return FileAdapter
      */
     public function getAdapter()
     {
