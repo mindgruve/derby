@@ -62,7 +62,7 @@ class MozJpegOptimize implements EventSubscriberInterface
          * Copy to local
          */
         $uniqid = uniqid();
-        $source = $image->copyToLocal($uniqid . '.jpg', $this->tempDir);
+        $source = $image->copyToLocal($uniqid . $image->getFileExtension(), $this->tempDir);
         $optimized = $image->copyToLocal($uniqid . '-optimized.jpg', $this->tempDir);
 
         /**

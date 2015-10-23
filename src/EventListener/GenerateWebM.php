@@ -45,7 +45,7 @@ class GenerateWebM implements EventSubscriberInterface
             return;
         }
 
-        if ($image->getFileExtension() != 'jpg' && $image->getFileExtension() != 'jpeg') {
+        if ($image->getFileExtension() != 'jpg' && $image->getFileExtension() != 'jpeg' && $image->getFileExtension() != 'png') {
             return;
         }
 
@@ -53,7 +53,7 @@ class GenerateWebM implements EventSubscriberInterface
          * Copy to local
          */
         $uniqid = uniqid();
-        $source = $image->copyToLocal($uniqid . '.jpg', $this->tempDir);
+        $source = $image->copyToLocal($uniqid . $image->getFileExtension(), $this->tempDir);
         $webp = $image->copyToLocal($uniqid . '-webp.jpg', $this->tempDir);
 
         /**
