@@ -6,7 +6,7 @@ use Derby\Event\ImagePreSave;
 use Derby\Events;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ImageExifRemove implements EventSubscriberInterface
+class AddWatermark implements EventSubscriberInterface
 {
     /**
      * @return array

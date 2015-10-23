@@ -14,11 +14,11 @@ class GifsicleOptimize implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            Events::IMAGE_PRE_SAVE => array('onImagePreSave', 0),
+            Events::IMAGE_PRE_SAVE => array('onMediaImagePreSave', 0),
         );
     }
 
-    public function onImagePreSave(ImagePreSave $e){
+    public function onMediaImagePreSave(ImagePreSave $e){
         /**
          * @todo
          */

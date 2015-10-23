@@ -15,11 +15,11 @@ class ImageMaxDimensions implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            Events::IMAGE_PRE_LOAD => array('onImagePreload', 0),
+            Events::IMAGE_PRE_LOAD => array('onMediaImagePreload', 0),
         );
     }
 
-    public function onImagePreload(ImagePreLoad $e){
+    public function onMediaImagePreload(ImagePreLoad $e){
         /**
          * @todo
          */

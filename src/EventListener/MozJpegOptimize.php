@@ -15,12 +15,12 @@ class MozJpegOptimize implements EventSubscriberInterface
     protected $mozJpgPath;
 
     /**
-     * @var
+     * @var int
      */
     protected $quality;
 
     /**
-     * @var
+     * @var string
      */
     protected $tempDir;
 
@@ -32,7 +32,7 @@ class MozJpegOptimize implements EventSubscriberInterface
     public function __construct($mozJpgPath = '', $quality = 85, $tempDir = '/tmp/derby')
     {
         $this->mozJpgPath = $mozJpgPath;
-        $this->quality = 85;
+        $this->quality = $quality;
         $this->tempDir = $tempDir;
     }
 

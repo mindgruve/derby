@@ -14,14 +14,14 @@ class GenerateWebM implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            Events::IMAGE_PRE_SAVE => array('onImagePostSave', 0),
+            Events::IMAGE_PRE_SAVE => array('onMediaImagePostSave', 0),
         );
     }
 
     /**
      * @param ImagePostSave $e
      */
-    public function onImagePostSave(ImagePostSave $e)
+    public function onMediaImagePostSave(ImagePostSave $e)
     {
         /**
          * @todo
