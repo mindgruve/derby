@@ -71,7 +71,7 @@ class MozJpegOptimize implements EventSubscriberInterface
         $safeOptimizedPath = escapeshellarg($optimized->getPath());
         $safeQuality = escapeshellarg($this->quality);
 
-        $cmd = $this->$mozJpgPath . '-outfile ' . $safeOptimizedPath . '  -quality ' . $safeQuality . ' ' . $safeSourcePath;
+        $cmd = $this->mozJpgPath . '-outfile ' . $safeOptimizedPath . '  -quality ' . $safeQuality . ' ' . $safeSourcePath;
         exec($cmd);
 
         $image->load($optimized->read());
