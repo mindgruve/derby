@@ -25,7 +25,7 @@ class Image extends File
     const THUMBNAIL_OUTBOUND = ImageInterface::THUMBNAIL_OUTBOUND;
 
     const DEFAULT_MODE = ImageInterface::THUMBNAIL_OUTBOUND;
-    const DEFAULT_QUALITY = 75;
+    const DEFAULT_QUALITY = 100;
 
     const TYPE_MEDIA_FILE_IMAGE = 'MEDIA/FILE/IMAGE';
 
@@ -42,7 +42,7 @@ class Image extends File
     /**
      * @var int
      */
-    protected $quality = 75;
+    protected $quality = 100;
 
     /**
      * @var EventDispatcherInterface
@@ -124,8 +124,12 @@ class Image extends File
      * @return Image
      * @throws InvalidImageException
      */
-    public function save(Image $newFile = null)
+    public function save(Image $newFile = null, $quality = null)
     {
+        if ($quality) {
+            $this->setQuality($quality);
+        }
+
         /**
          * DISPATCH PRE-SAVE
          */
@@ -146,11 +150,11 @@ class Image extends File
         switch ($extension) {
             case 'jpg':
             case 'jpeg':
-                $target->write($this->getInMemoryImage()->get('jpeg'), array('jpeg_quality' => $this->quality));
+                $target->write($this->getInMemoryImage()->get('jpeg', array('jpeg_quality' => $this->quality)));
                 break;
             case 'png':
                 $pngCompression = floor($this->quality / 10);
-                $target->write($this->getInMemoryImage()->get('png'), array('png_compression_level' => $pngCompression));
+                $target->write($this->getInMemoryImage()->get('png', array('png_compression_level' => $pngCompression)));
                 break;
             default:
                 throw new InvalidImageException('Invalid image extension');
