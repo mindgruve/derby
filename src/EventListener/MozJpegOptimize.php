@@ -54,6 +54,10 @@ class MozJpegOptimize implements EventSubscriberInterface
             return;
         }
 
+        if($image->getQuality() >= 100){
+            return;
+        }
+
         /**
          * Copy to local
          */
