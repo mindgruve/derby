@@ -150,11 +150,10 @@ class Image extends File
         switch ($extension) {
             case 'jpg':
             case 'jpeg':
-                $target->write($this->getInMemoryImage()->get('jpeg', array('jpeg_quality' => $this->quality)));
+                $target->write($this->getInMemoryImage()->get('jpeg'));
                 break;
             case 'png':
-                $pngCompression = floor($this->quality / 10);
-                $target->write($this->getInMemoryImage()->get('png', array('png_compression_level' => $pngCompression)));
+                $target->write($this->getInMemoryImage()->get('png'));
                 break;
             default:
                 throw new InvalidImageException('Invalid image extension');
