@@ -74,14 +74,6 @@ class File extends Media implements FileInterface
     /**
      * {@inheritDoc}
      */
-    public function exists()
-    {
-        return $this->adapter->exists($this->key);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function delete()
     {
         return $this->adapter->delete($this->key);

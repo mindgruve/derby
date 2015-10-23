@@ -18,7 +18,8 @@
         "doctrine/cache": "~1.4",
         "symfony/dependency-injection": "~2.7",
         "symfony/config": "~2.7",
-        "symfony/yaml": "~2.7"
+        "symfony/yaml": "~2.7",
+        "symfony/event-dispatcher": "^2.7"
     },
     "require-dev": {
         "mockery/mockery": "~0.9",

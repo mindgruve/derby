@@ -10,9 +10,13 @@
 namespace Derby\Tests\Integration\Media\Local;
 
 use Derby\Adapter\FileAdapter;
+use Derby\Event\ImagePostSave;
+use Derby\Event\ImagePreSave;
 use Derby\Media\File\Image;
 use Gaufrette\Adapter\Local;
 use Imagine\Image\Point;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Derby\Events;
 
 /**
  * Derby\Tests\Integration\Media\Local\ImageTest
@@ -43,14 +47,14 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
      * @param $targetKey
      * @param null $secondaryTargetKey
      */
-    public function setUpImages($sourceKey, $targetKey, $secondaryTargetKey = null)
+    public function setUpImages($sourceKey, $targetKey, $secondaryTargetKey = null, $dispatcher = null)
     {
         $imagine = new \Imagine\Gd\Imagine();
         $sourceAdapter = new FileAdapter(new Local(__DIR__ . '/../../Data/'));
         $targetAdapter = new FileAdapter(new Local(__DIR__ . '/../../Temp/'));
 
-        $this->sourceFile = new \Derby\Media\File\Image($sourceKey, $sourceAdapter, $imagine);
-        $this->targetFile = new \Derby\Media\File\Image($targetKey, $targetAdapter, $imagine);
+        $this->sourceFile = new \Derby\Media\File\Image($sourceKey, $sourceAdapter, $imagine, $dispatcher);
+        $this->targetFile = new \Derby\Media\File\Image($targetKey, $targetAdapter, $imagine, $dispatcher);
 
 
         if ($targetAdapter->exists($targetKey)) {
@@ -59,7 +63,7 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
 
         if ($secondaryTargetKey) {
             $secondaryTargetAdapter = new FileAdapter(new Local(__DIR__ . '/../../Temp/'));
-            $this->secondaryTargetFile = new \Derby\Media\File\Image($secondaryTargetKey, $secondaryTargetAdapter, $imagine);
+            $this->secondaryTargetFile = new \Derby\Media\File\Image($secondaryTargetKey, $secondaryTargetAdapter, $imagine, $dispatcher);
             if ($secondaryTargetAdapter->exists($secondaryTargetKey)) {
                 $secondaryTargetAdapter->delete($secondaryTargetKey);
             }
@@ -74,8 +78,8 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
         }
         $this->setUpImages('test-236x315.jpg', 'testGetImage.jpg');
 
-        $this->assertTrue($this->sourceFile->getImage() instanceof \Imagine\Image\AbstractImage);
-        $this->assertTrue($this->sourceFile->getImage() instanceof \Imagine\Gd\Image);
+        $this->assertTrue($this->sourceFile->getInMemoryImage() instanceof \Imagine\Image\AbstractImage);
+        $this->assertTrue($this->sourceFile->getInMemoryImage() instanceof \Imagine\Gd\Image);
 
     }
 
@@ -111,6 +115,51 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
         $this->targetFile->save($this->secondaryTargetFile);
 
         $this->assertNotEquals(md5($this->targetFile->read()), md5($this->secondaryTargetFile->read()));
+    }
+
+    public function testPreSaveEventDispatched()
+    {
+        if (!extension_loaded('gd')) {
+            return;
+        }
+
+        $eventDispatched = false;
+        $dispatcher = new EventDispatcher();
+        $dispatcher->addListener(
+            Events::IMAGE_PRE_SAVE,
+            function(ImagePreSave $e) use (&$eventDispatched){
+                $e->getImage()->greyscale();
+                $eventDispatched = true;
+            }
+        );
+
+        $this->setUpImages('test-236x315.jpg', 'testSaveAs.jpg', 'testPreSaveEventDispatched.jpg', $dispatcher);
+        $this->targetFile->write($this->sourceFile->read());
+        $this->targetFile->save($this->secondaryTargetFile);
+
+        $this->assertTrue($eventDispatched);
+    }
+
+    public function testPostSaveEventDispatched()
+    {
+        if (!extension_loaded('gd')) {
+            return;
+        }
+
+        $eventDispatched = false;
+        $dispatcher = new EventDispatcher();
+        $dispatcher->addListener(
+            Events::IMAGE_POST_SAVE,
+            function(ImagePostSave $e) use (&$eventDispatched){
+                $eventDispatched = true;
+            }
+        );
+
+        $this->setUpImages('test-236x315.jpg', 'testSaveAs.jpg', 'testPostSaveEventDispatched.jpg', $dispatcher);
+        $this->targetFile->write($this->sourceFile->read());
+        $this->targetFile->save($this->secondaryTargetFile);
+
+        $this->assertTrue($eventDispatched);
     }
 
     public function testNoChangesUntilSave()
@@ -252,7 +301,7 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($fixedWidth[0], $imageDimensions[0]);
 
             // should be within 1 unit
-            $this->assertLessThan(1, abs(floor($sourceDimensions[1] /$sourceDimensions[0] * 100))-$imageDimensions[1]);
+            $this->assertLessThan(1, abs(floor($sourceDimensions[1] / $sourceDimensions[0] * 100)) - $imageDimensions[1]);
 
 
             /**
@@ -277,7 +326,7 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($fixedHeight[1], $imageDimensions[1]);
 
             // should be within rounding error
-            $this->assertLessThan(1, abs(floor($sourceDimensions[0] /$sourceDimensions[1] * 100))-$imageDimensions[0]);
+            $this->assertLessThan(1, abs(floor($sourceDimensions[0] / $sourceDimensions[1] * 100)) - $imageDimensions[0]);
         }
     }
 

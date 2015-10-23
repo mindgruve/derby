@@ -3,6 +3,9 @@
 namespace Derby\Media\File;
 
 use Derby\AdapterInterface;
+use Derby\Event\ImagePostSave;
+use Derby\Event\ImagePreSave;
+use Derby\Events;
 use Derby\Exception\NoResizeDimensionsException;
 use Derby\Media\File;
 use Derby\Media\LocalFile;
@@ -12,6 +15,7 @@ use Derby\Exception\InvalidImageException;
 use Imagine\Image\ImagineInterface;
 use Imagine\Image\Palette\Color\ColorInterface;
 use Imagine\Image\Point;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Image extends File
 {
@@ -20,7 +24,6 @@ class Image extends File
 
     const DEFAULT_MODE = ImageInterface::THUMBNAIL_OUTBOUND;
     const DEFAULT_QUALITY = 75;
-
 
     const TYPE_MEDIA_FILE_IMAGE = 'MEDIA/FILE/IMAGE';
 
@@ -39,10 +42,21 @@ class Image extends File
      */
     protected $quality = 75;
 
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $dispatcher;
 
-    public function __construct($key, AdapterInterface $adapter, ImagineInterface $imagine)
+    /**
+     * @param $key
+     * @param AdapterInterface $adapter
+     * @param ImagineInterface $imagine
+     * @param EventDispatcherInterface $dispatcher
+     */
+    public function __construct($key, AdapterInterface $adapter, ImagineInterface $imagine, EventDispatcherInterface $dispatcher = null)
     {
         $this->imagine = $imagine;
+        $this->dispatcher = $dispatcher;
         parent::__construct($key, $adapter);
     }
 
@@ -59,7 +73,7 @@ class Image extends File
      * In Memory representation of Image
      * @return \Imagine\Image\AbstractImage
      */
-    public function getImage()
+    public function getInMemoryImage()
     {
         if (!$this->image) {
             $this->image = $this->imagine->load($this->read());
@@ -68,6 +82,10 @@ class Image extends File
         return $this->image;
     }
 
+    /**
+     * @param int $quality
+     * @throws \Exception
+     */
     public function setQuality($quality = self::DEFAULT_QUALITY)
     {
         $quality = (int)$quality;
@@ -78,6 +96,9 @@ class Image extends File
         $this->quality = $quality;
     }
 
+    /**
+     * @return int
+     */
     public function getQuality()
     {
         return $this->quality;
@@ -90,7 +111,11 @@ class Image extends File
      */
     public function save(Image $newFile = null)
     {
-        $image = $this->getImage();
+        /**
+         * DISPATCH PRE-SAVE
+         */
+        $this->dispatchPreSave($this);
+
         if ($newFile) {
             $target = $newFile;
         } else {
@@ -106,15 +131,20 @@ class Image extends File
         switch ($extension) {
             case 'jpg':
             case 'jpeg':
-                $target->write($image->get('jpeg'), array('jpeg_quality' => $this->quality));
+                $target->write($this->getInMemoryImage()->get('jpeg'), array('jpeg_quality' => $this->quality));
                 break;
             case 'png':
                 $pngCompression = floor($this->quality / 10);
-                $target->write($image->get('png'), array('png_compression_level' => $pngCompression));
+                $target->write($this->getInMemoryImage()->get('png'), array('png_compression_level' => $pngCompression));
                 break;
             default:
                 throw new InvalidImageException('Invalid image extension');
         }
+
+        /**
+         * DISPATCH POST-SAVE
+         */
+        $this->dispatchPostSave($target);
 
         return $target;
     }
@@ -136,7 +166,7 @@ class Image extends File
             $format = $this->getFileExtension();
         }
 
-        $this->getImage()->show($format);
+        $this->getInMemoryImage()->show($format);
     }
 
     /**
@@ -154,18 +184,18 @@ class Image extends File
         if ($width > 0 && $height > 0) {
             $size = new Box($width, $height);
         } elseif ($width > 0) {
-            $size = $this->getImage()
+            $size = $this->getInMemoryImage()
                 ->getSize()
                 ->widen($width);
         } elseif ($height > 0) {
-            $size = $this->getImage()
+            $size = $this->getInMemoryImage()
                 ->getSize()
                 ->heighten($height);
         } else {
             throw new NoResizeDimensionsException('You must provide $width and/or $height to resize an image');
         }
 
-        $this->image = $this->getImage()->thumbnail($size, $mode);
+        $this->image = $this->getInMemoryImage()->thumbnail($size, $mode);
 
         return $this;
     }
@@ -188,7 +218,7 @@ class Image extends File
         $point = new Point($x, $y);
         $box = new Box($height, $width);
 
-        $this->getImage()->crop($point, $box);
+        $this->getInMemoryImage()->crop($point, $box);
         return $this;
     }
 
@@ -199,7 +229,7 @@ class Image extends File
      */
     public function rotate($angle, ColorInterface $background = null)
     {
-        $this->image = $this->getImage()->rotate($angle, $background);
+        $this->image = $this->getInMemoryImage()->rotate($angle, $background);
         return $this;
     }
 
@@ -208,7 +238,7 @@ class Image extends File
      */
     public function greyscale()
     {
-        $this->getImage()->effects()->grayscale();
+        $this->getInMemoryImage()->effects()->grayscale();
         return $this;
     }
 
@@ -217,7 +247,7 @@ class Image extends File
      */
     public function flipHorizontally()
     {
-        $this->getImage()->flipHorizontally();
+        $this->getInMemoryImage()->flipHorizontally();
 
         return $this;
     }
@@ -227,7 +257,7 @@ class Image extends File
      */
     public function flipVertically()
     {
-        $this->getImage()->flipVertically();
+        $this->getInMemoryImage()->flipVertically();
 
         return $this;
     }
@@ -238,7 +268,7 @@ class Image extends File
      */
     public function getWidth()
     {
-        return $this->getImage()->getSize()->getWidth();
+        return $this->getInMemoryImage()->getSize()->getWidth();
     }
 
     /**
@@ -247,6 +277,28 @@ class Image extends File
      */
     public function getHeight()
     {
-        return $this->getImage()->getSize()->getHeight();
+        return $this->getInMemoryImage()->getSize()->getHeight();
+    }
+
+    /**
+     * @return ImagePreSave
+     */
+    protected function dispatchPreSave(Image $image){
+        $event = new ImagePreSave($image);
+        if($this->dispatcher){
+            return $this->dispatcher->dispatch(Events::IMAGE_PRE_SAVE, $event);
+        }
+        return $event;
+    }
+
+    /**
+     * @return ImagePostSave
+     */
+    protected function dispatchPostSave(Image $image){
+        $event = new ImagePostSave($image);
+        if($this->dispatcher){
+            return $this->dispatcher->dispatch(Events::IMAGE_POST_SAVE, $event);
+        }
+        return $event;
     }
 }
