@@ -25,11 +25,4 @@ class ImagePostSave extends Event
     public function getImage(){
         return $this->image;
     }
-
-    /**
-     * @param Image $image
-     */
-    public function setImage(Image $image){
-        $this->image = $image;
-    }
 }

@@ -3,7 +3,9 @@
 namespace Derby\Media\File;
 
 use Derby\AdapterInterface;
+use Derby\Event\ImagePostLoad;
 use Derby\Event\ImagePostSave;
+use Derby\Event\ImagePreLoad;
 use Derby\Event\ImagePreSave;
 use Derby\Events;
 use Derby\Exception\NoResizeDimensionsException;
@@ -52,7 +54,6 @@ class Image extends File
      * @param AdapterInterface $adapter
      * @param ImagineInterface $imagine
      * @param EventDispatcherInterface $dispatcher
-     * @param string $tempDir
      */
     public function __construct($key, AdapterInterface $adapter, ImagineInterface $imagine, EventDispatcherInterface $dispatcher = null)
     {
@@ -87,8 +88,13 @@ class Image extends File
      * @param $data
      * @return ImageInterface
      */
-    public function load($data){
-        return $this->imagine->load($data);
+    public function load($data)
+    {
+        $this->dispatchPreLoad($this);
+        $return = $this->imagine->load($data);
+        $this->dispatchPostLoad($this);
+
+        return $return;
     }
 
     /**
@@ -292,9 +298,10 @@ class Image extends File
     /**
      * @return ImagePreSave
      */
-    protected function dispatchPreSave(Image $image){
+    protected function dispatchPreSave(Image $image)
+    {
         $event = new ImagePreSave($image);
-        if($this->dispatcher){
+        if ($this->dispatcher) {
             return $this->dispatcher->dispatch(Events::IMAGE_PRE_SAVE, $event);
         }
         return $event;
@@ -303,10 +310,37 @@ class Image extends File
     /**
      * @return ImagePostSave
      */
-    protected function dispatchPostSave(Image $image){
+    protected function dispatchPostSave(Image $image)
+    {
         $event = new ImagePostSave($image);
-        if($this->dispatcher){
+        if ($this->dispatcher) {
             return $this->dispatcher->dispatch(Events::IMAGE_POST_SAVE, $event);
+        }
+        return $event;
+    }
+
+    /**
+     * @param Image $image
+     * @return ImagePreLoad|\Symfony\Component\EventDispatcher\Event
+     */
+    public function dispatchPreLoad(Image $image)
+    {
+        $event = new ImagePreLoad($image);
+        if ($this->dispatcher) {
+            return $this->dispatcher->dispatch(Events::IMAGE_PRE_LOAD, $event);
+        }
+        return $event;
+    }
+
+    /**
+     * @param Image $image
+     * @return ImagePostLoad|\Symfony\Component\EventDispatcher\Event
+     */
+    public function dispatchPostLoad(Image $image)
+    {
+        $event = new ImagePostLoad($image);
+        if ($this->dispatcher) {
+            return $this->dispatcher->dispatch(Events::IMAGE_POST_LOAD, $event);
         }
         return $event;
     }

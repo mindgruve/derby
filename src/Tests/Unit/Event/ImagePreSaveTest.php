@@ -29,15 +29,4 @@ class ImagePreSaveTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($image, $sut->getImage());
     }
-
-    public function testSetImage()
-    {
-        $image = Mockery::mock(self::$imageInterface);
-        $image2 = Mockery::mock(self::$imageInterface);
-
-        $sut = new ImagePreSave($image);
-        $sut->setImage($image2);
-
-        $this->assertEquals($image2, $sut->getImage());
-    }
 }

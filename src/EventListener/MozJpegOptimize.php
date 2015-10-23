@@ -6,7 +6,7 @@ use Derby\Event\ImagePreSave;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Derby\Events;
 
-class MozJpegOptimizer implements EventSubscriberInterface
+class MozJpegOptimize implements EventSubscriberInterface
 {
 
     /**
@@ -29,7 +29,7 @@ class MozJpegOptimizer implements EventSubscriberInterface
      * @param int $quality
      * @param string $tempDir
      */
-    public function __construct($mozJpgPath = '/opt/mozjpeg/bin/cjpeg', $quality = 85, $tempDir = '/tmp/derby')
+    public function __construct($mozJpgPath = '', $quality = 85, $tempDir = '/tmp/derby')
     {
         $this->mozJpgPath = $mozJpgPath;
         $this->quality = 85;
@@ -52,6 +52,10 @@ class MozJpegOptimizer implements EventSubscriberInterface
     public function onImagePreSave(ImagePreSave $e)
     {
         $image = $e->getImage();
+
+        if (!$this->mozJpgPath) {
+            return;
+        }
 
         if ($image->getFileExtension() != 'jpg' && $image->getFileExtension() != 'jpeg') {
             return;

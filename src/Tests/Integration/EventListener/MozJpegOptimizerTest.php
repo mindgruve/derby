@@ -3,7 +3,7 @@
 namespace Derby\Tests\Integration\EventListener;
 
 use Derby\Adapter\FileAdapter;
-use Derby\EventListener\MozJpegOptimizer;
+use Derby\EventListener\MozJpegOptimize;
 use Gaufrette\Adapter\Local;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
@@ -13,7 +13,7 @@ class MozJpegOptimizerTest extends \PHPUnit_Framework_TestCase
     public function testMozJpegOptimizerGD()
     {
         $dispatcher = new EventDispatcher();
-        $sut = new MozJpegOptimizer();
+        $sut = new MozJpegOptimize();
         $dispatcher->addSubscriber($sut);
 
         $sourceKey = 'test-236x315.jpg';
@@ -28,6 +28,6 @@ class MozJpegOptimizerTest extends \PHPUnit_Framework_TestCase
         $sourceFile = new \Derby\Media\File\Image($sourceKey, $sourceAdapter, $imagine, $dispatcher);
         $targetFile = new \Derby\Media\File\Image($targetKey, $targetAdapter, $imagine, $dispatcher);
 
-        //$sourceFile->save($targetFile);
+        $sourceFile->save($targetFile);
     }
 }
