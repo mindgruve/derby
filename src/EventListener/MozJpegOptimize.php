@@ -64,17 +64,31 @@ class MozJpegOptimize implements EventSubscriberInterface
         /**
          * Copy to local
          */
-        $source = $image->copyToLocal(uniqid() . '.jpg', $this->tempDir);
-        $optimized = $image->copyToLocal(uniqid() . '.jpg', $this->tempDir);
+        $uniqid = uniqid();
+        $this->tempDir = '/vagrant/application/web/tmp';
+        $source = $image->copyToLocal($uniqid . '.jpg', $this->tempDir);
+        $optimized = $image->copyToLocal($uniqid . '-optimized.jpg', $this->tempDir);
 
+        /**
+         * Optimize
+         */
         $safeSourcePath = escapeshellarg($source->getPath());
         $safeOptimizedPath = escapeshellarg($optimized->getPath());
         $safeQuality = escapeshellarg($this->quality);
 
-        $cmd = $this->mozJpgPath . '-outfile ' . $safeOptimizedPath . '  -quality ' . $safeQuality . ' ' . $safeSourcePath;
+        $cmd = $this->mozJpgPath . ' -outfile ' . $safeOptimizedPath . '  -quality ' . $safeQuality . ' ' . $safeSourcePath;
         exec($cmd);
 
-        $image->load($optimized->read());
+        /**
+         * Replace Image
+         */
+        if($source->getSize() > $optimized->getSize()){
+            $image->load($optimized->read());
+        }
+
+        /**
+         * Cleanup
+         */
         $source->delete();
         $optimized->delete();
     }
