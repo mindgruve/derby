@@ -78,7 +78,7 @@ class MozJpegOptimize implements EventSubscriberInterface
         /**
          * Replace Image
          */
-        if($source->getSize() > $optimized->getSize()){
+        if($source->getSize() > $optimized->getSize() && $optimized->getSize() != 0){
             $image->load($optimized->read());
         }
 

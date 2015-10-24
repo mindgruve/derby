@@ -68,7 +68,7 @@ class GenerateWebM implements EventSubscriberInterface
         /**
          * Replace Image
          */
-        if ($source->getSize() > $webp->getSize()) {
+        if ($source->getSize() > $webp->getSize() && $webp->getSize() != 0) {
             $newKey = str_replace('.' . $image->getFileExtension(), '.webp', $image->getKey());
             $image->getAdapter()->write($newKey, $webp->read());
 
