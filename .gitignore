@@ -3,6 +3,7 @@ composer.phar
 bin/phpunit
 composer.lock
 .idea/*
+documentation/.vagrant/*
 
 ##  OS generated files
 .DS_Store

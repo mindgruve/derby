@@ -10,7 +10,6 @@ use Derby\Event\ImagePreSave;
 use Derby\Events;
 use Derby\Exception\NoResizeDimensionsException;
 use Derby\Media\File;
-use Derby\Media\LocalFile;
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
 use Derby\Exception\InvalidImageException;
@@ -91,10 +90,10 @@ class Image extends File
     public function load($data)
     {
         $this->dispatchPreLoad($this);
-        $return = $this->imagine->load($data);
+        $this->image = $this->imagine->load($data);
         $this->dispatchPostLoad($this);
 
-        return $return;
+        return $this->image;
     }
 
     /**

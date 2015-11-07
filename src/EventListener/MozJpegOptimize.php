@@ -3,6 +3,7 @@
 namespace Derby\EventListener;
 
 use Derby\Event\ImagePreSave;
+use Derby\Media\File\LocalFile;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Derby\Events;
 
@@ -23,7 +24,7 @@ class MozJpegOptimize implements EventSubscriberInterface
      * @param string $mozJpgPath
      * @param string $tempDir
      */
-    public function __construct($mozJpgPath = '',  $tempDir = '/tmp/derby')
+    public function __construct($mozJpgPath,  $tempDir)
     {
         $this->mozJpgPath = $mozJpgPath;
         $this->tempDir = $tempDir;
@@ -45,7 +46,6 @@ class MozJpegOptimize implements EventSubscriberInterface
     public function onMediaImagePreSave(ImagePreSave $e)
     {
         $image = $e->getImage();
-
         if (!$this->mozJpgPath) {
             return;
         }
@@ -62,8 +62,9 @@ class MozJpegOptimize implements EventSubscriberInterface
          * Copy to local
          */
         $uniqid = uniqid();
-        $source = $image->copyToLocal($uniqid . $image->getFileExtension(), $this->tempDir);
-        $optimized = $image->copyToLocal($uniqid . '-optimized.jpg', $this->tempDir);
+        $source = new LocalFile($uniqid.'.jpg',$this->tempDir);
+        $optimized = new LocalFile($uniqid.'-optimized.jpg',$this->tempDir);
+        $source->write($image->getInMemoryImage()->get('jpg'));
 
         /**
          * Optimize
@@ -74,6 +75,7 @@ class MozJpegOptimize implements EventSubscriberInterface
 
         $cmd = $this->mozJpgPath . ' -outfile ' . $safeOptimizedPath . '  -quality ' . $safeQuality . ' ' . $safeSourcePath;
         exec($cmd);
+
 
         /**
          * Replace Image

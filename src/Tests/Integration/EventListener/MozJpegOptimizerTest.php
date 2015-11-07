@@ -13,7 +13,7 @@ class MozJpegOptimizerTest extends \PHPUnit_Framework_TestCase
     public function testMozJpegOptimizerGD()
     {
         $dispatcher = new EventDispatcher();
-        $sut = new MozJpegOptimize();
+        $sut = new MozJpegOptimize('/opt/mozjpeg/bin/cjpeg', '/tmp');
         $dispatcher->addSubscriber($sut);
 
         $sourceKey = 'test-236x315.jpg';
@@ -25,9 +25,37 @@ class MozJpegOptimizerTest extends \PHPUnit_Framework_TestCase
         $sourceAdapter = new FileAdapter(new Local(__DIR__ . '/../Data/'));
         $targetAdapter = new FileAdapter(new Local(__DIR__ . '/../Temp/'));
 
-        $sourceFile = new \Derby\Media\File\Image($sourceKey, $sourceAdapter, $imagine, $dispatcher);
-        $targetFile = new \Derby\Media\File\Image($targetKey, $targetAdapter, $imagine, $dispatcher);
+        $sourceImage = new \Derby\Media\File\Image($sourceKey, $sourceAdapter, $imagine, $dispatcher);
+        $targetImage = new \Derby\Media\File\Image($targetKey, $targetAdapter, $imagine, $dispatcher);
 
-        $sourceFile->save($targetFile);
+        /**
+         * 100% Quality
+         */
+        $sourceImage->save($targetImage, 100);
+        $localSource = $sourceImage->copyToLocal();
+        $localTarget = $targetImage->copyToLocal();
+        $this->assertGreaterThanOrEqual($localTarget->getSize(), $localSource->getSize());
+        $localSource->delete();
+        $localTarget->delete();
+
+        /**
+         * 85% Quality
+         */
+        $sourceImage->save($targetImage, 85);
+        $localSource = $sourceImage->copyToLocal();
+        $localTarget = $targetImage->copyToLocal();
+        $this->assertGreaterThanOrEqual($localTarget->getSize(), $localSource->getSize());
+        $localSource->delete();
+        $localTarget->delete();
+
+        /**
+         * 65% Quality
+         */
+        $sourceImage->save($targetImage, 65);
+        $localSource = $sourceImage->copyToLocal();
+        $localTarget = $targetImage->copyToLocal();
+        $this->assertGreaterThanOrEqual($localTarget->getSize(), $localSource->getSize());
+        $localSource->delete();
+        $localTarget->delete();
     }
 }
