@@ -31,7 +31,7 @@ class ImageGDTransformerTest extends \PHPUnit_Framework_TestCase
         $targetAdapter = new FileAdapter(new Local(__DIR__ . '/../../Temp/'));
         $this->originalFile = new Image($sourceKey, $sourceAdapter, $imagine);
         $this->newFile = new Image('transform' . $index . '.jpg', $targetAdapter, $imagine);
-        if($targetAdapter->exists($targetKey)){
+        if ($targetAdapter->exists($targetKey)) {
             $targetAdapter->delete($targetKey);
         }
     }
@@ -47,9 +47,12 @@ class ImageGDTransformerTest extends \PHPUnit_Framework_TestCase
         $sut = new ImageTransformer();
         $sut->addFilter(
             'greyscale',
-            array(
-                'greyscale' => true,
-            ));
+            array('transform' =>
+                array(
+                    'greyscale' => true,
+                )
+            )
+        );
 
         $sut->apply('greyscale', $this->originalFile)->save($this->newFile);
     }
@@ -65,9 +68,12 @@ class ImageGDTransformerTest extends \PHPUnit_Framework_TestCase
 
         $sut->addFilter(
             'fliphorizontally',
-            array(
-                'flipHorizontally' => true,
-            ));
+            array('transform' =>
+                array(
+                    'flipHorizontally' => true,
+                )
+            )
+        );
 
         $sut->apply('fliphorizontally', $this->originalFile)->save($this->newFile);
     }
@@ -83,9 +89,12 @@ class ImageGDTransformerTest extends \PHPUnit_Framework_TestCase
 
         $sut->addFilter(
             'flipvertically',
-            array(
-                'flipVertically' => true,
-            ));
+            array('transform' =>
+                array(
+                    'flipVertically' => true,
+                )
+            )
+        );
 
         $sut->apply('flipvertically', $this->originalFile)->save($this->newFile);
     }
@@ -101,12 +110,15 @@ class ImageGDTransformerTest extends \PHPUnit_Framework_TestCase
 
         $sut->addFilter(
             'resize',
-            array(
-                'resize' => array(
-                    'height' => 100,
-                    'width' => 50
+            array('transform' =>
+                array(
+                    'resize' => array(
+                        'height' => 100,
+                        'width' => 50
+                    )
                 )
-            ));
+            )
+        );
 
         $sut->apply('resize', $this->originalFile)->save($this->newFile);
     }
@@ -121,14 +133,17 @@ class ImageGDTransformerTest extends \PHPUnit_Framework_TestCase
         $sut = new ImageTransformer();
 
         $sut->addFilter('crop',
-            array(
-                'crop' => array(
-                    'x' => 50,
-                    'y' => 50,
-                    'height' => 100,
-                    'width' => 50
+            array('transform' =>
+                array(
+                    'crop' => array(
+                        'x' => 50,
+                        'y' => 50,
+                        'height' => 100,
+                        'width' => 50
+                    )
                 )
-            ));
+            )
+        );
 
         $sut->apply('crop', $this->originalFile)->save($this->newFile);
     }
@@ -144,11 +159,14 @@ class ImageGDTransformerTest extends \PHPUnit_Framework_TestCase
 
         $sut->addFilter(
             'rotate',
-            array(
-                'rotate' => array(
-                    'degrees' => 20
+            array('transform' =>
+                array(
+                    'rotate' => array(
+                        'degrees' => 20
+                    )
                 )
-            ));
+            )
+        );
 
         $sut->apply('rotate', $this->originalFile)->save($this->newFile);
     }
@@ -164,16 +182,19 @@ class ImageGDTransformerTest extends \PHPUnit_Framework_TestCase
 
         $sut->addFilter(
             'multiple',
-            array(
-                'greyscale' => true,
-                'flipVertically' => true,
-                'crop' => array(
-                    'x' => 100,
-                    'y' => 100,
-                    'height' => 100,
-                    'width' => 100
+            array('transform' =>
+                array(
+                    'greyscale' => true,
+                    'flipVertically' => true,
+                    'crop' => array(
+                        'x' => 100,
+                        'y' => 100,
+                        'height' => 100,
+                        'width' => 100
+                    )
                 )
-            ));
+            )
+        );
 
         $sut->apply('multiple', $this->originalFile)->save($this->newFile);
     }

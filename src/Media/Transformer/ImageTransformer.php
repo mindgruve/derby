@@ -41,7 +41,7 @@ class ImageTransformer
      */
     public function addFilter($filterKey, array $filter = array())
     {
-        $this->filters[$filterKey]['filter'] = $filter;
+        $this->filters[$filterKey] = $filter;
     }
 
     /**
@@ -77,9 +77,9 @@ class ImageTransformer
         if (!isset($this->filters[$filterKey])) {
             return $image;
         }
-        $filter = $this->filters[$filterKey]['filter'];
+        $transform = $this->filters[$filterKey]['transform'];
         $resolution = (float) $resolution;
-        foreach ($filter as $action => $parameters) {
+        foreach ($transform as $action => $parameters) {
             if ($parameters) {
                 switch (strtolower(trim($action))) {
                     case 'greyscale':
