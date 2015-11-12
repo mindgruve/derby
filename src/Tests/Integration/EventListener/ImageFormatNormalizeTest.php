@@ -13,7 +13,6 @@ class ImageFormatNormalizeTest extends \PHPUnit_Framework_TestCase
 
     protected $formats = array(
         'bmp' => 'jpg',
-        'ico' => 'png',
         'tiff' => 'jpg',
     );
 
