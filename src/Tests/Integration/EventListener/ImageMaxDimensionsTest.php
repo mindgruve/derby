@@ -13,7 +13,7 @@ class ImageMaxDimensionsTest extends \PHPUnit_Framework_TestCase
     public function testImageMaxDimensionsGD()
     {
         $dispatcher = new EventDispatcher();
-        $sut = new ImageMaxDimensions('/tmp', 'convert', 100, 100);
+        $sut = new ImageMaxDimensions('/tmp', 'convert', 100, 100, 2000, 2000);
         $dispatcher->addSubscriber($sut);
 
         $sourceKey = 'test-236x315.jpg';

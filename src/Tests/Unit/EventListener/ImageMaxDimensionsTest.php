@@ -11,14 +11,14 @@ class ImageMaxDimensionsTest extends \PHPUnit_Framework_TestCase
 
     public function testInterface()
     {
-        $sut = new ImageMaxDimensions('/tmp', 'convert', 100, 100);
+        $sut = new ImageMaxDimensions('/tmp', 'convert', 100, 100, 2000,2000);
 
         $this->assertTrue($sut instanceof EventSubscriberInterface);
     }
 
     public function testGetSubscribedEvents()
     {
-        $sut = new ImageMaxDimensions('/tmp', 'convert', 100, 100);
+        $sut = new ImageMaxDimensions('/tmp', 'convert', 100, 100, 2000, 2000);
 
         $this->assertEquals(array(
             Events::IMAGE_PRE_LOAD => array('onMediaImagePreLoad', 0),

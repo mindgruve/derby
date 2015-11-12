@@ -10,12 +10,22 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class ImageMaxDimensions implements EventSubscriberInterface
 {
     /**
-     * @var int|null
+     * @var int
+     */
+    protected $width;
+
+    /**
+     * @var int
+     */
+    protected $height;
+
+    /**
+     * @var int
      */
     protected $maxWidth;
 
     /**
-     * @var int|null
+     * @var int
      */
     protected $maxHeight;
 
@@ -32,15 +42,30 @@ class ImageMaxDimensions implements EventSubscriberInterface
     /**
      * @param $tempDir
      * @param $imageMagickConvert
+     * @param $width
+     * @param $height
      * @param null $maxWidth
      * @param null $maxHeight
+     * @throws \Exception
      */
-    public function __construct($tempDir, $imageMagickConvert, $maxWidth, $maxHeight)
+    public function __construct($tempDir, $imageMagickConvert, $width, $height, $maxWidth, $maxHeight)
     {
         $this->tempDir = $tempDir;
-        $this->maxHeight = (int)$maxHeight;
-        $this->maxWidth = (int)$maxWidth;
+        $this->height = (int)$height;
+        $this->width = (int)$width;
         $this->imageMagickConvert = $imageMagickConvert;
+        $this->maxWidth = (int)$maxWidth;
+        $this->maxHeight = (int)$maxHeight;
+
+        if ($height <= 0 || $width <= 0) {
+            throw new \Exception('Height/Width for image dimensions should be a positive integer');
+        }
+
+        if ($maxHeight <= 0 || $maxWidth <= 0) {
+            throw new \Exception('Max Height/Width for image dimensions should be a positive integer');
+        }
+
+
     }
 
     /**
@@ -66,13 +91,17 @@ class ImageMaxDimensions implements EventSubscriberInterface
         $width = $imageSize[0];
         $height = $imageSize[1];
 
-        if ($width <= $this->maxWidth && $height <= $this->maxHeight) {
+        if ($width <= $this->width && $height <= $this->height) {
             return;
+        }
+
+        if ($width >= $this->maxWidth || $height >= $this->maxWidth) {
+            throw new \Exception('Image dimensions to large to resize');
         }
 
         $safeSourcePath = escapeshellarg($sourcePath);
         $safeResizedPath = escapeshellarg($resized->getPath());
-        $cmd = $this->imageMagickConvert . ' ' . $safeSourcePath . ' -resize ' . $this->maxWidth . 'x' . $this->maxHeight . '\> ' . $safeResizedPath;
+        $cmd = $this->imageMagickConvert . ' ' . $safeSourcePath . ' -resize ' . $this->width . 'x' . $this->height . '\> ' . $safeResizedPath;
         exec($cmd);
 
         if ($resized->exists() && $resized->getSize() > 0) {

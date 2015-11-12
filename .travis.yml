@@ -12,11 +12,8 @@ before_install:
   - /home/travis/.phpenv/versions/5.6/bin/composer self-update
   - /home/travis/.phpenv/versions/hhvm/bin/composer self-update
   - composer self-update
-  - sudo apt-get install -y imagemagick php5-imagick
+  - sudo apt-get install -y imagemagick
 install:
   - composer install
 script: 
   - ./run-tests.sh
-
-
-
