@@ -3,9 +3,9 @@
 namespace Derby\Media\File;
 
 use Derby\AdapterInterface;
-use Derby\Event\ImagePostLoadFile;
+use Derby\Event\ImagePostLoad;
 use Derby\Event\ImagePostSave;
-use Derby\Event\ImagePreLoadFile;
+use Derby\Event\ImagePreLoad;
 use Derby\Event\ImagePreSave;
 use Derby\Events;
 use Derby\Exception\NoResizeDimensionsException;
@@ -71,11 +71,11 @@ class Image extends File
     }
 
 
-    public function loadFile()
+    public function load()
     {
-        $this->dispatchPreLoadFile($this);
+        $this->dispatchPreLoad($this);
         $this->setImageData($this->read());
-        $this->dispatchPostLoadFile($this);
+        $this->dispatchPostLoad($this);
 
         return $this;
     }
@@ -98,7 +98,7 @@ class Image extends File
     public function getImageData($format = null)
     {
         if (!$this->image) {
-            $this->loadFile();
+            $this->load();
         }
 
         if ($format) {
@@ -335,11 +335,11 @@ class Image extends File
 
     /**
      * @param Image $image
-     * @return ImagePreLoadFile|\Symfony\Component\EventDispatcher\Event
+     * @return ImagePreLoad|\Symfony\Component\EventDispatcher\Event
      */
-    public function dispatchPreLoadFile(Image $image)
+    public function dispatchPreLoad(Image $image)
     {
-        $event = new ImagePreLoadFile($image);
+        $event = new ImagePreLoad($image);
         if ($this->dispatcher) {
             return $this->dispatcher->dispatch(Events::IMAGE_PRE_LOAD, $event);
         }
@@ -348,11 +348,11 @@ class Image extends File
 
     /**
      * @param Image $image
-     * @return ImagePostLoadFile|\Symfony\Component\EventDispatcher\Event
+     * @return ImagePostLoad|\Symfony\Component\EventDispatcher\Event
      */
-    public function dispatchPostLoadFile(Image $image)
+    public function dispatchPostLoad(Image $image)
     {
-        $event = new ImagePostLoadFile($image);
+        $event = new ImagePostLoad($image);
         if ($this->dispatcher) {
             return $this->dispatcher->dispatch(Events::IMAGE_POST_LOAD, $event);
         }

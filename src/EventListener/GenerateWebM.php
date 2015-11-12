@@ -30,7 +30,7 @@ class GenerateWebM implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            Events::IMAGE_PRE_SAVE => array('onMediaImagePostSave', 0),
+            Events::IMAGE_POST_SAVE => array('onMediaImagePostSave', 0),
         );
     }
 
@@ -62,7 +62,7 @@ class GenerateWebM implements EventSubscriberInterface
         $safeSourcePath = escapeshellarg($source->getPath());
         $safeOptimizedPath = escapeshellarg($webp->getPath());
 
-        $cmd = $this->cwebp . ' ' . $safeSourcePath . ' -o ' . $safeOptimizedPath;
+        $cmd = $this->cwebp . ' ' . $safeSourcePath . ' -o ' . $safeOptimizedPath . ' -quiet';
         exec($cmd);
 
         /**
