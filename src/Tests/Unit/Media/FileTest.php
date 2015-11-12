@@ -158,4 +158,95 @@ class FileTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(false, $sut->rename('bar'));
     }
+
+    public function testGetFileExtension()
+    {
+
+        /**
+         * Test No Extension
+         */
+
+        $key = 'foo';
+        $adapter = Mockery::mock(self::$fileAdapterInterface);
+
+        $sut = new File($key, $adapter);
+        $this->assertEquals(null, $sut->getFileExtension());
+
+        /**
+         * Test single period
+         */
+        $key = 'foo.txt';
+        $adapter = Mockery::mock(self::$fileAdapterInterface);
+
+        $sut = new File($key, $adapter);
+        $this->assertEquals('txt', $sut->getFileExtension());
+
+        /**
+         * Test multiple periods
+         */
+        $key = 'foo.html.twig';
+        $adapter = Mockery::mock(self::$fileAdapterInterface);
+
+        $sut = new File($key, $adapter);
+        $this->assertEquals('twig', $sut->getFileExtension());
+
+
+        /**
+         * Test Strange file names
+         */
+        $key = 'foo html &#CCV@#@.txt';
+        $adapter = Mockery::mock(self::$fileAdapterInterface);
+
+        $sut = new File($key, $adapter);
+        $this->assertEquals('txt', $sut->getFileExtension());
+    }
+
+    public function testSetFileExtension(){
+        /**
+         * Test No Extension
+         */
+
+        $key = 'foo';
+        $adapter = Mockery::mock(self::$fileAdapterInterface);
+
+        $sut = new File($key, $adapter);
+        $this->assertEquals(null, $sut->setFileExtension(''));
+
+        /**
+         * Test single period
+         */
+        $key = 'foo.txt';
+        $adapter = Mockery::mock(self::$fileAdapterInterface);
+
+        $sut = new File($key, $adapter);
+        $adapter->shouldReceive('rename')->with('foo.txt','foo.html')->andReturn(true);
+        $this->assertEquals(true, $sut->setFileExtension('html'));
+        $this->assertEquals('html', $sut->getFileExtension());
+        $this->assertEquals('foo.html', $sut->getKey());
+
+        /**
+         * Test multiple periods
+         */
+        $key = 'foo.html.twig';
+        $adapter = Mockery::mock(self::$fileAdapterInterface);
+
+        $sut = new File($key, $adapter);
+        $adapter->shouldReceive('rename')->with('foo.html.twig','foo.html.php')->andReturn(true);
+        $this->assertEquals(true, $sut->setFileExtension('php'));
+        $this->assertEquals('php', $sut->getFileExtension());
+        $this->assertEquals('foo.html.php', $sut->getKey());
+
+
+        /**
+         * Test Strange file names
+         */
+        $key = 'foo html &#CCV@#@.txt';
+        $adapter = Mockery::mock(self::$fileAdapterInterface);
+
+        $sut = new File($key, $adapter);
+        $adapter->shouldReceive('rename')->with('foo html &#CCV@#@.txt','foo html &#CCV@#@.php')->andReturn(true);
+        $this->assertEquals(true, $sut->setFileExtension('php'));
+        $this->assertEquals('php', $sut->getFileExtension());
+        $this->assertEquals('foo html &#CCV@#@.php', $sut->getKey());
+    }
 }

@@ -41,10 +41,6 @@ class GenerateWebM implements EventSubscriberInterface
     {
         $image = $e->getImage();
 
-        if (!$this->cwebp) {
-            return;
-        }
-
         if ($image->getFileExtension() != 'jpg' && $image->getFileExtension() != 'jpeg' && $image->getFileExtension() != 'png') {
             return;
         }

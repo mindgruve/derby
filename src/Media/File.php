@@ -54,7 +54,7 @@ class File extends Media implements FileInterface
      */
     public function read()
     {
-        if(!$this->exists()){
+        if (!$this->exists()) {
             throw new \Exception('File does not exist');
         }
 
@@ -96,7 +96,7 @@ class File extends Media implements FileInterface
     /**
      * {@inheritDoc}
      */
-    public function copy($newKey, $newExtension = null)
+    public function copy($newKey)
     {
         $success = $this->adapter->copy($this->key, $newKey);
 
@@ -108,13 +108,42 @@ class File extends Media implements FileInterface
      */
     public function getFileExtension()
     {
-        // @todo we are going to want make this smarter. A "." should be the last char followed by letters.
-
         if (strpos($this->key, '.') === false) {
             return null;
         }
 
-        return substr($this->key, strrpos($this->key, '.') + 1, strlen($this->key));
+        $fileParts = explode('.', $this->key);
+        return array_pop($fileParts);
+    }
+
+    public function getKeyWithExtension($ext)
+    {
+        if (!$ext) {
+            return $this->getKey();
+        }
+
+        $currentExt = $this->getFileExtension();
+        $currentKey = $this->getKey();
+
+        if (!$currentExt) {
+            return $this->rename($currentKey . '.' . $ext);
+        }
+
+        $fileParts = explode('.', $this->key);
+        array_pop($fileParts);
+        $fileParts[] = $ext;
+
+        return implode('.', $fileParts);
+    }
+
+    public function setFileExtension($ext)
+    {
+        if (!$ext) {
+            return null;
+        }
+
+        $newFileName = $this->getKeyWithExtension($ext);
+        return $this->rename($newFileName);
     }
 
     /**
@@ -124,8 +153,8 @@ class File extends Media implements FileInterface
      */
     public function copyToLocal($key = null, $directory = null)
     {
-        if(!$key){
-            $key = uniqid().'.'.$this->getFileExtension();
+        if (!$key) {
+            $key = uniqid() . '.' . $this->getFileExtension();
         }
 
         if (!$directory) {

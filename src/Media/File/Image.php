@@ -143,6 +143,8 @@ class Image extends File
             $this->setQuality($quality);
         }
 
+        $this->load();
+
         /**
          * DISPATCH PRE-SAVE
          */
