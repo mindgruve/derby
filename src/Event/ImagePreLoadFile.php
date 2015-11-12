@@ -5,7 +5,7 @@ namespace Derby\Event;
 use Derby\Media\File\Image;
 use Symfony\Component\EventDispatcher\Event;
 
-class ImagePreLoad extends Event
+class ImagePreLoadFile extends Event
 {
     /**
      * @var Image

@@ -64,7 +64,7 @@ class MozJpegOptimize implements EventSubscriberInterface
         $uniqid = uniqid();
         $source = new LocalFile($uniqid.'.jpg',$this->tempDir);
         $optimized = new LocalFile($uniqid.'-optimized.jpg',$this->tempDir);
-        $source->write($image->getInMemoryImage()->get('jpg'));
+        $source->write($image->getImageData()->get('jpg'));
 
         /**
          * Optimize
@@ -81,7 +81,7 @@ class MozJpegOptimize implements EventSubscriberInterface
          * Replace Image
          */
         if($source->getSize() > $optimized->getSize() && $optimized->getSize() != 0){
-            $image->load($optimized->read());
+            $image->setImageData($optimized->read());
         }
 
         /**

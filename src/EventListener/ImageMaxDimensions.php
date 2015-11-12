@@ -2,7 +2,7 @@
 
 namespace Derby\EventListener;
 
-use Derby\Event\ImagePreLoad;
+use Derby\Event\ImagePreLoadFile;
 use Derby\Events;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -19,7 +19,7 @@ class ImageMaxDimensions implements EventSubscriberInterface
         );
     }
 
-    public function onMediaImagePreload(ImagePreLoad $e){
+    public function onMediaImagePreload(ImagePreLoadFile $e){
         /**
          * @todo
          */

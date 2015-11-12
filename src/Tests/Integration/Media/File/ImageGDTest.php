@@ -77,8 +77,8 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
         }
         $this->setUpImages('test-236x315.jpg', 'testGetImage.jpg');
 
-        $this->assertTrue($this->sourceFile->getInMemoryImage() instanceof \Imagine\Image\AbstractImage);
-        $this->assertTrue($this->sourceFile->getInMemoryImage() instanceof \Imagine\Gd\Image);
+        $this->assertTrue($this->sourceFile->getImageData() instanceof \Imagine\Image\AbstractImage);
+        $this->assertTrue($this->sourceFile->getImageData() instanceof \Imagine\Gd\Image);
 
     }
 

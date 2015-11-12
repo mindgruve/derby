@@ -3,9 +3,9 @@
 namespace Derby\Media\File;
 
 use Derby\AdapterInterface;
-use Derby\Event\ImagePostLoad;
+use Derby\Event\ImagePostLoadFile;
 use Derby\Event\ImagePostSave;
-use Derby\Event\ImagePreLoad;
+use Derby\Event\ImagePreLoadFile;
 use Derby\Event\ImagePreSave;
 use Derby\Events;
 use Derby\Exception\NoResizeDimensionsException;
@@ -70,28 +70,40 @@ class Image extends File
         return self::TYPE_MEDIA_FILE_IMAGE;
     }
 
-    /**
-     * In Memory representation of Image
-     * @return \Imagine\Image\AbstractImage
-     */
-    public function getInMemoryImage()
-    {
-        if (!$this->image) {
-            $this->image = $this->load($this->read());
-        }
 
-        return $this->image;
+    public function loadFile()
+    {
+        $this->dispatchPreLoadFile($this);
+        $this->setImageData($this->read());
+        $this->dispatchPostLoadFile($this);
+
+        return $this;
     }
 
     /**
      * @param $data
      * @return ImageInterface
      */
-    public function load($data)
+    public function setImageData($data)
     {
-        $this->dispatchPreLoad($this);
         $this->image = $this->imagine->load($data);
-        $this->dispatchPostLoad($this);
+
+        return $this;
+    }
+
+    /**
+     * In Memory representation of Image
+     * @return \Imagine\Image\AbstractImage
+     */
+    public function getImageData($format = null)
+    {
+        if (!$this->image) {
+            $this->loadFile();
+        }
+
+        if ($format) {
+            return $this->image->get($format);
+        }
 
         return $this->image;
     }
@@ -149,10 +161,10 @@ class Image extends File
         switch ($extension) {
             case 'jpg':
             case 'jpeg':
-                $target->write($this->getInMemoryImage()->get('jpeg'));
+                $target->write($this->getImageData('jpeg'));
                 break;
             case 'png':
-                $target->write($this->getInMemoryImage()->get('png'));
+                $target->write($this->getImageData('png'));
                 break;
             default:
                 throw new InvalidImageException('Invalid image extension');
@@ -183,7 +195,7 @@ class Image extends File
             $format = $this->getFileExtension();
         }
 
-        $this->getInMemoryImage()->show($format);
+        $this->getImageData()->show($format);
     }
 
     /**
@@ -201,18 +213,18 @@ class Image extends File
         if ($width > 0 && $height > 0) {
             $size = new Box($width, $height);
         } elseif ($width > 0) {
-            $size = $this->getInMemoryImage()
+            $size = $this->getImageData()
                 ->getSize()
                 ->widen($width);
         } elseif ($height > 0) {
-            $size = $this->getInMemoryImage()
+            $size = $this->getImageData()
                 ->getSize()
                 ->heighten($height);
         } else {
             throw new NoResizeDimensionsException('You must provide $width and/or $height to resize an image');
         }
 
-        $this->image = $this->getInMemoryImage()->thumbnail($size, $mode);
+        $this->image = $this->getImageData()->thumbnail($size, $mode);
 
         return $this;
     }
@@ -235,7 +247,7 @@ class Image extends File
         $point = new Point($x, $y);
         $box = new Box($height, $width);
 
-        $this->getInMemoryImage()->crop($point, $box);
+        $this->getImageData()->crop($point, $box);
         return $this;
     }
 
@@ -246,7 +258,7 @@ class Image extends File
      */
     public function rotate($angle, ColorInterface $background = null)
     {
-        $this->image = $this->getInMemoryImage()->rotate($angle, $background);
+        $this->image = $this->getImageData()->rotate($angle, $background);
         return $this;
     }
 
@@ -255,7 +267,7 @@ class Image extends File
      */
     public function greyscale()
     {
-        $this->getInMemoryImage()->effects()->grayscale();
+        $this->getImageData()->effects()->grayscale();
         return $this;
     }
 
@@ -264,7 +276,7 @@ class Image extends File
      */
     public function flipHorizontally()
     {
-        $this->getInMemoryImage()->flipHorizontally();
+        $this->getImageData()->flipHorizontally();
 
         return $this;
     }
@@ -274,7 +286,7 @@ class Image extends File
      */
     public function flipVertically()
     {
-        $this->getInMemoryImage()->flipVertically();
+        $this->getImageData()->flipVertically();
 
         return $this;
     }
@@ -285,7 +297,7 @@ class Image extends File
      */
     public function getWidth()
     {
-        return $this->getInMemoryImage()->getSize()->getWidth();
+        return $this->getImageData()->getSize()->getWidth();
     }
 
     /**
@@ -294,7 +306,7 @@ class Image extends File
      */
     public function getHeight()
     {
-        return $this->getInMemoryImage()->getSize()->getHeight();
+        return $this->getImageData()->getSize()->getHeight();
     }
 
     /**
@@ -323,11 +335,11 @@ class Image extends File
 
     /**
      * @param Image $image
-     * @return ImagePreLoad|\Symfony\Component\EventDispatcher\Event
+     * @return ImagePreLoadFile|\Symfony\Component\EventDispatcher\Event
      */
-    public function dispatchPreLoad(Image $image)
+    public function dispatchPreLoadFile(Image $image)
     {
-        $event = new ImagePreLoad($image);
+        $event = new ImagePreLoadFile($image);
         if ($this->dispatcher) {
             return $this->dispatcher->dispatch(Events::IMAGE_PRE_LOAD, $event);
         }
@@ -336,11 +348,11 @@ class Image extends File
 
     /**
      * @param Image $image
-     * @return ImagePostLoad|\Symfony\Component\EventDispatcher\Event
+     * @return ImagePostLoadFile|\Symfony\Component\EventDispatcher\Event
      */
-    public function dispatchPostLoad(Image $image)
+    public function dispatchPostLoadFile(Image $image)
     {
-        $event = new ImagePostLoad($image);
+        $event = new ImagePostLoadFile($image);
         if ($this->dispatcher) {
             return $this->dispatcher->dispatch(Events::IMAGE_POST_LOAD, $event);
         }
