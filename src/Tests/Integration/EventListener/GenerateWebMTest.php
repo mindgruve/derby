@@ -13,7 +13,7 @@ class GenerateWebMTest extends \PHPUnit_Framework_TestCase
     public function testGenerateWebMGD()
     {
         $dispatcher = new EventDispatcher();
-        $sut = new GenerateWebM('cwebp', '/tmp');
+        $sut = new GenerateWebM('/tmp', 'cwebp');
         $dispatcher->addSubscriber($sut);
 
         $sourceKey = 'test-236x315.jpg';
@@ -29,10 +29,6 @@ class GenerateWebMTest extends \PHPUnit_Framework_TestCase
         $sourceImage = new \Derby\Media\File\Image($sourceKey, $sourceAdapter, $imagine, $dispatcher);
         $targetImage = new \Derby\Media\File\Image($targetKey, $targetAdapter, $imagine, $dispatcher);
         $webPImage = new \Derby\Media\File\Image($webPKey, $targetAdapter, $imagine, $dispatcher);
-
-        /**
-         * 100% Quality
-         */
         $sourceImage->save($targetImage);
 
         $this->assertTrue($targetImage->exists());

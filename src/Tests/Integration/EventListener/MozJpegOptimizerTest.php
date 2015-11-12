@@ -13,7 +13,7 @@ class MozJpegOptimizerTest extends \PHPUnit_Framework_TestCase
     public function testMozJpegOptimizerGD()
     {
         $dispatcher = new EventDispatcher();
-        $sut = new MozJpegOptimize('/opt/mozjpeg/bin/cjpeg', '/tmp');
+        $sut = new MozJpegOptimize('/tmp', '/opt/mozjpeg/bin/cjpeg');
         $dispatcher->addSubscriber($sut);
 
         $sourceKey = 'test-236x315.jpg';

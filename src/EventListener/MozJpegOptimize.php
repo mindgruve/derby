@@ -24,7 +24,7 @@ class MozJpegOptimize implements EventSubscriberInterface
      * @param string $mozJpgPath
      * @param string $tempDir
      */
-    public function __construct($mozJpgPath,  $tempDir)
+    public function __construct($tempDir, $mozJpgPath)
     {
         $this->mozJpgPath = $mozJpgPath;
         $this->tempDir = $tempDir;
@@ -54,7 +54,7 @@ class MozJpegOptimize implements EventSubscriberInterface
             return;
         }
 
-        if($image->getQuality() >= 100){
+        if ($image->getQuality() >= 100) {
             return;
         }
 
@@ -62,8 +62,8 @@ class MozJpegOptimize implements EventSubscriberInterface
          * Copy to local
          */
         $uniqid = uniqid();
-        $source = new LocalFile($uniqid.'.jpg',$this->tempDir);
-        $optimized = new LocalFile($uniqid.'-optimized.jpg',$this->tempDir);
+        $source = new LocalFile($uniqid . '.jpg', $this->tempDir);
+        $optimized = new LocalFile($uniqid . '-optimized.jpg', $this->tempDir);
         $source->write($image->getImageData()->get('jpg'));
 
         /**
@@ -80,7 +80,7 @@ class MozJpegOptimize implements EventSubscriberInterface
         /**
          * Replace Image
          */
-        if($source->getSize() > $optimized->getSize() && $optimized->getSize() != 0){
+        if ($source->getSize() > $optimized->getSize() && $optimized->getSize() != 0) {
             $image->setImageData($optimized->read());
         }
 

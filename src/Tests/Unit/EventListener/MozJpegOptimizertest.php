@@ -10,14 +10,14 @@ class MozJpegOptimizerTest extends \PHPUnit_Framework_TestCase
 {
     public function testInterface()
     {
-        $sut = new MozJpegOptimize('/opt/mozjpeg/bin/cjpeg', '/tmp');
+        $sut = new MozJpegOptimize('/tmp', '/opt/mozjpeg/bin/cjpeg');
 
         $this->assertTrue($sut instanceof EventSubscriberInterface);
     }
 
     public function testGetSubscribedEvents()
     {
-        $sut = new MozJpegOptimize('/opt/mozjpeg/bin/cjpeg', '/tmp');
+        $sut = new MozJpegOptimize('/tmp', '/opt/mozjpeg/bin/cjpeg');
 
         $this->assertEquals(array(
             Events::IMAGE_PRE_SAVE => array('onMediaImagePreSave', 0),

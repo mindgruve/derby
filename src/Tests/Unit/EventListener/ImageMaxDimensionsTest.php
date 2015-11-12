@@ -2,25 +2,27 @@
 
 namespace Derby\Tests\Unit\EventListener;
 
-use Derby\EventListener\GenerateWebM;
+use Derby\EventListener\ImageMaxDimensions;
 use Derby\Events;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class GenerateWebMTest extends \PHPUnit_Framework_TestCase
+class ImageMaxDimensionsTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testInterface()
     {
-        $sut = new GenerateWebM('/tmp','cwebp');
+        $sut = new ImageMaxDimensions('/tmp', 'convert', 100, 100);
 
         $this->assertTrue($sut instanceof EventSubscriberInterface);
     }
 
     public function testGetSubscribedEvents()
     {
-        $sut = new GenerateWebM('/tmp','cwebp');
+        $sut = new ImageMaxDimensions('/tmp', 'convert', 100, 100);
 
         $this->assertEquals(array(
-            Events::IMAGE_POST_SAVE => array('onMediaImagePostSave', 0),
+            Events::IMAGE_PRE_LOAD => array('onMediaImagePreLoad', 0),
         ), $sut->getSubscribedEvents());
     }
+
 }

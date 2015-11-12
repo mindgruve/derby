@@ -18,7 +18,7 @@ class GenerateWebM implements EventSubscriberInterface
      */
     protected $tempDir;
 
-    public function __construct($cwebp = 'cwebp', $tempDir = '/tmp/derby')
+    public function __construct($tempDir, $cwebp)
     {
         $this->cwebp = $cwebp;
         $this->tempDir = $tempDir;

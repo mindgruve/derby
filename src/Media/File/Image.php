@@ -74,7 +74,9 @@ class Image extends File
     public function load()
     {
         $this->dispatchPreLoad($this);
-        $this->setImageData($this->read());
+        if(!$this->image){
+            $this->setImageData($this->read());
+        }
         $this->dispatchPostLoad($this);
 
         return $this;
@@ -316,9 +318,9 @@ class Image extends File
     {
         $event = new ImagePreSave($image);
         if ($this->dispatcher) {
-            return $this->dispatcher->dispatch(Events::IMAGE_PRE_SAVE, $event);
+            $this->dispatcher->dispatch(Events::IMAGE_PRE_SAVE, $event);
         }
-        return $event;
+        return $this;
     }
 
     /**
@@ -328,9 +330,9 @@ class Image extends File
     {
         $event = new ImagePostSave($image);
         if ($this->dispatcher) {
-            return $this->dispatcher->dispatch(Events::IMAGE_POST_SAVE, $event);
+            $this->dispatcher->dispatch(Events::IMAGE_POST_SAVE, $event);
         }
-        return $event;
+        return $this;
     }
 
     /**
@@ -341,9 +343,9 @@ class Image extends File
     {
         $event = new ImagePreLoad($image);
         if ($this->dispatcher) {
-            return $this->dispatcher->dispatch(Events::IMAGE_PRE_LOAD, $event);
+            $this->dispatcher->dispatch(Events::IMAGE_PRE_LOAD, $event);
         }
-        return $event;
+        return $this;
     }
 
     /**
@@ -354,8 +356,8 @@ class Image extends File
     {
         $event = new ImagePostLoad($image);
         if ($this->dispatcher) {
-            return $this->dispatcher->dispatch(Events::IMAGE_POST_LOAD, $event);
+            $this->dispatcher->dispatch(Events::IMAGE_POST_LOAD, $event);
         }
-        return $event;
+        return $this;
     }
 }

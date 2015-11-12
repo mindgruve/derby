@@ -4,6 +4,7 @@ namespace Derby\EventListener;
 
 use Derby\Event\ImagePreLoad;
 use Derby\Events;
+use Derby\Media\File\LocalFile;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ImageMaxDimensions implements EventSubscriberInterface
@@ -19,13 +20,27 @@ class ImageMaxDimensions implements EventSubscriberInterface
     protected $maxHeight;
 
     /**
+     * @var string
+     */
+    protected $tempDir;
+
+    /**
+     * @var string
+     */
+    protected $imageMagickConvert;
+
+    /**
+     * @param $tempDir
+     * @param $imageMagickConvert
      * @param null $maxWidth
      * @param null $maxHeight
      */
-    public function __construct($maxWidth = null, $maxHeight = null)
+    public function __construct($tempDir, $imageMagickConvert, $maxWidth, $maxHeight)
     {
+        $this->tempDir = $tempDir;
         $this->maxHeight = (int)$maxHeight;
         $this->maxWidth = (int)$maxWidth;
+        $this->imageMagickConvert = $imageMagickConvert;
     }
 
     /**
@@ -34,21 +49,37 @@ class ImageMaxDimensions implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            Events::IMAGE_PRE_LOAD => array('onMediaImagePreload', 0),
+            Events::IMAGE_PRE_LOAD => array('onMediaImagePreLoad', 0),
         );
     }
 
-    public function onMediaImagePreload(ImagePreLoad $e)
+    public function onMediaImagePreLoad(ImagePreLoad $e)
     {
         $image = $e->getImage();
-        $localCopy = $image->copyToLocal();
-        $localPath = $localCopy->getPath();
+        $uniqid = uniqid();
+        $resized = new LocalFile($uniqid . '-resized.jpg', $this->tempDir);
 
-        $imageSize = getimagesize($localPath);
+        $source = $image->copyToLocal($uniqid, $this->tempDir);
+        $sourcePath = $source->getPath();
+        $imageSize = getimagesize($sourcePath);
 
-        var_dump($imageSize);
-        exit;
+        $width = $imageSize[0];
+        $height = $imageSize[1];
 
+        if ($width <= $this->maxWidth && $height <= $this->maxHeight) {
+            return;
+        }
+
+        $safeSourcePath = escapeshellarg($sourcePath);
+        $safeResizedPath = escapeshellarg($resized->getPath());
+        $cmd = $this->imageMagickConvert . ' ' . $safeSourcePath . ' -resize ' . $this->maxWidth . 'x' . $this->maxHeight . '\> ' . $safeResizedPath;
+        exec($cmd);
+
+        if ($resized->exists() && $resized->getSize() > 0) {
+            $image->setImageData($resized->read());
+        }
+
+        $source->delete();
+        $resized->delete();
     }
-
 }
