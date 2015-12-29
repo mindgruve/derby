@@ -234,6 +234,9 @@ class Image extends File
             }
         }
 
+        /**
+         * Only Resize if sizes are different
+         */
         if($size->getHeight() != $currentSize->getHeight() && $size->getWidth() != $currentSize->getWidth()){
             $this->image = $this->getImageData()->thumbnail($size, $mode);
         }
