@@ -21,13 +21,19 @@ class MozJpegOptimize implements EventSubscriberInterface
     protected $tempDir;
 
     /**
+     * @var float
+     */
+    protected $minBitDepth;
+
+    /**
      * @param string $mozJpgPath
      * @param string $tempDir
      */
-    public function __construct($tempDir, $mozJpgPath)
+    public function __construct($tempDir, $mozJpgPath, $minBitDepth = 2)
     {
         $this->mozJpgPath = $mozJpgPath;
         $this->tempDir = $tempDir;
+        $this->minBitDepth = $minBitDepth;
     }
 
     /**
@@ -58,6 +64,7 @@ class MozJpegOptimize implements EventSubscriberInterface
             return;
         }
 
+
         /**
          * Copy to local
          */
@@ -65,6 +72,11 @@ class MozJpegOptimize implements EventSubscriberInterface
         $source = new LocalFile($uniqid . '.jpg', $this->tempDir);
         $optimized = new LocalFile($uniqid . '-optimized.jpg', $this->tempDir);
         $source->write($image->getImageData()->get('jpg'));
+
+        $bitDepth = ($image->getHeight() * $image->getWidth()) / ($source->getSize());
+        if ($bitDepth < $this->minBitDepth) {
+            return;
+        }
 
         /**
          * Optimize
@@ -75,7 +87,6 @@ class MozJpegOptimize implements EventSubscriberInterface
 
         $cmd = $this->mozJpgPath . ' -outfile ' . $safeOptimizedPath . '  -quality ' . $safeQuality . ' ' . $safeSourcePath;
         exec($cmd);
-
 
         /**
          * Replace Image

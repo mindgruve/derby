@@ -74,7 +74,7 @@ class Image extends File
     public function load()
     {
         $this->dispatchPreLoad($this);
-        if(!$this->image){
+        if (!$this->image) {
             $this->setImageData($this->read());
         }
         $this->dispatchPostLoad($this);
@@ -209,24 +209,34 @@ class Image extends File
      */
     public function resize($width = 0, $height = 0, $mode = self::DEFAULT_MODE)
     {
+        $currentSize = $this->getImageData()->getSize();
 
-        // if we were provided both width and height then we know the size of the new image
-        // otherwise we resize proportionally.
-        if ($width > 0 && $height > 0) {
-            $size = new Box($width, $height);
-        } elseif ($width > 0) {
-            $size = $this->getImageData()
-                ->getSize()
-                ->widen($width);
-        } elseif ($height > 0) {
-            $size = $this->getImageData()
-                ->getSize()
-                ->heighten($height);
-        } else {
+        if (!$width && !$height) {
             throw new NoResizeDimensionsException('You must provide $width and/or $height to resize an image');
         }
 
-        $this->image = $this->getImageData()->thumbnail($size, $mode);
+        /**
+         * Resize Smaller, but not bigger
+         */
+        if ($width > $currentSize->getWidth()|| $height > $currentSize->getHeight()) {
+            $size = $currentSize;
+        } else {
+            if ($width > 0 && $height > 0) {
+                $size = new Box($width, $height);
+            } elseif ($width > 0) {
+                $size = $this->getImageData()
+                    ->getSize()
+                    ->widen($width);
+            } else {
+                $size = $this->getImageData()
+                    ->getSize()
+                    ->heighten($height);
+            }
+        }
+
+        if($size->getHeight() != $currentSize->getHeight() && $size->getWidth() != $currentSize->getWidth()){
+            $this->image = $this->getImageData()->thumbnail($size, $mode);
+        }
 
         return $this;
     }
