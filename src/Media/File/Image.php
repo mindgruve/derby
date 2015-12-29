@@ -209,38 +209,23 @@ class Image extends File
      */
     public function resize($width = 0, $height = 0, $mode = self::DEFAULT_MODE)
     {
-        $currentSize = $this->getImageData()->getSize();
-
-        if (!$width && !$height) {
+        // if we were provided both width and height then we know the size of the new image
+        // otherwise we resize proportionally.
+        if ($width > 0 && $height > 0) {
+            $size = new Box($width, $height);
+        } elseif ($width > 0) {
+            $size = $this->getImageData()
+                ->getSize()
+                ->widen($width);
+        } elseif ($height > 0) {
+            $size = $this->getImageData()
+                ->getSize()
+                ->heighten($height);
+        } else {
             throw new NoResizeDimensionsException('You must provide $width and/or $height to resize an image');
         }
 
-        /**
-         * Resize Smaller, but not bigger
-         */
-        if ($width > $currentSize->getWidth()|| $height > $currentSize->getHeight()) {
-            $size = $currentSize;
-        } else {
-            if ($width > 0 && $height > 0) {
-                $size = new Box($width, $height);
-            } elseif ($width > 0) {
-                $size = $this->getImageData()
-                    ->getSize()
-                    ->widen($width);
-            } else {
-                $size = $this->getImageData()
-                    ->getSize()
-                    ->heighten($height);
-            }
-        }
-
-        /**
-         * Only Resize if sizes are different
-         */
-        if($size->getHeight() != $currentSize->getHeight() && $size->getWidth() != $currentSize->getWidth()){
-            $this->image = $this->getImageData()->thumbnail($size, $mode);
-        }
-
+        $this->image = $this->getImageData()->thumbnail($size, $mode);
         return $this;
     }
 
