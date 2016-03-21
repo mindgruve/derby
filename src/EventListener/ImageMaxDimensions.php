@@ -82,7 +82,7 @@ class ImageMaxDimensions implements EventSubscriberInterface
     {
         $image = $e->getImage();
         $uniqid = uniqid();
-        $resized = new LocalFile($uniqid . '-resized.jpg', $this->tempDir);
+        $resized = new LocalFile($uniqid . '-resized.jpg', $this->tempDir, true);
 
         $source = $image->copyToLocal($uniqid, $this->tempDir);
         $sourcePath = $source->getPath();

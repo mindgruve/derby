@@ -69,8 +69,8 @@ class MozJpegOptimize implements EventSubscriberInterface
          * Copy to local
          */
         $uniqid = uniqid();
-        $source = new LocalFile($uniqid . '.jpg', $this->tempDir);
-        $optimized = new LocalFile($uniqid . '-optimized.jpg', $this->tempDir);
+        $source = new LocalFile($uniqid . '.jpg', $this->tempDir, true);
+        $optimized = new LocalFile($uniqid . '-optimized.jpg', $this->tempDir, true);
         $source->write($image->getImageData()->get('jpg'));
 
         $bitPerPixel = ($image->getHeight() * $image->getWidth()) / ($source->getSize());
