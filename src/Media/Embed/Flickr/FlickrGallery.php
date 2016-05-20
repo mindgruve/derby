@@ -1,10 +1,10 @@
 <?php
 
-namespace Derby\FileSystem\FileSystem\Embed\Flickr;
+namespace Derby\Media\Embed\Flickr;
 
-use Derby\Media\Group;
+use Derby\Media\Collection;
 
-class FlickrGallery extends Group
+class FlickrGallery extends Collection
 {
 
 }

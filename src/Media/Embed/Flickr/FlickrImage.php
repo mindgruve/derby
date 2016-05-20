@@ -1,6 +1,6 @@
 <?php
 
-namespace Derby\FileSystem\Embed\Flickr;
+namespace Derby\Media\Embed\Flickr;
 
 use Derby\Media\Embed;
 

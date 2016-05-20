@@ -1,6 +1,6 @@
 <?php
 
-namespace Derby\FileSystem\Embed;
+namespace Derby\Media\Embed\YouTube;
 
 use Derby\Media\Embed;
 

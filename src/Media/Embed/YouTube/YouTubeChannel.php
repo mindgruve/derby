@@ -1,10 +1,10 @@
 <?php
 
-namespace Derby\FileSystem\Embed;
+namespace Derby\Media\Embed\YouTube;
 
-use Derby\Media\Group;
+use Derby\Media\Collection;
 
-class YouTubeChannel extends Group
+class YouTubeChannel extends Collection
 {
 
 }
