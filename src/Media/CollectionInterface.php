@@ -10,25 +10,19 @@ use Serializable;
 use ArrayAccess;
 
 
-interface CollectionInterface extends MediaInterface, Countable, Iterator, Serializable, ArrayAccess
+interface CollectionInterface extends MediaInterface, Countable
 {
 
     /**
-     * @return SplObjectStorage
+     * @return array
      */
-    public function getItems();
+    public function getItems($page = 1, $limit = 10);
 
     /**
      * @param MediaInterface $item
      * @return $this
      */
-    public function attach(MediaInterface $item);
-
-    /**
-     * @param array $items
-     * @return $this
-     */
-    public function addAll(array $items);
+    public function add(MediaInterface $item);
 
     /**
      * @param MediaInterface $item
@@ -40,35 +34,6 @@ interface CollectionInterface extends MediaInterface, Countable, Iterator, Seria
      * @param MediaInterface $item
      * @return $this
      */
-    public function detach(MediaInterface $item);
-
-    /**
-     * @return mixed
-     */
-    public function getInfo();
-
-    /**
-     * @param $data
-     * @return mixed
-     */
-    public function setInfo($data);
-
-    /**
-     * @param $object
-     * @return mixed
-     */
-    public function getHash(MediaInterface $object);
-
-    /**
-     * @param array $items
-     * @return $this
-     */
-    public function removeAll(array $items);
-
-    /**
-     * @param array $items
-     * @return mixed
-     */
-    public function removeAllExcept(array $items);
+    public function remove(MediaInterface $item);
 
 }

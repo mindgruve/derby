@@ -5,8 +5,6 @@ namespace Derby\Media;
 use Derby\Adapter\CollectionAdapterInterface;
 use Derby\Media;
 use Derby\MediaInterface;
-use SplObjectStorage;
-use Iterator;
 
 class Collection extends Media implements CollectionInterface
 {
@@ -26,22 +24,23 @@ class Collection extends Media implements CollectionInterface
     /**
      * @var array
      */
-    protected $options;
+    protected $items = array();
 
     /**
-     * @var SplObjectStorage
+     * @param $key
+     * @param CollectionAdapterInterface $adapter
+     * @param array $items
      */
-    protected $items;
-
     public function __construct(
         $key,
         CollectionAdapterInterface $adapter,
-        array $options = array()
+        array $items = array()
     ) {
-        $this->key     = $key;
+        $this->key = $key;
         $this->adapter = $adapter;
-        $this->options = $options;
-        $this->items   = new SplObjectStorage();
+        foreach ($items as $item) {
+            $this->add($item);
+        }
     }
 
     /**
@@ -52,27 +51,13 @@ class Collection extends Media implements CollectionInterface
         return self::MEDIA_COLLECTION;
     }
 
-
-    /**
-     * @param array $items
-     * @return $this
-     */
-    public function addAll(array $items)
-    {
-        foreach ($items as $item) {
-            $this->items->attach($item);
-        }
-
-        return $this;
-    }
-
     /**
      * @param MediaInterface $item
      * @return $this
      */
-    public function attach(MediaInterface $item)
+    public function add(MediaInterface $item)
     {
-        $this->items->attach($item);
+        $this->items[] = $item;
 
         return $this;
     }
@@ -83,182 +68,40 @@ class Collection extends Media implements CollectionInterface
      */
     public function contains(MediaInterface $item)
     {
-        return $this->items->contains($item);
-    }
-
-    /**
-     * @return int
-     */
-    public function count()
-    {
-        return $this->items->count();
-    }
-
-    /**
-     * @return object
-     */
-    public function current()
-    {
-        return $this->items->current();
+        return in_array($item, $this->items);
     }
 
     /**
      * @param MediaInterface $item
      * @return $this
      */
-    public function detach(MediaInterface $item)
+    public function remove(MediaInterface $item)
     {
-        $this->items->detach($item);
+        $indexes = array_keys($this->items, $item);
+        foreach ($indexes as $index) {
+            unset($this->items[$index]);
+        }
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getInfo()
+    public function getItems($page = 1, $limit = 10)
     {
-        return $this->items->getInfo();
-    }
+        $offset = ($page - 1) * $limit;
+        $length = $limit;
 
-    /**
-     * @return $this
-     */
-    public function setInfo($data)
-    {
-        $this->items->setInfo($data);
-
-        return $this;
-    }
-
-
-    /**
-     * @return SplObjectStorage
-     */
-    public function getItems()
-    {
-        return $this->items;
-    }
-
-    /**
-     * @param $object
-     * @return mixed
-     */
-    public function getHash(MediaInterface $object)
-    {
-        return $this->items->getHash($object);
+        return array_slice($this->items, $offset, $length);
     }
 
 
     /**
      * @return int
      */
-    public function key()
+    public function count()
     {
-        return $this->items->key();
-    }
-
-    /**
-     * @return void
-     */
-    public function next()
-    {
-
-        $this->items->next();
-    }
-
-    /**
-     * @param mixed $offset
-     * @return bool
-     */
-    public function offsetExists($offset)
-    {
-        return $this->items->offsetExists($offset);
-    }
-
-    /**
-     * @param mixed $offset
-     * @return mixed
-     */
-    public function offsetGet($offset)
-    {
-        return $this->items->offsetGet($offset);
-    }
-
-    /**
-     * @param mixed $object
-     * @param mixed $data
-     */
-    public function offsetSet($object, $data)
-    {
-        $this->items->offsetSet($object, $data);
-    }
-
-    /**
-     * @param mixed $object
-     */
-    public function offsetUnset($object)
-    {
-        $this->items->offsetUnset($object);
-    }
-
-    /**
-     * @param array $items
-     * @return $this
-     */
-    public function removeAll(array $items)
-    {
-        foreach ($items as $item) {
-            $this->items->detach($item);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param array $items
-     * @return $this
-     */
-    public function removeAllExcept(array $items)
-    {
-        $objSpl = new SplObjectStorage();
-        foreach ($items as $item) {
-            $objSpl->attach($item);
-        }
-        $this->items->removeAllExcept($objSpl);
-
-        return $this;
-    }
-
-    /**
-     * @return void
-     */
-    public function rewind()
-    {
-        $this->items->rewind();
-    }
-
-    /**
-     * @return string
-     */
-    public function serialize()
-    {
-        return $this->items->serialize();
-    }
-
-    /**
-     * @return void
-     */
-    public function unserialize($serialized)
-    {
-        $this->items->unserialize($serialized);
-    }
-
-    /**
-     * @return bool
-     */
-    public function valid()
-    {
-        return $this->items->valid();
+        return count($this->items);
     }
 }

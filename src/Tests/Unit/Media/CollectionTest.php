@@ -18,7 +18,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
 
     public function testInterface()
     {
-        $key     = 'Foo\\';
+        $key = 'Foo\\';
         $adapter = Mockery::mock(self::$collectionAdapterInterface);
 
         $sut = new Media\Collection($key, $adapter);
@@ -29,7 +29,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
 
     public function testType()
     {
-        $key     = 'Foo\\';
+        $key = 'Foo\\';
         $adapter = Mockery::mock(self::$collectionAdapterInterface);
 
         $sut = new Media\Collection($key, $adapter);
@@ -39,7 +39,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $key     = 'Foo\\';
+        $key = 'Foo\\';
         $adapter = Mockery::mock(self::$collectionAdapterInterface);
 
         $sut = new Media\Collection($key, $adapter);
@@ -48,32 +48,11 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($adapter, $sut->getAdapter());
     }
 
-    public function testAddAll()
+    public function testAddAndRemove()
     {
-        $key1     = 'Foo\\';
-        $adapter1 = Mockery::mock(self::$collectionAdapterInterface);
-
-        $sut = new Media\Collection($key1, $adapter1);
-
-        $item1 = Mockery::mock(self::$mediaInterface);
-        $item2 = Mockery::mock(self::$mediaInterface);
-
-        $this->assertEquals(0, $sut->count());
-
-        // Add Items
-        $sut->addAll(array($item1, $item2));
-
-        // check the counts
-        $this->assertEquals(2, $sut->count());
-        $this->assertTrue($sut->contains($item1));
-        $this->assertTrue($sut->contains($item2));
-    }
-
-    public function testAttachAndDetach()
-    {
-        $key     = 'Foo\\';
+        $key = 'Foo\\';
         $adapter = Mockery::mock(self::$collectionAdapterInterface);
-        $item1   = Mockery::mock(self::$mediaInterface);
+        $item1 = Mockery::mock(self::$mediaInterface);
 
         $sut = new Media\Collection($key, $adapter);
 
@@ -82,14 +61,14 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($sut->contains($item1));
 
         // add the collection
-        $sut->attach($item1);
+        $sut->add($item1);
 
         // check the counts
         $this->assertEquals(1, $sut->count());
         $this->assertTrue($sut->contains($item1));
 
         // remove the item
-        $sut->detach($item1);
+        $sut->remove($item1);
 
         $this->assertEquals(0, $sut->count());
         $this->assertFalse($sut->contains($item1));
@@ -97,61 +76,46 @@ class CollectionTest extends PHPUnit_Framework_TestCase
 
     public function testGetItems()
     {
-        $key     = 'Foo\\';
+        $key = 'Foo\\';
         $adapter = Mockery::mock(self::$collectionAdapterInterface);
-        $item1   = Mockery::mock(self::$mediaInterface);
+        $item1 = Mockery::mock(self::$mediaInterface);
+        $item2 = Mockery::mock(self::$mediaInterface);
+        $item3 = Mockery::mock(self::$mediaInterface);
+        $item4 = Mockery::mock(self::$mediaInterface);
+        $item5 = Mockery::mock(self::$mediaInterface);
+        $item6 = Mockery::mock(self::$mediaInterface);
+        $item7 = Mockery::mock(self::$mediaInterface);
+        $item8 = Mockery::mock(self::$mediaInterface);
+        $item9 = Mockery::mock(self::$mediaInterface);
+        $item10 = Mockery::mock(self::$mediaInterface);
+        $item11 = Mockery::mock(self::$mediaInterface);
+        $item12 = Mockery::mock(self::$mediaInterface);
+        $item13 = Mockery::mock(self::$mediaInterface);
+        $item14 = Mockery::mock(self::$mediaInterface);
+        $item15 = Mockery::mock(self::$mediaInterface);
 
         $sut = new Media\Collection($key, $adapter);
 
-        $sut->attach($item1);
-
-        $this->assertTrue($sut->getItems() instanceof \SplObjectStorage);
-        $this->assertEquals(1, $sut->getItems()->count());
-    }
-
-    public function testRemoveAll()
-    {
-        $key         = 'Foo\\';
-        $adapter     = Mockery::mock(self::$collectionAdapterInterface);
-        $item1       = Mockery::mock(self::$mediaInterface);
-        $item2       = Mockery::mock(self::$mediaInterface);
-
-        $sut = new Media\Collection($key, $adapter);
-
-        $sut->attach($item1);
-        $sut->attach($item2);
-
-        // add the collection
-        $sut->removeAll(array($item2));
-
-        // check the counts
-        $this->assertEquals(1, $sut->count());
-        $this->assertTrue($sut->contains($item1));
-        $this->assertFalse($sut->contains($item2));
-    }
-
-    public function testRemoveAllExcept()
-    {
-        $key         = 'Foo\\';
-        $adapter     = Mockery::mock(self::$collectionAdapterInterface);
-        $item1       = Mockery::mock(self::$mediaInterface);
-        $item2       = Mockery::mock(self::$mediaInterface);
-
-        $sut = new Media\Collection($key, $adapter);
-        $sut->attach($item1);
-        $sut->attach($item2);
-
-        // check the counts
-        $this->assertEquals(2, $sut->count());
-        $this->assertTrue($sut->contains($item1));
-        $this->assertTrue($sut->contains($item2));
-
-        // add the collection
-        $sut->removeAllExcept(array($item2));
-
-        // check the counts
-        $this->assertEquals(1, $sut->count());
-        $this->assertFalse($sut->contains($item1));
-        $this->assertTrue($sut->contains($item2));
+        $sut->add($item1);
+        $sut->add($item2);
+        $sut->add($item3);
+        $sut->add($item4);
+        $sut->add($item5);
+        $sut->add($item6);
+        $sut->add($item7);
+        $sut->add($item8);
+        $sut->add($item9);
+        $sut->add($item10);
+        $sut->add($item11);
+        $sut->add($item12);
+        $sut->add($item13);
+        $sut->add($item14);
+        $sut->add($item15);
+        $this->assertTrue(is_array($sut->getItems()));
+        $this->assertEquals(10, count($sut->getItems()));
+        $this->assertEquals(5, count($sut->getItems(1, 5)));
+        $this->assertEquals(5, count($sut->getItems(2, 5)));
+        $this->assertEquals(15, count($sut->getItems(1, 20)));
+        $this->assertEquals(15, $sut->count());
     }
 }

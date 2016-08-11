@@ -10,6 +10,6 @@ interface CollectionAdapterInterface extends AdapterInterface
      * @param $key
      * @return mixed
      */
-    public function listItems($key);
-    
+    public function listItems($key, $page = 1, $limit = 10);
+
 }
