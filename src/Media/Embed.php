@@ -43,13 +43,4 @@ class Embed extends Media implements EmbedInterface
     {
         return self::TYPE_MEDIA_EMBED;
     }
-
-    /**
-     * Returns the embed HTML
-     * @return string
-     */
-    public function render(array $options = array())
-    {
-        return $this->adapter->render($this->getKey());
-    }
 }

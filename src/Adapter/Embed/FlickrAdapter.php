@@ -24,14 +24,5 @@ class FlickrAdapter implements EmbedAdapterInterface
         // TODO: Implement getMedia() method.
     }
 
-    /**
-     * @param $key
-     * @return mixed
-     */
-    public function render($key)
-    {
-        // TODO: Implement render() method.
-    }
-
 
 }
