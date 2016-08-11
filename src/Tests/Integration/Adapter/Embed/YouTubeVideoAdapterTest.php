@@ -24,7 +24,7 @@ class YouTubeVideoAdapterTest extends \PHPUnit_Framework_TestCase
     public function setup()
     {
         $this->client = new \Google_Client();
-        $credentials = json_decode(file_get_contents(__DIR__.'/../../Temp/credentials.json'), true);
+        $credentials = json_decode(file_get_contents(__DIR__.'/../../../credentials.json'), true);
         $this->client->setDeveloperKey($credentials['youtube_api_key']);
         $this->adapter = new YouTubeVideoAdapter($this->client);
     }
