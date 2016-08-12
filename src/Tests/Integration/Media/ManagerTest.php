@@ -33,30 +33,30 @@ class MediaManagerTest extends \PHPUnit_Framework_TestCase
         $manager->registerAdapter('test.local', $localAdapter);
 
         // Build HTML File
-        $file = $manager->getFile('test-1.html', 'test.local');
+        $file = $manager->getMedia('test-1.html', 'test.local');
         $file->write('test1');
 
         $this->assertTrue($file instanceof Html);
 
-        $file = $manager->getFile('test-1.html', 'test.local');
+        $file = $manager->getMedia('test-1.html', 'test.local');
         $this->assertTrue($file instanceof Media\File\Html);
 
         // Build Text File
-        $file = $manager->getFile('test-2.txt', 'test.local');
+        $file = $manager->getMedia('test-2.txt', 'test.local');
         $file->write('test2');
         $this->assertTrue($file instanceof Media\File\Text);
 
-        $file = $manager->getFile('test-2.txt', 'test.local');
+        $file = $manager->getMedia('test-2.txt', 'test.local');
         $this->assertTrue($file instanceof Media\File\Text);
 
         // Build Image File
-        $file = $manager->getFile('test-3.jpg', 'test.local');
+        $file = $manager->getMedia('test-3.jpg', 'test.local');
         $file->write(
             file_get_contents(__DIR__ . '/../Data/test-236x315.jpg')
         );
         $this->assertTrue($file instanceof Media\File\Image);
 
-        $file = $manager->getFile('test-3.jpg', 'test.local');
+        $file = $manager->getMedia('test-3.jpg', 'test.local');
         $this->assertTrue($file instanceof Media\File\Image);
     }
 
@@ -70,12 +70,12 @@ class MediaManagerTest extends \PHPUnit_Framework_TestCase
         $manager->registerAdapter('test.local', $localAdapter);
 
         // Build HTML File
-        $file = $manager->getFile('test-1.html', 'test.local');
+        $file = $manager->getMedia('test-1.html', 'test.local');
         $file->write('test1');
         $this->assertTrue($file instanceof Media\File\Text);
 
         // Build Text File
-        $file = $manager->getFile('test-2.txt', 'test.local');
+        $file = $manager->getMedia('test-2.txt', 'test.local');
         $file->write('test2');
         $this->assertTrue($file instanceof Media\File\Text);
     }
@@ -90,17 +90,17 @@ class MediaManagerTest extends \PHPUnit_Framework_TestCase
         $manager->registerAdapter('test.local', $localAdapter);
 
         // Build HTML File
-        $file = $manager->getFile('test-1.html', 'test.local');
+        $file = $manager->getMedia('test-1.html', 'test.local');
         $file->write('test1');
         $this->assertTrue($file instanceof Media\File\Text);
 
         // Build Text File
-        $file = $manager->getFile('test-2.txt', 'test.local');
+        $file = $manager->getMedia('test-2.txt', 'test.local');
         $file->write('test2');
         $this->assertTrue($file instanceof Media\File\Text);
 
         // Will return Generic Local File b.c we haven't registered image media
-        $file = $manager->getFile('test-3.jpg', 'test.local');
+        $file = $manager->getMedia('test-3.jpg', 'test.local');
         $file->write(
             file_get_contents(__DIR__ . '/../Data/test-236x315.jpg')
         );

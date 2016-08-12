@@ -1,6 +1,6 @@
 <?php
 
-namespace Derby\Media\YouTube;
+namespace Derby\Media\Embed\YouTube;
 
 use Derby\AdapterInterface;
 use Derby\Media;
@@ -374,7 +374,5 @@ class YouTubeVideo implements MediaInterface
             $this->adapter->load($key);
         }
     }
-
-
 }
 

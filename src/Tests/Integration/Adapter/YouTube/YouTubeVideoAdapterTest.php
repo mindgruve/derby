@@ -1,9 +1,8 @@
 <?php
 
-namespace Derby\Tests\Integration\Adapter\Embed;
+namespace Derby\Tests\Integration\Adapter\YouTube;
 
-use Derby\Adapter\Embed\YouTubeVideoAdapter;
-use Derby\Media\Embed\YouTube\YouTubeVideo;
+use Derby\Adapter\YouTube\YouTubeVideoAdapter;
 
 class YouTubeVideoAdapterTest extends \PHPUnit_Framework_TestCase
 {

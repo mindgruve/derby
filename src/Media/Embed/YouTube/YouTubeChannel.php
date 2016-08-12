@@ -1,6 +1,6 @@
 <?php
 
-namespace Derby\Media\YouTube;
+namespace Derby\Media\Embed\YouTube;
 
 use Derby\Adapter\YouTube\YouTubeChannelAdapter;
 use Derby\AdapterInterface;
@@ -142,6 +142,4 @@ class YouTubeChannel implements CollectionInterface
     {
         // TODO: Implement setKey() method.
     }
-
-
 }

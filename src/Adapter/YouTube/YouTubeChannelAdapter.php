@@ -1,6 +1,6 @@
 <?php
 
-namespace Derby\Adapter\Embed;
+namespace Derby\Adapter\YouTube;
 
 use Derby\Adapter\CollectionAdapterInterface;
 use Derby\Media\YouTube\YouTubeChannel;

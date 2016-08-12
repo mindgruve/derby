@@ -1,9 +1,9 @@
 <?php
 
-namespace Derby\Tests\Integration\Media\Embed\YouTube;
+namespace Derby\Tests\Integration\Media\YouTube\YouTube;
 
-use Derby\Media\Embed\YouTube\YouTubeVideo;
-use Derby\Adapter\Embed\YouTubeVideoAdapter;
+use Derby\Media\YouTube\YouTubeVideo;
+use Derby\Adapter\YouTube\YouTubeVideoAdapter;
 
 class YouTubeVideoTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,7 +34,7 @@ class YouTubeVideoTest extends \PHPUnit_Framework_TestCase
     public function setup()
     {
         $this->client = new \Google_Client();
-        $credentials = json_decode(file_get_contents(__DIR__.'/../../../../credentials.json'), true);
+        $credentials = json_decode(file_get_contents(__DIR__.'/../../../credentials.json'), true);
         $this->client->setDeveloperKey($credentials['youtube_api_key']);
         $this->adapter = new YouTubeVideoAdapter($this->client);
         $this->validVideo = $this->adapter->getMedia('fHVga3_Z8Xg');

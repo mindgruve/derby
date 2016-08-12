@@ -66,49 +66,6 @@ interface MediaManagerInterface
     public function getMedia($key, $adapterKey);
 
     /**
-     * @param $key
-     * @param $adapterKey
-     * @return FileInterface
-     * @throws \Exception
-     */
-    public function getFile($key, $adapterKey);
-
-    /**
-     * @param $key
-     * @param $adapterKey
-     * @return EmbedInterface
-     * @throws \Exception
-     */
-    public function getEmbed($key, $adapterKey);
-
-    /**
-     * @param $key
-     * @param $adapterKey
-     * @return CollectionInterface
-     * @throws \Exception
-     */
-    public function getCollection($key, $adapterKey);
-
-    /**
-     * @param FileInterface $file
-     * @return FileInterface
-     */
-    public function convertFile(FileInterface $file);
-
-    /**
-     * @param EmbedInterface $embed
-     * @return EmbedInterface
-     */
-    public function convertEmbed(EmbedInterface $embed);
-
-    /**
-     * @param CollectionInterface $collection
-     * @return CollectionInterface
-     */
-    public function convertCollection(CollectionInterface $collection);
-
-
-    /**
      * @param MediaInterface $media
      * @param $adapterKey
      * @param null $newKey

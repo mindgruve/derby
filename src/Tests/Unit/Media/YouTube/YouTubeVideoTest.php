@@ -16,7 +16,7 @@ class YouTubeVideoTest extends \PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $this->mockAdapter = \Mockery::mock('Derby\Adapter\Embed\YouTubeVideoAdapter');
+        $this->mockAdapter = \Mockery::mock('Derby\Adapter\YouTube\YouTubeVideoAdapter');
         $this->mockClient = \Mockery::mock('\Google_Client');
     }
 
