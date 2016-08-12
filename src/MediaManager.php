@@ -28,7 +28,7 @@ class MediaManager implements MediaManagerInterface
     /**
      * @var array
      */
-    protected $fileFactories = [];
+    protected $factories = [];
 
     /**
      * @var array
@@ -47,7 +47,7 @@ class MediaManager implements MediaManagerInterface
             $priority = 10;
         }
 
-        $this->fileFactories[$priority][] = $factory;
+        $this->factories[$priority][] = $factory;
 
         return $this;
     }
@@ -111,11 +111,7 @@ class MediaManager implements MediaManagerInterface
     {
         $adapter = $this->getAdapter($adapterKey);
 
-        if ($adapter instanceof FileAdapterInterface) {
-            $media = $adapter->getMedia($key);
-        } elseif ($adapter instanceof CollectionAdapterInterface) {
-            $media = $adapter->getMedia($key);
-        } elseif ($adapter instanceof AdapterInterface) {
+        if ($adapter instanceof AdapterInterface) {
             $media = $adapter->getMedia($key);
         } else {
             $media = new Media($key, $adapter);
@@ -130,13 +126,11 @@ class MediaManager implements MediaManagerInterface
      */
     public function convertMedia(MediaInterface $media)
     {
-        if ($media instanceof FileInterface) {
-            foreach ($this->fileFactories as $priorityGroup) {
-                foreach ($priorityGroup as $fileFactory) {
-                    /** @var \Derby\Media\Factory\FileFactory $fileFactory */
-                    if ($fileFactory->supports($media)) {
-                        return $fileFactory->build($media->getKey(), $media->getAdapter());
-                    }
+        foreach ($this->factories as $priorityGroup) {
+            foreach ($priorityGroup as $factory) {
+                /** @var \Derby\Media\Factory\FactoryInterface $factory */
+                if ($factory->supports($media)) {
+                    return $factory->build($media->getKey(), $media->getAdapter());
                 }
             }
         }
