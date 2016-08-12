@@ -1,9 +1,9 @@
 <?php
 
-namespace Derby\Media\Embed\YouTube;
+namespace Derby\Media\YouTube;
 
+use Derby\Adapter\Embed\YouTubeChannelAdapter;
 use Derby\AdapterInterface;
-use Derby\Exception\MediaNotFoundException;
 use Derby\Exception\NotSupportedByAdapterException;
 use Derby\Media\CollectionInterface;
 use Derby\MediaInterface;
@@ -27,16 +27,15 @@ class YouTubeChannel implements CollectionInterface
      */
     protected $channel;
 
+
     /**
      * @param $key
-     * @param \Derby\Adapter\EmbedAdapterInterface $adapter
-     * @param \Google_Client $client
+     * @param YouTubeChannelAdapter $adapter
      */
-    public function __construct($key, $adapter, \Google_Client $client)
+    public function __construct($key, YouTubeChannelAdapter $adapter)
     {
         $this->key = $key;
         $this->adapter = $adapter;
-        $this->client = $client;
     }
 
     /**
@@ -102,7 +101,7 @@ class YouTubeChannel implements CollectionInterface
      */
     public function getItems($page = 1, $limit = 10)
     {
-        // TODO: Implement getItems() method.
+
     }
 
     /**

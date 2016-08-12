@@ -2,7 +2,7 @@
 
 namespace Derby\Tests\Unit\Media\Embed\YouTube;
 
-use Derby\Media\Embed\YouTube\YouTubeVideo;
+use Derby\Media\YouTube\YouTubeVideo;
 
 class YouTubeVideoTest extends \PHPUnit_Framework_TestCase
 {

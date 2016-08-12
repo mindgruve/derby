@@ -1,11 +1,13 @@
 <?php
 
-namespace Derby\Media\Embed\YouTube;
+namespace Derby\Media\YouTube;
 
-use Derby\Media\Embed;
+use Derby\AdapterInterface;
+use Derby\Media;
 use Derby\Adapter\Embed\YouTubeVideoAdapter;
+use Derby\MediaInterface;
 
-class YouTubeVideo extends Embed
+class YouTubeVideo implements MediaInterface
 {
 
     const TYPE_MEDIA_EMBED_YOUTUBE_VIDEO = 'MEDIA/EMBED/YOUTUBE/VIDEO';
@@ -318,5 +320,61 @@ class YouTubeVideo extends Embed
     {
         return self::TYPE_MEDIA_EMBED_YOUTUBE_VIDEO;
     }
+
+    /**
+     * @return boolean
+     */
+    public function exists()
+    {
+        return $this->adapter->exists($this->getKey());
+    }
+
+    /**
+     * Get adapter
+     * @return AdapterInterface
+     */
+    public function getAdapter()
+    {
+        return $this->adapter;
+    }
+
+    /**
+     * Get key
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
+     * @param AdapterInterface $adapter
+     * @return $this
+     * @throws \Exception
+     */
+    public function setAdapter(AdapterInterface $adapter)
+    {
+        if (!$adapter instanceof YouTubeVideoAdapter) {
+            throw new \Exception('Invalid Adapter');
+        }
+        $this->adapter = $adapter;
+
+        return $this;
+    }
+
+    /**
+     * Set key
+     * @param $key
+     * @return mixed
+     */
+    public function setKey($key)
+    {
+        if ($this->getKey() != null) {
+            $this->key = $key;
+            $this->adapter->load($key);
+        }
+    }
+
+
 }
 

@@ -3,7 +3,7 @@
 namespace Derby\Adapter\Embed;
 
 use Derby\Adapter\EmbedAdapterInterface;
-use Derby\Media\Embed\YouTube\YouTubeVideo;
+use Derby\Media\YouTube\YouTubeVideo;
 use Derby\Exception\MediaNotFoundException;
 use Google_Client;
 use Google_Service_YouTube;
@@ -56,10 +56,12 @@ class YouTubeVideoAdapter implements EmbedAdapterInterface
      * Retrieves data from API
      * @throws MediaNotFoundException
      */
-    protected function load($key)
+    public function load($key, $force = false)
     {
-        if (isset($this->videos[$key])) {
-            return;
+        if (!$force) {
+            if (isset($this->videos[$key])) {
+                return;
+            }
         }
 
         $this->youTubeService = new \Google_Service_YouTube($this->client);
