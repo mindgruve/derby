@@ -14,6 +14,6 @@ namespace Derby\Exception;
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-class UnknownTransferAdapterException extends \Exception
+class UnknownTransferAdapterException extends DerbyException
 {
 }

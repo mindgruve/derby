@@ -8,6 +8,7 @@ use Derby\Event\ImagePostSave;
 use Derby\Event\ImagePreLoad;
 use Derby\Event\ImagePreSave;
 use Derby\Events;
+use Derby\Exception\DerbyException;
 use Derby\Exception\NoResizeDimensionsException;
 use Derby\Media\File;
 use Imagine\Image\Box;
@@ -112,13 +113,13 @@ class Image extends File
 
     /**
      * @param int $quality
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function setQuality($quality = self::DEFAULT_QUALITY)
     {
         $quality = (int)$quality;
         if ($quality < 0 || $quality > 100) {
-            throw new \Exception('Quality must be between 0 and 100');
+            throw new DerbyException('Quality must be between 0 and 100');
         }
 
         $this->quality = $quality;

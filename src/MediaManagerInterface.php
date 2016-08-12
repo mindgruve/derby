@@ -13,6 +13,7 @@ use Derby\Media\Factory\FactoryInterface;
 use Derby\Media\CollectionInterface;
 use Derby\Media\FileInterface;
 use Derby\Media\File;
+use Derby\Exception\DerbyException;
 
 /**
  * Derby\ManagerInterface
@@ -45,7 +46,7 @@ interface MediaManagerInterface
     /**
      * @param $adapterKey
      * @return AdapterInterface
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getAdapter($adapterKey);
 
@@ -60,7 +61,7 @@ interface MediaManagerInterface
      * @param $key
      * @param $adapterKey
      * @return MediaInterface|CollectionInterface|AdapterInterface|FileInterface
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getMedia($key, $adapterKey);
 

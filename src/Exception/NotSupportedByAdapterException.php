@@ -2,7 +2,7 @@
 
 namespace Derby\Exception;
 
-class NotSupportedByAdapterException extends \Exception
+class NotSupportedByAdapterException extends DerbyException
 {
 
 }

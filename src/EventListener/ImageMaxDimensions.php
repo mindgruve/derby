@@ -4,6 +4,7 @@ namespace Derby\EventListener;
 
 use Derby\Event\ImagePreLoad;
 use Derby\Events;
+use Derby\Exception\DerbyException;
 use Derby\Media\File\LocalFile;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -46,7 +47,7 @@ class ImageMaxDimensions implements EventSubscriberInterface
      * @param $height
      * @param null $maxWidth
      * @param null $maxHeight
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function __construct($tempDir, $imageMagickConvert, $width, $height, $maxWidth, $maxHeight)
     {
@@ -58,11 +59,11 @@ class ImageMaxDimensions implements EventSubscriberInterface
         $this->maxHeight = (int)$maxHeight;
 
         if ($height <= 0 || $width <= 0) {
-            throw new \Exception('Height/Width for image dimensions should be a positive integer');
+            throw new DerbyException('Height/Width for image dimensions should be a positive integer');
         }
 
         if ($maxHeight <= 0 || $maxWidth <= 0) {
-            throw new \Exception('Max Height/Width for image dimensions should be a positive integer');
+            throw new DerbyException('Max Height/Width for image dimensions should be a positive integer');
         }
 
 
@@ -96,7 +97,7 @@ class ImageMaxDimensions implements EventSubscriberInterface
         }
 
         if ($width >= $this->maxWidth || $height >= $this->maxWidth) {
-            throw new \Exception('Image dimensions to large to resize');
+            throw new DerbyException('Image dimensions to large to resize');
         }
 
         $safeSourcePath = escapeshellarg($sourcePath);

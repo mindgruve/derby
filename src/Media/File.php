@@ -3,6 +3,7 @@
 namespace Derby\Media;
 
 use Derby\Adapter\FileAdapterInterface;
+use Derby\Exception\DerbyException;
 use Derby\Media;
 use Derby\Media\File\LocalFile;
 
@@ -50,12 +51,12 @@ class File extends Media implements FileInterface
     /**
      * Read data from file
      * @return bool|string if cannot read content
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function read()
     {
         if (!$this->exists()) {
-            throw new \Exception('File does not exist');
+            throw new DerbyException('File does not exist');
         }
 
         return $this->adapter->read($this->key);

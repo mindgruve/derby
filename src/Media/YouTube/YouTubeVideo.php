@@ -3,6 +3,7 @@
 namespace Derby\Media\YouTube;
 
 use Derby\AdapterInterface;
+use Derby\Exception\DerbyException;
 use Derby\Media;
 use Derby\Adapter\YouTube\YouTubeVideoAdapter;
 use Derby\MediaInterface;
@@ -27,7 +28,7 @@ class YouTubeVideo implements MediaInterface
      * https://developers.google.com/youtube/v3/docs/videos#snippet.thumbnails
      * @param string $size
      * @return array|null
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getThumbnail($size = 'default')
     {
@@ -77,7 +78,7 @@ class YouTubeVideo implements MediaInterface
     /**
      * https://developers.google.com/youtube/v3/docs/videos#snippet.categoryId
      * @return mixed
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getCategoryId()
     {
@@ -87,7 +88,7 @@ class YouTubeVideo implements MediaInterface
     /**
      * https://developers.google.com/youtube/v3/docs/videos#snippet.publishedAt
      * @return mixed
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getPublishedAt()
     {
@@ -97,7 +98,7 @@ class YouTubeVideo implements MediaInterface
     /**
      * https://developers.google.com/youtube/v3/docs/videos#snippet.channelId
      * @return mixed
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getChannelId()
     {
@@ -107,7 +108,7 @@ class YouTubeVideo implements MediaInterface
     /**
      * https://developers.google.com/youtube/v3/docs/videos#snippet.channelTitle
      * @return mixed
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getChannelTitle()
     {
@@ -118,7 +119,7 @@ class YouTubeVideo implements MediaInterface
     /**
      * https://developers.google.com/youtube/v3/docs/videos#snippet.title
      * @return mixed
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getTitle()
     {
@@ -128,7 +129,7 @@ class YouTubeVideo implements MediaInterface
     /**
      * https://developers.google.com/youtube/v3/docs/videos#snippet.description
      * @return mixed
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getDescription()
     {
@@ -138,7 +139,7 @@ class YouTubeVideo implements MediaInterface
     /**
      * https://developers.google.com/youtube/v3/docs/videos#snippet.tags
      * @return mixed
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getTags()
     {
@@ -149,7 +150,7 @@ class YouTubeVideo implements MediaInterface
      * Get Duration
      * https://developers.google.com/youtube/v3/docs/videos#contentDetails.duration
      * @return string
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getDuration()
     {
@@ -174,7 +175,7 @@ class YouTubeVideo implements MediaInterface
      * Returns whether video is available in SD or HD
      * https://developers.google.com/youtube/v3/docs/videos#contentDetails.definition
      * @return string
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getDefinition()
     {
@@ -185,7 +186,7 @@ class YouTubeVideo implements MediaInterface
      * https://developers.google.com/youtube/v3/docs/videos#contentDetails.caption
      * True if video has captions
      * @return bool
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function hasCaption()
     {
@@ -200,7 +201,7 @@ class YouTubeVideo implements MediaInterface
      * https://developers.google.com/youtube/v3/docs/videos#contentDetails.licensedContent
      * True if video is licensed
      * @return bool
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function isLicensedContent()
     {
@@ -215,7 +216,7 @@ class YouTubeVideo implements MediaInterface
      * https://developers.google.com/youtube/v3/docs/videos#status.embeddable
      * True if video is embeddable
      * @return bool
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function isEmbeddable()
     {
@@ -230,7 +231,7 @@ class YouTubeVideo implements MediaInterface
      * https://developers.google.com/youtube/v3/docs/videos#status.license
      * Returns the license of the video
      * @return mixed
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getLicense()
     {
@@ -241,7 +242,7 @@ class YouTubeVideo implements MediaInterface
      * https://developers.google.com/youtube/v3/docs/videos#status.privacyStatus
      * Returns the privacy status of the video
      * @return mixed
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getPrivacyStatus()
     {
@@ -252,7 +253,7 @@ class YouTubeVideo implements MediaInterface
      * https://developers.google.com/youtube/v3/docs/videos#status.publicStatsViewable
      * Returns true if the stats are publicly visible
      * @return mixed
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function isPublicStatusViewable()
     {
@@ -266,7 +267,7 @@ class YouTubeVideo implements MediaInterface
     /**
      * https://developers.google.com/youtube/v3/docs/videos#snippet.statistics.viewCount
      * @return int
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getViewCount()
     {
@@ -276,7 +277,7 @@ class YouTubeVideo implements MediaInterface
     /**
      * https://developers.google.com/youtube/v3/docs/videos#snippet.statistics.likeCount
      * @return int
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getLikeCount()
     {
@@ -286,7 +287,7 @@ class YouTubeVideo implements MediaInterface
     /**
      * https://developers.google.com/youtube/v3/docs/videos#snippet.statistics.dislikeCount
      * @return int
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getDislikeCount()
     {
@@ -296,7 +297,7 @@ class YouTubeVideo implements MediaInterface
     /**
      * https://developers.google.com/youtube/v3/docs/videos#snippet.statistics.favoriteCount
      * @return int
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getFavoriteCount()
     {
@@ -306,7 +307,7 @@ class YouTubeVideo implements MediaInterface
     /**
      * https://developers.google.com/youtube/v3/docs/videos#snippet.statistics.commentCount
      * @return int
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getCommentCount()
     {
@@ -350,12 +351,12 @@ class YouTubeVideo implements MediaInterface
     /**
      * @param AdapterInterface $adapter
      * @return $this
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function setAdapter(AdapterInterface $adapter)
     {
         if (!$adapter instanceof YouTubeVideoAdapter) {
-            throw new \Exception('Invalid Adapter');
+            throw new DerbyException('Invalid Adapter');
         }
         $this->adapter = $adapter;
 

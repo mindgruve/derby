@@ -2,7 +2,7 @@
 
 namespace Derby\Exception;
 
-class MediaNotFoundException extends \Exception
+class MediaNotFoundException extends DerbyException
 {
 
 }

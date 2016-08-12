@@ -16,6 +16,7 @@ use Derby\Media\File;
 use Derby\Media\FileInterface;
 use Derby\Media\SearchInterface;
 use Derby\Media\Factory\FactoryInterface;
+use Derby\Exception\DerbyException;
 
 /**
  * Derby\MediaManager
@@ -78,7 +79,7 @@ class MediaManager implements MediaManagerInterface
     /**
      * @param $adapterKey
      * @return AdapterInterface
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getAdapter($adapterKey)
     {
@@ -86,7 +87,7 @@ class MediaManager implements MediaManagerInterface
             return $this->adapters[$adapterKey];
         }
 
-        throw new \Exception('Adapter Key Not Found');
+        throw new DerbyException('Adapter Key Not Found');
     }
 
     /**
@@ -104,8 +105,8 @@ class MediaManager implements MediaManagerInterface
     /**
      * @param $key
      * @param $adapterKey
-     * @return MediaInterface|CollectionInterface|AdapterInterface|FileInterface
-     * @throws \Exception
+     * @return File|MediaInterface
+     * @throws DerbyException
      */
     public function getMedia($key, $adapterKey)
     {

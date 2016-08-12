@@ -14,6 +14,6 @@ namespace Derby\Exception;
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-class NoResizeDimensionsException extends \Exception
+class NoResizeDimensionsException extends DerbyException
 {
 }

@@ -7,6 +7,7 @@ use Derby\Media\YouTube\YouTubeVideo;
 use Derby\Exception\MediaNotFoundException;
 use Google_Client;
 use Google_Service_YouTube;
+use Derby\Exception\DerbyException;
 
 class YouTubeVideoAdapter implements AdapterInterface
 {
@@ -85,7 +86,7 @@ class YouTubeVideoAdapter implements AdapterInterface
      * @param $field
      * @return mixed
      * @throws MediaNotFoundException
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getSnippetField($key, $field)
     {
@@ -96,7 +97,7 @@ class YouTubeVideoAdapter implements AdapterInterface
             return $snippet[$field];
         }
 
-        throw new \Exception('Invalid field for Snippet Object');
+        throw new DerbyException('Invalid field for Snippet Object');
     }
 
     /**
@@ -106,7 +107,7 @@ class YouTubeVideoAdapter implements AdapterInterface
      * @param $field
      * @return mixed
      * @throws MediaNotFoundException
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getStatisticsField($key, $field)
     {
@@ -117,7 +118,7 @@ class YouTubeVideoAdapter implements AdapterInterface
             return $statistics[$field];
         }
 
-        throw new \Exception('Invalid field for Statistics Object');
+        throw new DerbyException('Invalid field for Statistics Object');
     }
 
     /**
@@ -127,7 +128,7 @@ class YouTubeVideoAdapter implements AdapterInterface
      * @param $field
      * @return mixed
      * @throws MediaNotFoundException
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getContentDetailsField($key, $field)
     {
@@ -139,7 +140,7 @@ class YouTubeVideoAdapter implements AdapterInterface
             return $contentDetails[$field];
         }
 
-        throw new \Exception('Invalid field for ContentDetails Object');
+        throw new DerbyException('Invalid field for ContentDetails Object');
     }
 
     /**
@@ -149,7 +150,7 @@ class YouTubeVideoAdapter implements AdapterInterface
      * @param $field
      * @return mixed
      * @throws MediaNotFoundException
-     * @throws \Exception
+     * @throws DerbyException
      */
     public function getStatusField($key, $field)
     {
@@ -161,7 +162,7 @@ class YouTubeVideoAdapter implements AdapterInterface
             return $status[$field];
         }
 
-        throw new \Exception('Invalid field for Status Object');
+        throw new DerbyException('Invalid field for Status Object');
     }
 
 
@@ -183,5 +184,44 @@ class YouTubeVideoAdapter implements AdapterInterface
     public function getMedia($key)
     {
         return new YouTubeVideo($key, $this);
+    }
+
+    /**
+     * Parse a URL and get the YouTubeVideo object associated with it
+     *
+     * @param $url
+     * @return YouTubeVideo
+     * @throws DerbyException
+     */
+    public function parseYouTubeURL($url)
+    {
+        /**
+         * https://www.youtube.com/watch?v={{ID}}
+         */
+        if (preg_match('/youtube\.com\/watch\?v=(.*)/', $url, $matches)) {
+            $key = $matches[1];
+
+            return $this->getMedia($key);
+        }
+
+        /**
+         * https://www.youtube.com/embed/{{ID}}
+         */
+        if (preg_match('/youtube\.com\/embed\/(.*)/', $url, $matches)) {
+            $key = $matches[1];
+
+            return $this->getMedia($key);
+        }
+
+        /**
+         * https://youtu.be/{{ID}}
+         */
+        if (preg_match('/youtu\.be\/(.*)/', $url, $matches)) {
+            $key = $matches[1];
+
+            return $this->getMedia($key);
+        }
+
+        throw new DerbyException('Unable to parse YouTube URL');
     }
 }
