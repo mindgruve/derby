@@ -20,7 +20,7 @@
     "symfony/config": "~2.7",
     "symfony/yaml": "~2.7",
     "symfony/event-dispatcher": "^2.7",
-    "google/apiclient": "1.0.*@beta"
+    "google/apiclient": "~1.0"
   },
   "require-dev": {
     "mockery/mockery": "~0.9",
