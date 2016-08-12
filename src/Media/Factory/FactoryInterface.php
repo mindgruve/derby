@@ -6,7 +6,7 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media\File\Factory;
+namespace Derby\Media\Factory;
 
 use Derby\Adapter\FileAdapterInterface;
 use Derby\Media\FileInterface;

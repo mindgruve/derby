@@ -9,15 +9,13 @@
 namespace Derby;
 
 use Derby\Adapter\CollectionAdapterInterface;
-use Derby\Adapter\EmbedAdapterInterface;
 use Derby\Adapter\FileAdapterInterface;
 use Derby\Exception\UnknownTransferAdapterException;
-use Derby\Media\Collection;
 use Derby\Media\CollectionInterface;
 use Derby\Media\File;
 use Derby\Media\FileInterface;
 use Derby\Media\SearchInterface;
-use Derby\Media\File\Factory\FactoryInterface;
+use Derby\Media\Factory\FactoryInterface;
 
 /**
  * Derby\MediaManager
@@ -106,7 +104,7 @@ class MediaManager implements MediaManagerInterface
     /**
      * @param $key
      * @param $adapterKey
-     * @return MediaInterface|CollectionInterface|EmbedInterface|FileInterface
+     * @return MediaInterface|CollectionInterface|AdapterInterface|FileInterface
      * @throws \Exception
      */
     public function getMedia($key, $adapterKey)
@@ -117,7 +115,7 @@ class MediaManager implements MediaManagerInterface
             $media = $adapter->getMedia($key);
         } elseif ($adapter instanceof CollectionAdapterInterface) {
             $media = $adapter->getMedia($key);
-        } elseif ($adapter instanceof EmbedAdapterInterface) {
+        } elseif ($adapter instanceof AdapterInterface) {
             $media = $adapter->getMedia($key);
         } else {
             $media = new Media($key, $adapter);
@@ -135,7 +133,7 @@ class MediaManager implements MediaManagerInterface
         if ($media instanceof FileInterface) {
             foreach ($this->fileFactories as $priorityGroup) {
                 foreach ($priorityGroup as $fileFactory) {
-                    /** @var \Derby\Media\File\Factory\FileFactory $fileFactory */
+                    /** @var \Derby\Media\Factory\FileFactory $fileFactory */
                     if ($fileFactory->supports($media)) {
                         return $fileFactory->build($media->getKey(), $media->getAdapter());
                     }

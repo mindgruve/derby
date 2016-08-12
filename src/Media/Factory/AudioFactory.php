@@ -6,25 +6,25 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media\File\Factory;
+namespace Derby\Media\Factory;
 
 use Derby\Adapter\FileAdapterInterface;
-use Derby\Media\File\Html;
+use Derby\Media\File\Audio;
 
 /**
- * Derby\Media\LocalFileFactory\HtmlFactory
+ * Derby\Media\LocalFileFactory\AudioFactory
  *
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-class HtmlFactory extends FileFactory
+class AudioFactory extends FileFactory
 {
     /**
      * {@inheritDoc}
      */
     public function build($key, FileAdapterInterface $adapter)
     {
-        return new Html($key, $adapter);
+        return new Audio($key, $adapter);
     }
 
     /**

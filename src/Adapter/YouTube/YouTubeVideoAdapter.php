@@ -2,13 +2,13 @@
 
 namespace Derby\Adapter\YouTube;
 
-use Derby\Adapter\EmbedAdapterInterface;
+use Derby\AdapterInterface;
 use Derby\Media\YouTube\YouTubeVideo;
 use Derby\Exception\MediaNotFoundException;
 use Google_Client;
 use Google_Service_YouTube;
 
-class YouTubeVideoAdapter implements EmbedAdapterInterface
+class YouTubeVideoAdapter implements AdapterInterface
 {
     const ADAPTER_YOU_TUBE_VIDEO = 'ADAPTER\EMBED\YOU_TUBE_VIDEO';
 

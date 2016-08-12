@@ -1,15 +1,15 @@
 <?php
 
-namespace Derby\Tests\Unit\File;
+namespace Derby\Tests\Unit\Media\Factory;
 
-use Derby\Media\File\Factory\FileFactory;
-use Derby\Media\File\Factory\PresentationFactory;
+use Derby\Media\Factory\FileFactory;
+use Derby\Media\Factory\PresentationFactory;
 use Derby\Media\File\Presentation;
 Use Mockery;
 
 class PresentationFactoryTest extends \PHPUnit_Framework_TestCase
 {
-    protected static $factoryInterface = 'Derby\Media\File\FactoryInterface';
+    protected static $factoryInterface = 'Derby\Media\FactoryInterface';
     protected static $fileAdapterInterface = 'Derby\Adapter\FileAdapterInterface';
 
     public function testInterface()

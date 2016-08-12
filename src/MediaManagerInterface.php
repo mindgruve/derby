@@ -9,9 +9,8 @@
 namespace Derby;
 
 use Derby\Media\SearchInterface;
-use Derby\Media\File\Factory\FactoryInterface;
+use Derby\Media\Factory\FactoryInterface;
 use Derby\Media\CollectionInterface;
-use Derby\Media\EmbedInterface;
 use Derby\Media\FileInterface;
 use Derby\Media\File;
 
@@ -60,7 +59,7 @@ interface MediaManagerInterface
     /**
      * @param $key
      * @param $adapterKey
-     * @return MediaInterface|CollectionInterface|EmbedInterface|FileInterface
+     * @return MediaInterface|CollectionInterface|AdapterInterface|FileInterface
      * @throws \Exception
      */
     public function getMedia($key, $adapterKey);

@@ -6,25 +6,25 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media\File\Factory;
+namespace Derby\Media\Factory;
 
 use Derby\Adapter\FileAdapterInterface;
-use Derby\Media\File\Zip;
+use Derby\Media\File\Html;
 
 /**
- * Derby\Media\LocalFileFactory\ZipFactory
+ * Derby\Media\LocalFileFactory\HtmlFactory
  *
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-class ZipFactory extends FileFactory
+class HtmlFactory extends FileFactory
 {
     /**
      * {@inheritDoc}
      */
     public function build($key, FileAdapterInterface $adapter)
     {
-        return new Zip($key, $adapter);
+        return new Html($key, $adapter);
     }
 
     /**

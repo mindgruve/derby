@@ -6,25 +6,25 @@
  * @author John Pancoast <shideon@gmail.com>
  */
 
-namespace Derby\Media\File\Factory;
+namespace Derby\Media\Factory;
 
 use Derby\Adapter\FileAdapterInterface;
-use Derby\Media\File\Spreadsheet;
+use Derby\Media\File\Video;
 
 /**
- * Derby\Media\LocalFileFactory\SpreadsheetFactory
+ * Derby\Media\LocalFileFactory\VideoFactory
  *
  * @author Kevin Simpson <simpkevin@gmail.com>
  * @author John Pancoast <shideon@gmail.com>
  */
-class SpreadsheetFactory extends FileFactory
+class VideoFactory extends FileFactory
 {
     /**
      * {@inheritDoc}
      */
     public function build($key, FileAdapterInterface $adapter)
     {
-        return new Spreadsheet($key, $adapter);
+        return new Video($key, $adapter);
     }
 
     /**
