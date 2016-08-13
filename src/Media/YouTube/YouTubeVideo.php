@@ -364,18 +364,23 @@ class YouTubeVideo implements MediaInterface
     }
 
     /**
-     * Set key
      * @param $key
-     * @return mixed
+     * @return $this
      */
     public function setKey($key)
     {
-        if ($this->getKey() != null) {
-            $this->key = $key;
-            $this->adapter->load($key);
-        }
+        $this->key = $key;
+
+        return $this;
     }
 
+    /**
+     * Refresh data from google
+     */
+    public function refresh()
+    {
+        $this->adapter->refresh($this->getKey());
+    }
 
 }
 

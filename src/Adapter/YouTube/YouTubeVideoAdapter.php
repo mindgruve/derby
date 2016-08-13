@@ -52,17 +52,41 @@ class YouTubeVideoAdapter implements AdapterInterface
         return self::ADAPTER_YOU_TUBE_VIDEO;
     }
 
+    /**
+     * Pull data from Google again
+     * @param null $key
+     * @return YouTubeVideo
+     * @throws MediaNotFoundException
+     */
+    public function refresh($key = null)
+    {
+        if (isset($this->videos[$key])) {
+            unset($this->videos[$key]);
+        }
+        $this->loadVideoData($key);
+
+        return $this->getMedia($key);
+    }
+
+    /**
+     * Clear local cache
+     * @return $this
+     */
+    public function clearCache()
+    {
+        $this->videos = array();
+
+        return $this;
+    }
 
     /**
      * Retrieves data from API
      * @throws MediaNotFoundException
      */
-    public function load($key, $force = false)
+    protected function loadVideoData($key)
     {
-        if (!$force) {
-            if (isset($this->videos[$key])) {
-                return;
-            }
+        if (isset($this->videos[$key])) {
+            return;
         }
 
         $this->youTubeService = new \Google_Service_YouTube($this->client);
@@ -76,7 +100,6 @@ class YouTubeVideoAdapter implements AdapterInterface
         } else {
             throw new MediaNotFoundException();
         }
-        $this->initialized = true;
     }
 
     /**
@@ -90,7 +113,7 @@ class YouTubeVideoAdapter implements AdapterInterface
      */
     public function getSnippetField($key, $field)
     {
-        $this->load($key);
+        $this->loadVideoData($key);
         $snippet = $this->videos[$key]->getSnippet();
 
         if (isset($snippet[$field])) {
@@ -111,7 +134,7 @@ class YouTubeVideoAdapter implements AdapterInterface
      */
     public function getStatisticsField($key, $field)
     {
-        $this->load($key);
+        $this->loadVideoData($key);
         $statistics = $this->videos[$key]->getStatistics();
 
         if (isset($statistics[$field])) {
@@ -132,7 +155,7 @@ class YouTubeVideoAdapter implements AdapterInterface
      */
     public function getContentDetailsField($key, $field)
     {
-        $this->load($key);
+        $this->loadVideoData($key);
 
         $contentDetails = $this->videos[$key]->getContentDetails();
 
@@ -154,7 +177,7 @@ class YouTubeVideoAdapter implements AdapterInterface
      */
     public function getStatusField($key, $field)
     {
-        $this->load($key);
+        $this->loadVideoData($key);
 
         $status = $this->videos[$key]->getStatus();
 

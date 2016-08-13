@@ -7,6 +7,7 @@ use Derby\AdapterInterface;
 use Derby\Exception\NotSupportedByAdapterException;
 use Derby\Media\CollectionInterface;
 use Derby\MediaInterface;
+use Derby\Exception\DerbyException;
 
 class YouTubeChannel implements CollectionInterface
 {
@@ -62,21 +63,15 @@ class YouTubeChannel implements CollectionInterface
      */
     public function contains(MediaInterface $item)
     {
-        // TODO: Implement contains() method.
+        return $this->adapter->contains($this->getKey(), $item);
     }
 
     /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * Count elements of an object
-     * @link http://php.net/manual/en/countable.count.php
-     * @return int The custom count as an integer.
-     * </p>
-     * <p>
-     * The return value is cast to an integer.
+     * @return int
      */
     public function count()
     {
-        // TODO: Implement count() method.
+        return $this->adapter->count($this->getKey());
     }
 
     /**
@@ -84,7 +79,7 @@ class YouTubeChannel implements CollectionInterface
      */
     public function exists()
     {
-        // TODO: Implement exists() method.
+        return $this->adapter->exists($this->getKey());
     }
 
     /**
@@ -93,7 +88,7 @@ class YouTubeChannel implements CollectionInterface
      */
     public function getAdapter()
     {
-        // TODO: Implement getAdapter() method.
+        return $this->adapter;
     }
 
     /**
@@ -101,7 +96,7 @@ class YouTubeChannel implements CollectionInterface
      */
     public function getItems($page = 1, $limit = 10)
     {
-
+        return $this->adapter->getItems($this->getKey(), $page, $limit);
     }
 
     /**
@@ -110,7 +105,7 @@ class YouTubeChannel implements CollectionInterface
      */
     public function getKey()
     {
-        // TODO: Implement getKey() method.
+        return $this->key;
     }
 
     /**
@@ -124,13 +119,18 @@ class YouTubeChannel implements CollectionInterface
     }
 
     /**
-     * Set adapter
-     * @param AdapterInterface $adapterInterface
-     * @return mixed
+     * @param AdapterInterface $adapter
+     * @return $this
+     * @throws DerbyException
      */
-    public function setAdapter(AdapterInterface $adapterInterface)
+    public function setAdapter(AdapterInterface $adapter)
     {
-        // TODO: Implement setAdapter() method.
+        if (!$adapter instanceof YouTubeChannelAdapter) {
+            throw new DerbyException('Invalid Adapter use for YouTube Channel');
+        }
+        $this->adapter = $adapter;
+
+        return $this;
     }
 
     /**
@@ -140,7 +140,15 @@ class YouTubeChannel implements CollectionInterface
      */
     public function setKey($key)
     {
-        // TODO: Implement setKey() method.
+        $this->key = $key;
+    }
+
+    /**
+     * Refresh data from Google
+     */
+    public function refresh()
+    {
+        $this->adapter->refresh($this->getKey());
     }
 
 

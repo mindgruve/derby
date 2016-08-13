@@ -44,4 +44,33 @@ class YouTubeVideoTest extends \PHPUnit_Framework_TestCase
         $this->mockAdapter->shouldReceive('exists')->andReturn(false);
         $this->assertFalse($sut->exists());
     }
+
+    public function testSetKey()
+    {
+        $key = 'SAMPLE-VIDEO';
+        $sut = new YouTubeVideo($key, $this->mockAdapter, $this->mockClient);
+        $this->assertEquals($key, $sut->getKey());
+        $key2 = 'SAMPLE-VIDEO-2';
+        $sut->setKey($key2);
+        $this->assertEquals($key2, $sut->getKey());
+    }
+
+    public function testSetAdapter()
+    {
+        $key = 'SAMPLE-VIDEO';
+        $sut = new YouTubeVideo($key, $this->mockAdapter, $this->mockClient);
+        $newAdapter = \Mockery::mock('Derby\Adapter\YouTube\YouTubeVideoAdapter');
+        $sut->setAdapter($newAdapter);
+        $this->assertEquals($newAdapter, $sut->getAdapter());
+    }
+
+    public function testRefresh()
+    {
+        $key = 'SAMPLE-VIDEO';
+        $sut = new YouTubeVideo($key, $this->mockAdapter, $this->mockClient);
+
+        $this->mockAdapter->shouldReceive('refresh')->with($key);
+
+        $sut->refresh();
+    }
 }

@@ -363,4 +363,19 @@ class YouTubeVideoTest extends \PHPUnit_Framework_TestCase
     {
         $this->invalidVideo->getCommentCount();
     }
+
+    public function testSetKey()
+    {
+        $sut = $this->validVideo;
+        $this->assertTrue($sut->exists());
+        $this->validVideo->setKey('I-DO-NOT-EXIST');
+        $this->assertFalse($sut->exists());
+    }
+
+    public function testSetAdapter()
+    {
+        $adapter = \Mockery::mock('Derby\Adapter\YouTube\YouTubeVideoAdapter');
+        $this->validVideo->setAdapter($adapter);
+        $this->assertEquals($adapter, $this->validVideo->getAdapter());
+    }
 }
