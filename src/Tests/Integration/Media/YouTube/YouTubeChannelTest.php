@@ -6,6 +6,8 @@ use Derby\Adapter\YouTube\YouTubeChannelAdapter;
 use Derby\Adapter\YouTube\YouTubeVideoAdapter;
 use Derby\Media\YouTube\YouTubeVideo;
 use Derby\Media\YouTube\YouTubeChannel;
+use Doctrine\Common\Cache\ArrayCache;
+use Derby\Cache\DerbyCache;
 
 class YouTubeChannelTest extends \PHPUnit_Framework_TestCase
 {
@@ -52,8 +54,9 @@ class YouTubeChannelTest extends \PHPUnit_Framework_TestCase
         $this->client = new \Google_Client();
         $credentials = json_decode(file_get_contents(__DIR__.'/../../../credentials.json'), true);
         $this->client->setDeveloperKey($credentials['youtube_api_key']);
-        $this->videoAdapter = new YouTubeVideoAdapter($this->client);
-        $this->channelAdapter = new YouTubeChannelAdapter($this->client, $this->videoAdapter);
+        $cache = new DerbyCache(new ArrayCache(), 3600);
+        $this->videoAdapter = new YouTubeVideoAdapter($this->client, $cache);
+        $this->channelAdapter = new YouTubeChannelAdapter($this->client, $this->videoAdapter, $cache);
         $this->validVideo = $this->videoAdapter->getMedia('fHVga3_Z8Xg');
         $this->invalidVideo = $this->videoAdapter->getMedia('I-DO-NOT-EXIST');
         $this->validChannel = $this->channelAdapter->getMedia('UCIdBVOBKSpZqkvSxijfqBqw');
@@ -137,7 +140,8 @@ class YouTubeChannelTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException     \Derby\Exception\DerbyException
      */
-    public function testGetTitleFail(){
+    public function testGetTitleFail()
+    {
         $this->invalidChannel->getTitle();
     }
 }

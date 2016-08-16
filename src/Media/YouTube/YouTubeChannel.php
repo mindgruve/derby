@@ -104,6 +104,16 @@ class YouTubeChannel implements CollectionInterface
         return $this->adapter->getItems($this->getKey(), $page, $limit);
     }
 
+    public function getAllItems()
+    {
+        $upperPage = ceil($this->count() / 50);
+        $items = array();
+        for ($page = 1; $page <= $upperPage; $page++) {
+            $items = array_merge($items, $this->getItems($page, 50));
+        }
+        return $items;
+    }
+
     /**
      * Get key
      * @return string

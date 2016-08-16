@@ -5,6 +5,8 @@ namespace Derby\Tests\Integration\Adapter\YouTube;
 use Derby\Adapter\YouTube\YouTubeChannelAdapter;
 use Derby\Adapter\YouTube\YouTubeVideoAdapter;
 use Derby\Media\YouTube\YouTubeVideo;
+use Doctrine\Common\Cache\ArrayCache;
+use Derby\Cache\DerbyCache;
 
 class YouTubeChannelAdapterTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,8 +30,9 @@ class YouTubeChannelAdapterTest extends \PHPUnit_Framework_TestCase
         $this->client = new \Google_Client();
         $credentials = json_decode(file_get_contents(__DIR__.'/../../../credentials.json'), true);
         $this->client->setDeveloperKey($credentials['youtube_api_key']);
-        $videoAdapter = new YouTubeVideoAdapter($this->client);
-        $this->adapter = new YouTubeChannelAdapter($this->client, $videoAdapter);
+        $cache = new DerbyCache(new ArrayCache(), 3600);
+        $videoAdapter = new YouTubeVideoAdapter($this->client, $cache);
+        $this->adapter = new YouTubeChannelAdapter($this->client, $videoAdapter, $cache);
     }
 
     /**
@@ -58,7 +61,8 @@ class YouTubeChannelAdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testContains()
     {
-        $youtubeVideoAdapter = new YouTubeVideoAdapter($this->client);
+        $cache = new DerbyCache(new ArrayCache(), 3600);
+        $youtubeVideoAdapter = new YouTubeVideoAdapter($this->client, $cache);
         $video = $youtubeVideoAdapter->getMedia('fHVga3_Z8Xg');
 
         $this->assertTrue($this->adapter->contains('UCIdBVOBKSpZqkvSxijfqBqw', $video));
@@ -69,7 +73,8 @@ class YouTubeChannelAdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotContains()
     {
-        $youtubeVideoAdapter = new YouTubeVideoAdapter($this->client);
+        $cache = new DerbyCache(new ArrayCache(), 3600);
+        $youtubeVideoAdapter = new YouTubeVideoAdapter($this->client, $cache);
         $video = $youtubeVideoAdapter->getMedia('I-DO-NOT-EXIST');
 
         $this->assertFalse($this->adapter->contains('UCIdBVOBKSpZqkvSxijfqBqw', $video));
@@ -98,7 +103,8 @@ class YouTubeChannelAdapterTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException     \Exception
      */
-    public function testGetItemsException(){
+    public function testGetItemsException()
+    {
         $this->adapter->getItems('UCIdBVOBKSpZqkvSxijfqBqw', 1, 51);
     }
 }

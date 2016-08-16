@@ -4,6 +4,8 @@ namespace Derby\Tests\Integration\Media\YouTube\YouTube;
 
 use Derby\Media\YouTube\YouTubeVideo;
 use Derby\Adapter\YouTube\YouTubeVideoAdapter;
+use Doctrine\Common\Cache\ArrayCache;
+use Derby\Cache\DerbyCache;
 
 class YouTubeVideoTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,7 +38,8 @@ class YouTubeVideoTest extends \PHPUnit_Framework_TestCase
         $this->client = new \Google_Client();
         $credentials = json_decode(file_get_contents(__DIR__.'/../../../credentials.json'), true);
         $this->client->setDeveloperKey($credentials['youtube_api_key']);
-        $this->adapter = new YouTubeVideoAdapter($this->client);
+        $cache = new DerbyCache(new ArrayCache(), 3600);
+        $this->adapter = new YouTubeVideoAdapter($this->client, $cache);
         $this->validVideo = $this->adapter->getMedia('fHVga3_Z8Xg');
         $this->invalidVideo = $this->adapter->getMedia('I-DO-NOT-EXIST');
     }

@@ -14,7 +14,8 @@ class YouTubeChannelAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $mockClient = \Mockery::mock('\Google_Client');
         $mockVideoAdapter = \Mockery::mock('Derby\Adapter\YouTube\YouTubeVideoAdapter');
-        $sut = new YouTubeChannelAdapter($mockClient, $mockVideoAdapter);
+        $cache = \Mockery::mock('Derby\Cache\DerbyCache');
+        $sut = new YouTubeChannelAdapter($mockClient, $mockVideoAdapter,$cache);
 
         /**
          * Test Interfaces
@@ -27,7 +28,8 @@ class YouTubeChannelAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $mockClient = \Mockery::mock('\Google_Client');
         $mockVideoAdapter = \Mockery::mock('Derby\Adapter\YouTube\YouTubeVideoAdapter');
-        $sut = new YouTubeChannelAdapter($mockClient, $mockVideoAdapter);
+        $cache = \Mockery::mock('Derby\Cache\DerbyCache');
+        $sut = new YouTubeChannelAdapter($mockClient, $mockVideoAdapter, $cache);
 
         $this->assertEquals(YouTubeChannelAdapter::ADAPTER_YOU_TUBE_CHANNEL, $sut->getAdapterType());
     }
@@ -36,7 +38,8 @@ class YouTubeChannelAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $mockClient = \Mockery::mock('\Google_Client');
         $mockVideoAdapter = \Mockery::mock('Derby\Adapter\YouTube\YouTubeVideoAdapter');
-        $sut = new YouTubeChannelAdapter($mockClient, $mockVideoAdapter);
+        $cache = \Mockery::mock('Derby\Cache\DerbyCache');
+        $sut = new YouTubeChannelAdapter($mockClient, $mockVideoAdapter, $cache);
         $channel = $sut->getMedia('SAMPLE-CHANNEL');
 
         $this->assertTrue($channel instanceof CollectionInterface);

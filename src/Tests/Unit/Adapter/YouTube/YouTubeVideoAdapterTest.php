@@ -14,7 +14,8 @@ class YouTubeVideoAdapterTest extends \PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $mockClient = \Mockery::mock('\Google_Client');
-        $sut = new YouTubeVideoAdapter($mockClient);
+        $cache = \Mockery::mock('Derby\Cache\DerbyCache');
+        $sut = new YouTubeVideoAdapter($mockClient, $cache);
 
         /**
          * Test Interfaces
@@ -26,7 +27,8 @@ class YouTubeVideoAdapterTest extends \PHPUnit_Framework_TestCase
     public function testAdapterType()
     {
         $mockClient = \Mockery::mock('\Google_Client');
-        $sut = new YouTubeVideoAdapter($mockClient);
+        $cache = \Mockery::mock('Derby\Cache\DerbyCache');
+        $sut = new YouTubeVideoAdapter($mockClient, $cache);
 
         $this->assertEquals(YouTubeVideoAdapter::ADAPTER_YOU_TUBE_VIDEO, $sut->getAdapterType());
     }
@@ -34,7 +36,8 @@ class YouTubeVideoAdapterTest extends \PHPUnit_Framework_TestCase
     public function testGetMedia()
     {
         $mockClient = \Mockery::mock('\Google_Client');
-        $sut = new YouTubeVideoAdapter($mockClient);
+        $cache = \Mockery::mock('Derby\Cache\DerbyCache');
+        $sut = new YouTubeVideoAdapter($mockClient, $cache);
         $video = $sut->getMedia('SAMPLE-VIDEO');
 
         $this->assertTrue($video instanceof MediaInterface);
@@ -45,7 +48,8 @@ class YouTubeVideoAdapterTest extends \PHPUnit_Framework_TestCase
     public function testParseYouTubeURL()
     {
         $mockClient = \Mockery::mock('\Google_Client');
-        $sut = new YouTubeVideoAdapter($mockClient);
+        $cache = \Mockery::mock('Derby\Cache\DerbyCache');
+        $sut = new YouTubeVideoAdapter($mockClient, $cache);
 
         $youTubeVideo = $sut->parseYouTubeURL('https://www.youtube.com/watch?v=fHVga3_Z8Xg');
         $this->assertTrue($youTubeVideo instanceof YouTubeVideo);
@@ -63,7 +67,8 @@ class YouTubeVideoAdapterTest extends \PHPUnit_Framework_TestCase
     public function testParseYouTubeURLFail()
     {
         $mockClient = \Mockery::mock('\Google_Client');
-        $sut = new YouTubeVideoAdapter($mockClient);
+        $cache = \Mockery::mock('Derby\Cache\DerbyCache');
+        $sut = new YouTubeVideoAdapter($mockClient, $cache);
 
         try {
             $sut->parseYouTubeURL('https://www.youtube.com/watch');

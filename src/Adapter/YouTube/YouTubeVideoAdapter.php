@@ -8,10 +8,12 @@ use Derby\Exception\MediaNotFoundException;
 use Google_Client;
 use Google_Service_YouTube;
 use Derby\Exception\DerbyException;
+use Derby\Cache\DerbyCache;
 
 class YouTubeVideoAdapter implements AdapterInterface
 {
     const ADAPTER_YOU_TUBE_VIDEO = 'ADAPTER\EMBED\YOU_TUBE_VIDEO';
+    const CACHE_VIDEO = 'video';
 
     /**
      * @var Google_Client
@@ -30,18 +32,19 @@ class YouTubeVideoAdapter implements AdapterInterface
     protected $youTubeService;
 
     /**
-     * @var array
+     * @var DerbyCache
      */
-    protected $videos = array();
-
+    protected $cache;
 
     /**
      * @param Google_Client $client
+     * @param DerbyCache $cache
      */
-    public function __construct(Google_Client $client)
+    public function __construct(Google_Client $client, DerbyCache $cache)
     {
         $this->client = $client;
         $this->service = new Google_Service_YouTube($client);
+        $this->cache = $cache;
     }
 
     /**
@@ -54,14 +57,14 @@ class YouTubeVideoAdapter implements AdapterInterface
 
     /**
      * Pull data from Google again
-     * @param null $key
+     * @param string $key
      * @return YouTubeVideo
      * @throws MediaNotFoundException
      */
-    public function refresh($key = null)
+    public function refresh($key)
     {
-        if (isset($this->videos[$key])) {
-            unset($this->videos[$key]);
+        if ($this->cache->contains(self::CACHE_VIDEO, $key)) {
+            $this->cache->delete(self::CACHE_VIDEO, $key);
         }
         $this->loadVideoData($key);
 
@@ -74,21 +77,21 @@ class YouTubeVideoAdapter implements AdapterInterface
      */
     public function clearCache()
     {
-        $this->videos = array();
+        $this->cache->deleteAll(self::CACHE_VIDEO);
 
         return $this;
     }
 
     /**
      * Retrieves data from API
+     * @param $key
      * @throws MediaNotFoundException
      */
     protected function loadVideoData($key)
     {
-        if (isset($this->videos[$key])) {
+        if ($this->cache->contains(self::CACHE_VIDEO, $key)) {
             return;
         }
-
         $this->youTubeService = new \Google_Service_YouTube($this->client);
         $response = $this->youTubeService->videos->listVideos(
             'snippet,statistics,status,contentDetails',
@@ -96,7 +99,7 @@ class YouTubeVideoAdapter implements AdapterInterface
         );
         $items = $response->getItems();
         if (count($items) && $items[0] instanceof \Google_Service_YouTube_Video) {
-            $this->videos[$key] = $items[0];
+            $this->cache->save(self::CACHE_VIDEO, $key, $items[0]);
         } else {
             throw new MediaNotFoundException();
         }
@@ -114,7 +117,7 @@ class YouTubeVideoAdapter implements AdapterInterface
     public function getSnippetField($key, $field)
     {
         $this->loadVideoData($key);
-        $snippet = $this->videos[$key]->getSnippet();
+        $snippet = $this->cache->fetch(self::CACHE_VIDEO, $key)->getSnippet();
 
         if (isset($snippet[$field])) {
             return $snippet[$field];
@@ -135,7 +138,7 @@ class YouTubeVideoAdapter implements AdapterInterface
     public function getStatisticsField($key, $field)
     {
         $this->loadVideoData($key);
-        $statistics = $this->videos[$key]->getStatistics();
+        $statistics = $this->cache->fetch(self::CACHE_VIDEO, $key)->getStatistics();
 
         if (isset($statistics[$field])) {
             return $statistics[$field];
@@ -157,7 +160,7 @@ class YouTubeVideoAdapter implements AdapterInterface
     {
         $this->loadVideoData($key);
 
-        $contentDetails = $this->videos[$key]->getContentDetails();
+        $contentDetails = $this->cache->fetch(self::CACHE_VIDEO, $key)->getContentDetails();
 
         if (isset($contentDetails[$field])) {
             return $contentDetails[$field];
@@ -179,7 +182,7 @@ class YouTubeVideoAdapter implements AdapterInterface
     {
         $this->loadVideoData($key);
 
-        $status = $this->videos[$key]->getStatus();
+        $status = $this->cache->fetch(self::CACHE_VIDEO, $key)->getStatus();
 
         if (isset($status[$field])) {
             return $status[$field];
