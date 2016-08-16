@@ -135,7 +135,6 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
             return;
         }
 
-
         $search = $this->service->search;
         $currentPage = 1;
         $nextPageToken = null;
@@ -183,16 +182,14 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
         $this->loadChannelData($key);
         $this->loadItems($key, $page, $limit);
 
-        $offset = ($page - 1) * $limit;
         $videoIds = $this->paginatedCache->fetch(self::CACHE_CHANNEL_ITEMS, $key, $page, $limit);
+
         if (!$videoIds) {
             return array();
         }
 
-        $ids = array_slice($videoIds, $offset, $limit);
-
         $return = array();
-        foreach ($ids as $id) {
+        foreach ($videoIds as $id) {
             $return[] = $this->videoAdapter->getMedia($id);
         }
 

@@ -100,6 +100,16 @@ class YouTubeChannelAdapterTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testGetItemsNextPage(){
+        $items = $this->adapter->getItems('UCIdBVOBKSpZqkvSxijfqBqw', 2, 5);
+        $this->assertTrue(is_array($items));
+        $this->assertEquals(5, count($items));
+
+        foreach ($items as $item) {
+            $this->assertTrue($item instanceof YouTubeVideo);
+        }
+    }
+
     /**
      * @expectedException     \Exception
      */
