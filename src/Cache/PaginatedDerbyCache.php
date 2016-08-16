@@ -2,7 +2,7 @@
 
 namespace Derby\Cache;
 
-class PaginatedDerbyCache extends DerbyCache
+class PaginatedDerbyCache
 {
 
     /**
