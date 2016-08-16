@@ -47,6 +47,11 @@ class YouTubeChannel implements CollectionInterface
         return self::EMBED_YOUTUBE_CHANNEL;
     }
 
+    public function getTitle()
+    {
+        return $this->adapter->getTitle($this->key);
+    }
+
     /**
      * @param MediaInterface $item
      * @return $this

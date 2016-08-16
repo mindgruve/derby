@@ -145,7 +145,7 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
             }
 
             $response = $search->listSearch(
-                'id',
+                'id,snippet',
                 array('channelId' => $key, 'type' => 'video', 'maxResults' => $limit, 'pageToken' => $nextPageToken)
             );
 
@@ -229,5 +229,14 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
         $this->loadVideoData($key, 1, 1);
 
         return $this->videoCountForChannel[$key];
+    }
+
+    public function getTitle($key)
+    {
+        $this->loadChannelData($key);
+        $channel = $this->channels[$key];
+        $snippet = $channel->getSnippet();
+
+        return $snippet['title'];
     }
 }

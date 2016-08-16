@@ -19,6 +19,9 @@ class YouTubeChannelTest extends \PHPUnit_Framework_TestCase
      */
     protected $videoAdapter;
 
+    /**
+     * @var YouTubeChannelAdapter
+     */
     protected $channelAdapter;
 
     /**
@@ -117,11 +120,24 @@ class YouTubeChannelTest extends \PHPUnit_Framework_TestCase
     {
         $this->invalidChannel->getItems(1, 5);
     }
+
     /**
      * @expectedException     \Exception
      */
     public function testInvalidLImitException()
     {
         $this->validChannel->getItems(1, 51);
+    }
+
+    public function testGetTitle()
+    {
+        $this->assertEquals('Mindgruve', $this->validChannel->getTitle());
+    }
+
+    /**
+     * @expectedException     \Derby\Exception\DerbyException
+     */
+    public function testGetTitleFail(){
+        $this->invalidChannel->getTitle();
     }
 }
