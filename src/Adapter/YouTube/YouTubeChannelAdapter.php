@@ -148,11 +148,9 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
         }
 
         $search = $this->service->search;
-        $nextPageToken = null;
-
         $response = $search->listSearch(
             'id,snippet',
-            array('channelId' => $key, 'type' => 'video', 'maxResults' => $limit, 'pageToken' => $nextPageToken)
+            array('channelId' => $key, 'type' => 'video', 'maxResults' => $limit, 'pageToken' => $continuationToken)
         );
 
         if (is_null($continuationToken)) {
