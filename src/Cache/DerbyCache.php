@@ -26,6 +26,16 @@ class DerbyCache
         $this->ttl = $ttl;
     }
 
+    public function getTtl()
+    {
+        return $this->ttl;
+    }
+
+    public function getCacheProvider()
+    {
+        return $this->cacheProvider;
+    }
+
     /**
      * @param $namespace
      * @param $id
