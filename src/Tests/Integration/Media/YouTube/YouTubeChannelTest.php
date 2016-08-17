@@ -111,6 +111,7 @@ class YouTubeChannelTest extends \PHPUnit_Framework_TestCase
     {
         $resultPage = $this->validChannel->getItems(5);
         $this->assertTrue($resultPage instanceof ResultPage);
+        $this->assertTrue($resultPage instanceof \Iterator);
         $this->assertTrue(is_array($resultPage->getItems()));
         $this->assertEquals(5, count($resultPage->getItems()));
         $this->assertEquals(5, $resultPage->getLimit());

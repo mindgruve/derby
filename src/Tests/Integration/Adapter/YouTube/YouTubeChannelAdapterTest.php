@@ -94,6 +94,7 @@ class YouTubeChannelAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $resultPage = $this->adapter->getItems('UCIdBVOBKSpZqkvSxijfqBqw', 5, null);
         $this->assertTrue($resultPage instanceof ResultPage);
+        $this->assertTrue($resultPage instanceof \Iterator);
 
         $items = $resultPage->getItems();
         $this->assertTrue(is_array($items));
@@ -109,11 +110,13 @@ class YouTubeChannelAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $resultPage = $this->adapter->getItems('UCIdBVOBKSpZqkvSxijfqBqw', 5, null);
         $this->assertTrue($resultPage instanceof ResultPage);
+        $this->assertTrue($resultPage instanceof \Iterator);
 
         $continuationToken2 = $resultPage->getContinuationToken();
         $resultPage2 = $this->adapter->getItems('UCIdBVOBKSpZqkvSxijfqBqw', 5, $continuationToken2);
 
         $this->assertTrue($resultPage2 instanceof ResultPage);
+        $this->assertTrue($resultPage2 instanceof \Iterator);
         $this->assertTrue(is_array($resultPage2->getItems()));
         $this->assertEquals(5, count($resultPage2->getItems()));
 
@@ -121,6 +124,7 @@ class YouTubeChannelAdapterTest extends \PHPUnit_Framework_TestCase
         $resultPage3 = $this->adapter->getItems('UCIdBVOBKSpZqkvSxijfqBqw', 5, $continuationToken3);
 
         $this->assertTrue($resultPage3 instanceof ResultPage);
+        $this->assertTrue($resultPage3 instanceof \Iterator);
         $this->assertTrue(is_array($resultPage3->getItems()));
         $this->assertEquals(5, count($resultPage3->getItems()));
     }
