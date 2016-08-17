@@ -2,7 +2,7 @@
 
 namespace Derby\Cache;
 
-class ResultPage
+class ResultPage implements \Iterator
 {
 
     /**
@@ -25,7 +25,7 @@ class ResultPage
      * @param $limit
      * @param $continuationToken
      */
-    public function __construct($items, $limit, $continuationToken)
+    public function __construct(array $items, $limit, $continuationToken)
     {
         $this->items = $items;
         $this->limit = $limit;
@@ -44,7 +44,7 @@ class ResultPage
      * @param $items
      * @return $this
      */
-    public function setItems($items)
+    public function setItems(array $items)
     {
         $this->items = $items;
 
@@ -88,4 +88,46 @@ class ResultPage
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function current()
+    {
+        return current($this->items);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function next()
+    {
+        return next($this->items);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function key()
+    {
+        return key($this->items);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function valid()
+    {
+        return isset($this->items[key($this->items)]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function rewind()
+    {
+        return prev($this->items);
+    }
+
+
 }
