@@ -118,7 +118,9 @@ class ResultPage implements \Iterator
      */
     public function valid()
     {
-        return isset($this->items[key($this->items)]);
+        $key = key($this->items);
+
+        return ($key !== NULL && $key !== FALSE);
     }
 
     /**
@@ -126,7 +128,7 @@ class ResultPage implements \Iterator
      */
     public function rewind()
     {
-        return prev($this->items);
+        return reset($this->items);
     }
 
 
