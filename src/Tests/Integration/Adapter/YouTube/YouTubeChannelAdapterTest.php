@@ -4,6 +4,7 @@ namespace Derby\Tests\Integration\Adapter\YouTube;
 
 use Derby\Adapter\YouTube\YouTubeChannelAdapter;
 use Derby\Adapter\YouTube\YouTubeVideoAdapter;
+use Derby\Cache\ResultPage;
 use Derby\Media\YouTube\YouTubeVideo;
 use Doctrine\Common\Cache\ArrayCache;
 use Derby\Cache\DerbyCache;
@@ -91,23 +92,37 @@ class YouTubeChannelAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function testGetItems()
     {
-        $items = $this->adapter->getItems('UCIdBVOBKSpZqkvSxijfqBqw', 1, 5);
+        $resultPage = $this->adapter->getItems('UCIdBVOBKSpZqkvSxijfqBqw', 5, null);
+        $this->assertTrue($resultPage instanceof ResultPage);
+
+        $items = $resultPage->getItems();
         $this->assertTrue(is_array($items));
         $this->assertEquals(5, count($items));
+        $this->assertEquals(5, $resultPage->getLimit());
 
         foreach ($items as $item) {
             $this->assertTrue($item instanceof YouTubeVideo);
         }
     }
 
-    public function testGetItemsNextPage(){
-        $items = $this->adapter->getItems('UCIdBVOBKSpZqkvSxijfqBqw', 2, 5);
-        $this->assertTrue(is_array($items));
-        $this->assertEquals(5, count($items));
+    public function testGetItemsNextPages()
+    {
+        $resultPage = $this->adapter->getItems('UCIdBVOBKSpZqkvSxijfqBqw', 5, null);
+        $this->assertTrue($resultPage instanceof ResultPage);
 
-        foreach ($items as $item) {
-            $this->assertTrue($item instanceof YouTubeVideo);
-        }
+        $continuationToken2 = $resultPage->getContinuationToken();
+        $resultPage2 = $this->adapter->getItems('UCIdBVOBKSpZqkvSxijfqBqw', 5, $continuationToken2);
+
+        $this->assertTrue($resultPage2 instanceof ResultPage);
+        $this->assertTrue(is_array($resultPage2->getItems()));
+        $this->assertEquals(5, count($resultPage2->getItems()));
+
+        $continuationToken3 = $resultPage2->getContinuationToken();
+        $resultPage3 = $this->adapter->getItems('UCIdBVOBKSpZqkvSxijfqBqw', 5, $continuationToken3);
+
+        $this->assertTrue($resultPage3 instanceof ResultPage);
+        $this->assertTrue(is_array($resultPage3->getItems()));
+        $this->assertEquals(5, count($resultPage3->getItems()));
     }
 
     /**
@@ -115,6 +130,6 @@ class YouTubeChannelAdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetItemsException()
     {
-        $this->adapter->getItems('UCIdBVOBKSpZqkvSxijfqBqw', 1, 51);
+        $this->adapter->getItems('UCIdBVOBKSpZqkvSxijfqBqw', 51);
     }
 }

@@ -4,17 +4,18 @@ namespace Derby\Adapter;
 
 use Derby\AdapterInterface;
 use Derby\MediaInterface;
+use Derby\Cache\ResultPage;
 
 interface CollectionAdapterInterface extends AdapterInterface
 {
     /**
-     * Returns back the items (paginated)
+     * Returns the items
      * @param $key
-     * @param int $page
      * @param int $limit
-     * @return mixed
+     * @param null $continuationToken
+     * @return ResultPage
      */
-    public function getItems($key, $page = 1, $limit = 10);
+    public function getItems($key, $limit=10, $continuationToken=null);
 
     /**
      * Returns the number of items in the collection

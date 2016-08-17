@@ -16,7 +16,7 @@ interface CollectionInterface extends MediaInterface, Countable
     /**
      * @return array
      */
-    public function getItems($page = 1, $limit = 10);
+    public function getItems($limit = 10, $continuationToken);
 
     /**
      * @param MediaInterface $item

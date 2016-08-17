@@ -4,6 +4,7 @@ namespace Derby\Tests\Integration\Media\YouTube\YouTube;
 
 use Derby\Adapter\YouTube\YouTubeChannelAdapter;
 use Derby\Adapter\YouTube\YouTubeVideoAdapter;
+use Derby\Cache\ResultPage;
 use Derby\Media\YouTube\YouTubeVideo;
 use Derby\Media\YouTube\YouTubeChannel;
 use Doctrine\Common\Cache\ArrayCache;
@@ -108,10 +109,12 @@ class YouTubeChannelTest extends \PHPUnit_Framework_TestCase
 
     public function testGetItems()
     {
-        $items = $this->validChannel->getItems(1, 5);
-        $this->assertTrue(is_array($items));
-        $this->assertEquals(5, count($items));
-        foreach ($items as $item) {
+        $resultPage = $this->validChannel->getItems(5);
+        $this->assertTrue($resultPage instanceof ResultPage);
+        $this->assertTrue(is_array($resultPage->getItems()));
+        $this->assertEquals(5, count($resultPage->getItems()));
+        $this->assertEquals(5, $resultPage->getLimit());
+        foreach ($resultPage->getItems() as $item) {
             $this->assertTrue($item instanceof YouTubeVideo);
         }
     }
@@ -121,7 +124,7 @@ class YouTubeChannelTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetItemsException()
     {
-        $this->invalidChannel->getItems(1, 5);
+        $this->invalidChannel->getItems(5);
     }
 
     /**
@@ -129,7 +132,7 @@ class YouTubeChannelTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidLImitException()
     {
-        $this->validChannel->getItems(1, 51);
+        $this->validChannel->getItems(51);
     }
 
     public function testGetTitle()

@@ -97,21 +97,14 @@ class YouTubeChannel implements CollectionInterface
     }
 
     /**
-     * @return array
+     * @param int $limit
+     * @param null $continuationToken
+     * @return \Derby\Cache\ResultPage
+     * @throws \Exception
      */
-    public function getItems($page = 1, $limit = 10)
+    public function getItems($limit = 10, $continuationToken = null)
     {
-        return $this->adapter->getItems($this->getKey(), $page, $limit);
-    }
-
-    public function getAllItems()
-    {
-        $upperPage = ceil($this->count() / 50);
-        $items = array();
-        for ($page = 1; $page <= $upperPage; $page++) {
-            $items = array_merge($items, $this->getItems($page, 50));
-        }
-        return $items;
+        return $this->adapter->getItems($this->getKey(), $limit, $continuationToken);
     }
 
     /**
