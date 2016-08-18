@@ -9,8 +9,6 @@ use Gaufrette\Adapter\Local;
 class LocalFile extends File
 {
 
-    const TYPE_MEDIA_FILE_LOCAL = 'MEDIA/FILE/IMAGE';
-
     /**
      * @var Local
      */
@@ -82,11 +80,6 @@ class LocalFile extends File
         }
 
         return filesize($this->getPath($this->getKey()));
-    }
-
-    public function getMediaType()
-    {
-        return self::TYPE_MEDIA_FILE_LOCAL;
     }
 
 }

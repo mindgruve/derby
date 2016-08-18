@@ -21,14 +21,4 @@ class PdfTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($sut instanceof File);
     }
-
-    public function testType()
-    {
-        $key     = 'Foo';
-        $adapter = Mockery::mock(self::$fileAdapterInterface);
-
-        $sut = new Pdf($key, $adapter);
-
-        $this->assertEquals(Pdf::TYPE_MEDIA_FILE_PDF, $sut->getMediaType());
-    }
 }

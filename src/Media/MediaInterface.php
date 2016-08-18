@@ -19,14 +19,6 @@ use Derby\Adapter\AdapterInterface;
 interface MediaInterface
 {
 
-    // Object Type
-    const TYPE_MEDIA = 'MEDIA';
-
-    /**
-     * @return string
-     */
-    public function getMediaType();
-
     /**
      * Set adapter
      * @param AdapterInterface $adapterInterface

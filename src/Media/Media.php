@@ -45,14 +45,6 @@ class Media implements MediaInterface
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function getMediaType()
-    {
-        return self::TYPE_MEDIA;
-    }
-
-    /**
      * @return FileAdapter
      */
     public function getAdapter()

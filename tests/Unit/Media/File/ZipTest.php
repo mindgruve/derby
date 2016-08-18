@@ -21,14 +21,4 @@ class ZipTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($sut instanceof File);
     }
-
-    public function testType()
-    {
-        $key = 'Foo';
-        $adapter = Mockery::mock(self::$fileAdapterInterface);
-
-        $sut = new Zip($key, $adapter);
-
-        $this->assertEquals(Zip::TYPE_MEDIA_FILE_ZIP, $sut->getMediaType());
-    }
 }

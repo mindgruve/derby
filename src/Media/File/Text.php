@@ -18,11 +18,6 @@ use Derby\Media\File;
  */
 class Text extends File
 {
-    const TYPE_MEDIA_FILE_TEXT = 'MEDIA/FILE/TEXT';
 
-    public function getMediaType()
-    {
-        return self::TYPE_MEDIA_FILE_TEXT;
-    }
 
 }

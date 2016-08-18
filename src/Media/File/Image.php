@@ -27,8 +27,6 @@ class Image extends File
     const DEFAULT_MODE = ImageInterface::THUMBNAIL_OUTBOUND;
     const DEFAULT_QUALITY = 100;
 
-    const TYPE_MEDIA_FILE_IMAGE = 'MEDIA/FILE/IMAGE';
-
     /**
      * @var ImagineInterface
      */
@@ -60,15 +58,6 @@ class Image extends File
         $this->imagine = $imagine;
         $this->dispatcher = $dispatcher;
         parent::__construct($key, $adapter);
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getMediaType()
-    {
-        return self::TYPE_MEDIA_FILE_IMAGE;
     }
 
 

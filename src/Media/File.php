@@ -4,12 +4,10 @@ namespace Derby\Media;
 
 use Derby\Adapter\FileAdapterInterface;
 use Derby\Exception\DerbyException;
-use Derby\Media\Media;
 use Derby\Media\File\LocalFile;
 
 class File extends Media implements FileInterface
 {
-    const TYPE_MEDIA_FILE = 'MEDIA/FILE';
 
     /**
      * @var FileAdapterInterface
@@ -37,15 +35,6 @@ class File extends Media implements FileInterface
         $this->tmpDirectory = $tmpDirectory;
         $this->adapter = $adapter;
         parent::__construct($key, $adapter);
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getMediaType()
-    {
-        return self::TYPE_MEDIA_FILE;
     }
 
     /**

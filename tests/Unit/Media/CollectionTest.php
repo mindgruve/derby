@@ -25,16 +25,6 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($sut instanceof \Derby\Media\CollectionInterface);
     }
 
-    public function testType()
-    {
-        $key = 'Foo\\';
-        $adapter = Mockery::mock(self::$collectionAdapterInterface);
-
-        $sut = new \Derby\Media\Collection($key, $adapter);
-
-        $this->assertEquals(\Derby\Media\Collection::MEDIA_COLLECTION, $sut->getMediaType());
-    }
-
     public function testConstructor()
     {
         $key = 'Foo\\';

@@ -4,14 +4,11 @@ namespace Derby\Media\YouTube;
 
 use Derby\Adapter\AdapterInterface;
 use Derby\Exception\DerbyException;
-use Derby\Media\Media;
 use Derby\Adapter\YouTube\YouTubeVideoAdapter;
 use Derby\Media\MediaInterface;
 
 class YouTubeVideo implements MediaInterface
 {
-
-    const TYPE_MEDIA_EMBED_YOUTUBE_VIDEO = 'MEDIA/EMBED/YOUTUBE/VIDEO';
 
     /**
      * @param $key
@@ -312,14 +309,6 @@ class YouTubeVideo implements MediaInterface
     public function getCommentCount()
     {
         return $this->adapter->getStatisticsField($this->getKey(), 'commentCount');
-    }
-
-    /**
-     * @return string
-     */
-    public function getMediaType()
-    {
-        return self::TYPE_MEDIA_EMBED_YOUTUBE_VIDEO;
     }
 
     /**

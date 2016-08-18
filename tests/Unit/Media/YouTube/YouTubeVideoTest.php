@@ -24,7 +24,6 @@ class YouTubeVideoTest extends \PHPUnit_Framework_TestCase
     {
         $key = 'SAMPLE-VIDEO';
         $sut = new YouTubeVideo($key, $this->mockAdapter, $this->mockClient);
-        $this->assertEquals(YouTubeVideo::TYPE_MEDIA_EMBED_YOUTUBE_VIDEO, $sut->getMediaType());
         $this->assertEquals($key, $sut->getKey());
         $this->assertEquals($this->mockAdapter, $sut->getAdapter());
     }

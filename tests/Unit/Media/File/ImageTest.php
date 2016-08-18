@@ -23,17 +23,6 @@ class ImageTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($sut instanceof File);
     }
 
-    public function testType()
-    {
-        $key = 'Foo';
-        $adapter = Mockery::mock(self::$fileAdapterInterface);
-        $imagine = Mockery::mock(self::$abstractImagine);
-
-        $sut = new Image($key, $adapter, $imagine);
-
-        $this->assertEquals(Image::TYPE_MEDIA_FILE_IMAGE, $sut->getMediaType());
-    }
-
     public function testDefaultQuality()
     {
         $key = 'Foo';

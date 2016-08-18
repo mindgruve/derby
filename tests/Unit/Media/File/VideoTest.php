@@ -21,14 +21,4 @@ class VideoTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($sut instanceof File);
     }
-
-    public function testType()
-    {
-        $key     = 'Foo';
-        $adapter = Mockery::mock(self::$fileAdapterInterface);
-
-        $sut = new Video($key, $adapter);
-
-        $this->assertEquals(Video::TYPE_MEDIA_FILE_VIDEO, $sut->getMediaType());
-    }
 }

@@ -39,16 +39,6 @@ class FileTest extends PHPUnit_Framework_TestCase
     }
 
 
-    public function testType()
-    {
-        $key = 'Foo';
-        $adapter = Mockery::mock(self::$fileAdapterInterface);
-
-        $sut = new File($key, $adapter);
-
-        $this->assertEquals(File::TYPE_MEDIA_FILE, $sut->getMediaType());
-    }
-
     public function testDeleteSuccessful()
     {
 

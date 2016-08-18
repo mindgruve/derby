@@ -21,14 +21,4 @@ class HtmlTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($sut instanceof File);
     }
-
-    public function testType()
-    {
-        $key     = 'Foo';
-        $adapter = Mockery::mock(self::$fileAdapterInterface);
-
-        $sut = new Html($key, $adapter);
-
-        $this->assertEquals(Html::TYPE_MEDIA_FILE_HTML, $sut->getMediaType());
-    }
 }

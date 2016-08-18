@@ -19,11 +19,5 @@ use Derby\Media\File;
  */
 class Html extends File
 {
-    const TYPE_MEDIA_FILE_HTML = 'MEDIA/FILE/HTML';
-
-    public function getMediaType()
-    {
-        return self::TYPE_MEDIA_FILE_HTML;
-    }
 
 }

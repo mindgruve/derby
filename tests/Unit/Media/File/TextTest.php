@@ -22,14 +22,4 @@ class TextTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($sut instanceof File);
     }
-
-    public function testType()
-    {
-        $key     = 'Foo';
-        $adapter = Mockery::mock(self::$fileAdapterInterface);
-
-        $sut = new Text($key, $adapter);
-
-        $this->assertEquals(Text::TYPE_MEDIA_FILE_TEXT, $sut->getMediaType());
-    }
 }

@@ -20,14 +20,4 @@ class PresentationTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($sut instanceof File);
     }
-
-    public function testType()
-    {
-        $key     = 'Foo';
-        $adapter = Mockery::mock(self::$fileAdapterInterface);
-
-        $sut = new Presentation($key, $adapter);
-
-        $this->assertEquals(Presentation::TYPE_MEDIA_FILE_PRESENTATION, $sut->getMediaType());
-    }
 }

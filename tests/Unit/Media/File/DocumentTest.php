@@ -20,14 +20,4 @@ class DocumentTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($sut instanceof File);
     }
-
-    public function testType()
-    {
-        $key     = 'Foo';
-        $adapter = Mockery::mock(self::$fileAdapterInterface);
-
-        $sut = new Document($key, $adapter);
-
-        $this->assertEquals(Document::TYPE_MEDIA_FILE_DOCUMENT, $sut->getMediaType());
-    }
 }

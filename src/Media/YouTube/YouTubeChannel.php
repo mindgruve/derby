@@ -11,7 +11,6 @@ use Derby\Exception\DerbyException;
 
 class YouTubeChannel implements CollectionInterface
 {
-    const EMBED_YOUTUBE_CHANNEL = 'EMBED/YOUTUBE/CHANNEL';
 
     /**
      * @var \Google_Service_YouTube
@@ -37,14 +36,6 @@ class YouTubeChannel implements CollectionInterface
     {
         $this->key = $key;
         $this->adapter = $adapter;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMediaType()
-    {
-        return self::EMBED_YOUTUBE_CHANNEL;
     }
 
     public function getTitle()

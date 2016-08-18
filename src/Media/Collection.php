@@ -3,13 +3,9 @@
 namespace Derby\Media;
 
 use Derby\Adapter\CollectionAdapterInterface;
-use Derby\Media\Media;
-use Derby\Media\MediaInterface;
 
 class Collection extends Media implements CollectionInterface
 {
-
-    const MEDIA_COLLECTION = 'MEDIA/COLLECTION';
 
     /**
      * @var string
@@ -41,14 +37,6 @@ class Collection extends Media implements CollectionInterface
         foreach ($items as $item) {
             $this->add($item);
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getMediaType()
-    {
-        return self::MEDIA_COLLECTION;
     }
 
     /**
