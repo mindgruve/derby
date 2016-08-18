@@ -1,4 +1,4 @@
 #!/bin/bash
-php bin/phpunit --bootstrap vendor/autoload.php --colors --stop-on-error test
+php bin/phpunit --bootstrap vendor/autoload.php --colors --stop-on-error tests
 
 
