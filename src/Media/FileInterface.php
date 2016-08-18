@@ -2,7 +2,7 @@
 
 namespace Derby\Media;
 
-use Derby\MediaInterface;
+use Derby\Media\MediaInterface;
 
 interface FileInterface extends MediaInterface
 {

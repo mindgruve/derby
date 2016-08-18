@@ -3,8 +3,8 @@
 namespace Derby\Media;
 
 use Derby\Adapter\CollectionAdapterInterface;
-use Derby\Media;
-use Derby\MediaInterface;
+use Derby\Media\Media;
+use Derby\Media\MediaInterface;
 
 class Collection extends Media implements CollectionInterface
 {

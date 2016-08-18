@@ -3,9 +3,9 @@
 
 namespace Derby\Tests\Unit\Media;
 
-use Derby\MediaInterface;
+use Derby\Media\MediaInterface;
 use Derby\Media\File;
-use Derby\Media;
+use Derby\Media\Media;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 

@@ -6,7 +6,7 @@ use Derby\Adapter\YouTube\YouTubeChannelAdapter;
 use Derby\Adapter\AdapterInterface;
 use Derby\Exception\NotSupportedByAdapterException;
 use Derby\Media\CollectionInterface;
-use Derby\MediaInterface;
+use Derby\Media\MediaInterface;
 use Derby\Exception\DerbyException;
 
 class YouTubeChannel implements CollectionInterface

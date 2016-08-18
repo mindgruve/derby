@@ -4,7 +4,7 @@ namespace Derby\Media;
 
 use Derby\Adapter\FileAdapterInterface;
 use Derby\Exception\DerbyException;
-use Derby\Media;
+use Derby\Media\Media;
 use Derby\Media\File\LocalFile;
 
 class File extends Media implements FileInterface

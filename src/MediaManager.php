@@ -8,16 +8,16 @@
 
 namespace Derby;
 
-use Derby\Adapter\CollectionAdapterInterface;
 use Derby\Adapter\FileAdapterInterface;
 use Derby\Exception\UnknownTransferAdapterException;
-use Derby\Media\CollectionInterface;
 use Derby\Media\File;
 use Derby\Media\FileInterface;
 use Derby\Media\SearchInterface;
 use Derby\Media\Factory\FactoryInterface;
 use Derby\Exception\DerbyException;
 use Derby\Adapter\AdapterInterface;
+use Derby\Media\MediaInterface;
+use Derby\Media\Media;
 
 /**
  * Derby\MediaManager
@@ -55,24 +55,23 @@ class MediaManager implements MediaManagerInterface
     }
 
     /**
-     * @param $adapterKey
      * @param AdapterInterface $adapter
      * @return $this
      */
-    public function registerAdapter($adapterKey, AdapterInterface $adapter)
+    public function registerAdapter(AdapterInterface $adapter)
     {
-        $this->setAdapter($adapterKey, $adapter);
+        $this->adapters[$adapter->getAdapterKey()] = $adapter;
 
         return $this;
     }
 
     /**
-     * @param $adapterKey
+     * @param AdapterInterface $adapter
      * @return $this
      */
-    public function unregisterAdapter($adapterKey)
+    public function unregisterAdapter(AdapterInterface $adapter)
     {
-        unset($this->adapters[$adapterKey]);
+        unset($this->adapters[$adapter->getAdapterKey()]);
 
         return $this;
     }
@@ -88,19 +87,7 @@ class MediaManager implements MediaManagerInterface
             return $this->adapters[$adapterKey];
         }
 
-        throw new DerbyException('Adapter Key Not Found');
-    }
-
-    /**
-     * @param $adapterKey
-     * @param AdapterInterface $adapter
-     * @return $this
-     */
-    public function setAdapter($adapterKey, AdapterInterface $adapter)
-    {
-        $this->adapters[$adapterKey] = $adapter;
-
-        return $this;
+        throw new DerbyException('Adapter Key Not Found - '.$adapterKey);
     }
 
     /**
@@ -170,7 +157,7 @@ class MediaManager implements MediaManagerInterface
      * @param AdapterInterface[] $adapters
      * @return MediaInterface
      */
-    public function findMedia(SearchInterface $search, array $adapters)
+    public function search(SearchInterface $search, array $adapters)
     {
         // TODO: Implement findMedia() method.
     }

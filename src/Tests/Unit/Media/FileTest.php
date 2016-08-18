@@ -7,7 +7,7 @@ use Derby\Media\FileInterface;
 use Derby\Media\RemoteFileInterface;
 use Mockery;
 use PHPUnit_Framework_TestCase;
-use Derby\Media;
+use Derby\Media\Media;
 
 class FileTest extends PHPUnit_Framework_TestCase
 {

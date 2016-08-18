@@ -15,6 +15,7 @@ use Derby\Media\FileInterface;
 use Derby\Media\File;
 use Derby\Exception\DerbyException;
 use Derby\Adapter\AdapterInterface;
+use Derby\Media\MediaInterface;
 
 /**
  * Derby\ManagerInterface
@@ -32,17 +33,16 @@ interface MediaManagerInterface
     public function registerFileFactory(FactoryInterface $factory, $priority = null);
 
     /**
-     * @param $adapterKey
      * @param AdapterInterface $adapter
      * @return $this
      */
-    public function registerAdapter($adapterKey, AdapterInterface $adapter);
+    public function registerAdapter(AdapterInterface $adapter);
 
     /**
-     * @param $adapterKey
+     *  @param AdapterInterface $adapter
      * @return $this
      */
-    public function unregisterAdapter($adapterKey);
+    public function unregisterAdapter(AdapterInterface $adapter);
 
     /**
      * @param $adapterKey
@@ -50,13 +50,6 @@ interface MediaManagerInterface
      * @throws DerbyException
      */
     public function getAdapter($adapterKey);
-
-    /**
-     * @param $adapterKey
-     * @param AdapterInterface $adapter
-     * @return $this
-     */
-    public function setAdapter($adapterKey, AdapterInterface $adapter);
 
     /**
      * @param $key
@@ -79,7 +72,7 @@ interface MediaManagerInterface
      * @param AdapterInterface[] $adapters
      * @return mixed
      */
-    public function findMedia(SearchInterface $search, array $adapters);
+    public function search(SearchInterface $search, array $adapters);
 
     /**
      * @param $key

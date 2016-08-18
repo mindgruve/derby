@@ -8,7 +8,7 @@ use Derby\Cache\DerbyCache;
 use Derby\Cache\PaginatedCache;
 use Derby\Cache\ResultPage;
 use Derby\Media\YouTube\YouTubeChannel;
-use Derby\MediaInterface;
+use Derby\Media\MediaInterface;
 use Derby\Exception\MediaNotFoundException;
 
 class YouTubeChannelAdapter implements CollectionAdapterInterface

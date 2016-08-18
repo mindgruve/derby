@@ -4,9 +4,9 @@ namespace Derby\Media\YouTube;
 
 use Derby\Adapter\AdapterInterface;
 use Derby\Exception\DerbyException;
-use Derby\Media;
+use Derby\Media\Media;
 use Derby\Adapter\YouTube\YouTubeVideoAdapter;
-use Derby\MediaInterface;
+use Derby\Media\MediaInterface;
 
 class YouTubeVideo implements MediaInterface
 {

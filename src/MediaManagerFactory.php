@@ -40,19 +40,7 @@ class MediaManagerFactory
         $taggedServices = $container->findTaggedServiceIds('media.adapter');
         foreach ($taggedServices as $serviceKey => $tags) {
             $adapter = $container->get($serviceKey);
-
-            $adapterKey = '';
-            foreach ($tags[0] as $tagKey => $tagValue) {
-                if ($tagKey == 'key') {
-                    $adapterKey = $tagValue;
-                }
-            }
-
-            if (!$adapterKey) {
-                $adapterKey = $serviceKey;
-            }
-
-            $mediaManager->registerAdapter($adapterKey, $adapter);
+            $mediaManager->registerAdapter( $adapter);
         }
 
         return $mediaManager;

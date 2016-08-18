@@ -6,7 +6,7 @@ use Derby\Adapter\YouTube\YouTubeVideoAdapter;
 use Derby\Adapter\AdapterInterface;
 use Derby\Exception\DerbyException;
 use Derby\Media\YouTube\YouTubeVideo;
-use Derby\MediaInterface;
+use Derby\Media\MediaInterface;
 
 class YouTubeVideoAdapterTest extends \PHPUnit_Framework_TestCase
 {

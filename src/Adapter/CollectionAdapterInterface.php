@@ -2,7 +2,7 @@
 
 namespace Derby\Adapter;
 
-use Derby\MediaInterface;
+use Derby\Media\MediaInterface;
 use Derby\Cache\ResultPage;
 
 interface CollectionAdapterInterface extends AdapterInterface
