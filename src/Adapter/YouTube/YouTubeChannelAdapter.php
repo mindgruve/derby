@@ -3,6 +3,7 @@
 namespace Derby\Adapter\YouTube;
 
 use Derby\Adapter\CollectionAdapterInterface;
+use Derby\Cache\CacheKey;
 use Derby\Cache\DerbyCache;
 use Derby\Cache\PaginatedCache;
 use Derby\Cache\ResultPage;
@@ -14,10 +15,11 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
 {
 
     const ADAPTER_YOU_TUBE_CHANNEL = 'ADAPTER\EMBED\YOU_TUBE_CHANNEL';
-    const CACHE_CHANNEL = 'channel';
-    const CACHE_CHANNEL_ITEMS = 'channel_items';
-    const CACHE_CHANNEL_ITEMS_COUNTS = 'channel_item_count';
 
+    /**
+     * @var string
+     */
+    protected $adapterKey;
 
     /**
      * @var \Google_Client
@@ -45,12 +47,18 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
     protected $paginatedCache;
 
     /**
+     * @param string $adapterKey
      * @param \Google_Client $client
      * @param YouTubeVideoAdapter $videoAdapter
      * @param DerbyCache $cache
      */
-    public function __construct(\Google_Client $client, YouTubeVideoAdapter $videoAdapter, DerbyCache $cache)
-    {
+    public function __construct(
+        $adapterKey,
+        \Google_Client $client,
+        YouTubeVideoAdapter $videoAdapter,
+        DerbyCache $cache
+    ) {
+        $this->adapterKey = $adapterKey;
         $this->client = $client;
         $this->service = new \Google_Service_YouTube($client);
         $this->videoAdapter = $videoAdapter;
@@ -58,6 +66,24 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
         $this->paginatedCache = new PaginatedCache($cache);
     }
 
+    /**
+     * @param $adapterKey
+     * @return $this
+     */
+    public function setAdapterKey($adapterKey)
+    {
+        $this->adapterKey = $adapterKey;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdapterKey()
+    {
+        return $this->adapterKey;
+    }
 
     /**
      * @param $key
@@ -86,8 +112,8 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
      */
     public function refresh($key)
     {
-        if ($this->cache->contains(self::CACHE_CHANNEL, $key)) {
-            $this->cache->delete(self::CACHE_CHANNEL, $key);
+        if ($this->cache->contains(CacheKey::YOUTUBE_CHANNEL, $key)) {
+            $this->cache->delete(CacheKey::YOUTUBE_CHANNEL, $key);
         }
         $this->loadChannelData($key);
 
@@ -99,9 +125,9 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
      */
     public function clearCache()
     {
-        $this->cache->deleteAll(self::CACHE_CHANNEL);
-        $this->cache->deleteAll(self::CACHE_CHANNEL_ITEMS);
-        $this->cache->deleteAll(self::CACHE_CHANNEL_ITEMS_COUNTS);
+        $this->cache->deleteAll(CacheKey::YOUTUBE_CHANNEL);
+        $this->cache->deleteAll(CacheKey::YOUTUBE_CHANNEL_ITEMS);
+        $this->cache->deleteAll(CacheKey::YOUTUBE_CHANNEL_ITEMS_COUNTS);
     }
 
     /**
@@ -111,7 +137,7 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
      */
     protected function loadChannelData($key)
     {
-        if ($this->cache->contains(self::CACHE_CHANNEL, $key)) {
+        if ($this->cache->contains(CacheKey::YOUTUBE_CHANNEL, $key)) {
             return;
         }
 
@@ -121,7 +147,7 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
         );
         $items = $response->getItems();
         if (count($items) && $items[0] instanceof \Google_Service_YouTube_Channel) {
-            $this->cache->save(self::CACHE_CHANNEL, $key, $items[0]);
+            $this->cache->save(CacheKey::YOUTUBE_CHANNEL, $key, $items[0]);
         } else {
             throw new MediaNotFoundException();
         }
@@ -143,8 +169,8 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
             throw new \Exception('YouTube limits the maximum number of results to 50');
         }
 
-        if ($this->paginatedCache->contains(self::CACHE_CHANNEL_ITEMS, $key, $limit, $continuationToken)) {
-            return $this->paginatedCache->fetch(self::CACHE_CHANNEL_ITEMS, $key, $limit, $continuationToken);
+        if ($this->paginatedCache->contains(CacheKey::YOUTUBE_CHANNEL_ITEMS, $key, $limit, $continuationToken)) {
+            return $this->paginatedCache->fetch(CacheKey::YOUTUBE_CHANNEL_ITEMS, $key, $limit, $continuationToken);
         }
 
         $search = $this->service->search;
@@ -155,7 +181,7 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
 
         if (is_null($continuationToken)) {
             $pageInfo = $response->getPageInfo();
-            $this->cache->save(self::CACHE_CHANNEL_ITEMS_COUNTS, $key, $pageInfo->getTotalResults());
+            $this->cache->save(CacheKey::YOUTUBE_CHANNEL_ITEMS_COUNTS, $key, $pageInfo->getTotalResults());
         }
 
         $items = array();
@@ -165,7 +191,7 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
         }
 
         $resultPage = new ResultPage($items, $limit, $response->getNextPageToken());
-        $this->paginatedCache->save(self::CACHE_CHANNEL_ITEMS, $resultPage, $key, $limit, $continuationToken);
+        $this->paginatedCache->save(CacheKey::YOUTUBE_CHANNEL_ITEMS, $resultPage, $key, $limit, $continuationToken);
 
         return $resultPage;
     }
@@ -207,7 +233,7 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
     {
         $this->getItems($key);
 
-        return $this->cache->fetch(self::CACHE_CHANNEL_ITEMS_COUNTS, $key);
+        return $this->cache->fetch(CacheKey::YOUTUBE_CHANNEL_ITEMS_COUNTS, $key);
     }
 
     /**
@@ -219,7 +245,7 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
     public function getTitle($key)
     {
         $this->loadChannelData($key);
-        $channel = $this->cache->fetch(self::CACHE_CHANNEL, $key);
+        $channel = $this->cache->fetch(CacheKey::YOUTUBE_CHANNEL, $key);
         $snippet = $channel->getSnippet();
 
         return $snippet['title'];

@@ -29,7 +29,7 @@ class MediaManagerTest extends \PHPUnit_Framework_TestCase
     {
         $manager = MediaManagerFactory::build();
 
-        $localAdapter = new FileAdapter(new Local(__DIR__ . '/../Temp/', true));
+        $localAdapter = new FileAdapter('file.tmp',new Local(__DIR__ . '/../Temp/', true));
         $manager->registerAdapter('test.local', $localAdapter);
 
         // Build HTML File
@@ -66,7 +66,7 @@ class MediaManagerTest extends \PHPUnit_Framework_TestCase
 
         $manager->registerFileFactory(new \Derby\Media\Factory\TextFactory(['*'], ['text/*']));
 
-        $localAdapter = new FileAdapter(new Local(__DIR__ . '/../Temp/'));
+        $localAdapter = new FileAdapter('file.tmp',new Local(__DIR__ . '/../Temp/'));
         $manager->registerAdapter('test.local', $localAdapter);
 
         // Build HTML File
@@ -86,7 +86,7 @@ class MediaManagerTest extends \PHPUnit_Framework_TestCase
 
         $manager->registerFileFactory(new \Derby\Media\Factory\TextFactory(['*'], ['text/*']));
 
-        $localAdapter = new FileAdapter(new Local(__DIR__ . '/../Temp/'));
+        $localAdapter = new FileAdapter('file.tmp',new Local(__DIR__ . '/../Temp/'));
         $manager->registerAdapter('test.local', $localAdapter);
 
         // Build HTML File

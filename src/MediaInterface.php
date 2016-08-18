@@ -8,6 +8,8 @@
 
 namespace Derby;
 
+use Derby\Adapter\AdapterInterface;
+
 /**
  * Derby\MediaInterface
  *

@@ -7,7 +7,7 @@
  * @author John Pancoast <jpancoast@mindgruve.com>
  */
 
-namespace Derby\Tests\Integration\Media\Local;
+namespace Derby\Tests\Integration\Media\File;
 
 use Derby\Adapter\FileAdapter;
 use Derby\Event\ImagePostSave;
@@ -50,8 +50,8 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
     public function setUpImages($sourceKey, $targetKey, $secondaryTargetKey = null, $dispatcher = null)
     {
         $imagine = new \Imagine\Gd\Imagine();
-        $sourceAdapter = new FileAdapter(new Local(__DIR__ . '/../../Data/'));
-        $targetAdapter = new FileAdapter(new Local(__DIR__ . '/../../Temp/'));
+        $sourceAdapter = new FileAdapter('file.source',new Local(__DIR__ . '/../../Data/'));
+        $targetAdapter = new FileAdapter('file.target',new Local(__DIR__ . '/../../Temp/'));
 
         $this->sourceFile = new \Derby\Media\File\Image($sourceKey, $sourceAdapter, $imagine, $dispatcher);
         $this->targetFile = new \Derby\Media\File\Image($targetKey, $targetAdapter, $imagine, $dispatcher);
@@ -62,7 +62,7 @@ class ImageGDTest extends \PHPUnit_Framework_TestCase
         }
 
         if ($secondaryTargetKey) {
-            $secondaryTargetAdapter = new FileAdapter(new Local(__DIR__ . '/../../Temp/'));
+            $secondaryTargetAdapter = new FileAdapter('file.tmp',new Local(__DIR__ . '/../../Temp/'));
             $this->secondaryTargetFile = new \Derby\Media\File\Image($secondaryTargetKey, $secondaryTargetAdapter, $imagine, $dispatcher);
             if ($secondaryTargetAdapter->exists($secondaryTargetKey)) {
                 $secondaryTargetAdapter->delete($secondaryTargetKey);

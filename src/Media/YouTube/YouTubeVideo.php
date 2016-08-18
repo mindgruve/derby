@@ -2,7 +2,7 @@
 
 namespace Derby\Media\YouTube;
 
-use Derby\AdapterInterface;
+use Derby\Adapter\AdapterInterface;
 use Derby\Exception\DerbyException;
 use Derby\Media;
 use Derby\Adapter\YouTube\YouTubeVideoAdapter;

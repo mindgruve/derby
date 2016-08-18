@@ -2,7 +2,6 @@
 
 namespace Derby\Adapter;
 
-use Derby\AdapterInterface;
 use Gaufrette\Adapter;
 
 interface FileAdapterInterface extends AdapterInterface

@@ -2,7 +2,6 @@
 
 namespace Derby\Adapter;
 
-use Derby\AdapterInterface;
 use Derby\MediaInterface;
 use Derby\Cache\ResultPage;
 

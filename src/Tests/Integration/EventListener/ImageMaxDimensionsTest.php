@@ -18,7 +18,7 @@ class ImageMaxDimensionsTest extends \PHPUnit_Framework_TestCase
 
         $sourceKey = 'test-236x315.jpg';
         $imagine = new \Imagine\Gd\Imagine();
-        $sourceAdapter = new FileAdapter(new Local(__DIR__ . '/../Data/'));
+        $sourceAdapter = new FileAdapter('file.source',new Local(__DIR__ . '/../Data/'));
         $sourceImage = new \Derby\Media\File\Image($sourceKey, $sourceAdapter, $imagine, $dispatcher);
         $sourceImage->load();
 

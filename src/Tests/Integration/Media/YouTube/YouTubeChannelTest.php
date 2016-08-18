@@ -56,8 +56,8 @@ class YouTubeChannelTest extends \PHPUnit_Framework_TestCase
         $credentials = json_decode(file_get_contents(__DIR__.'/../../../credentials.json'), true);
         $this->client->setDeveloperKey($credentials['youtube_api_key']);
         $cache = new DerbyCache(new ArrayCache(), 3600);
-        $this->videoAdapter = new YouTubeVideoAdapter($this->client, $cache);
-        $this->channelAdapter = new YouTubeChannelAdapter($this->client, $this->videoAdapter, $cache);
+        $this->videoAdapter = new YouTubeVideoAdapter('youtube.video',$this->client, $cache);
+        $this->channelAdapter = new YouTubeChannelAdapter('youtube.channel',$this->client, $this->videoAdapter, $cache);
         $this->validVideo = $this->videoAdapter->getMedia('fHVga3_Z8Xg');
         $this->invalidVideo = $this->videoAdapter->getMedia('I-DO-NOT-EXIST');
         $this->validChannel = $this->channelAdapter->getMedia('UCIdBVOBKSpZqkvSxijfqBqw');

@@ -9,6 +9,7 @@
 namespace Derby;
 
 use Derby\Adapter\FileAdapter;
+use Derby\Adapter\AdapterInterface;
 
 /**
  * Derby\MediaInterface

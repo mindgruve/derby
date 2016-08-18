@@ -26,7 +26,7 @@ class LocalFile extends File
     {
 
         $this->baseDirectory = $baseDirectory;
-        $this->adapter = new FileAdapter(new Local($baseDirectory, $create, $mode));
+        $this->adapter = new FileAdapter('derby.local', new Local($baseDirectory, $create, $mode));
 
         parent::__construct($key, $this->adapter);
     }
@@ -61,7 +61,7 @@ class LocalFile extends File
             $key = substr($key, $pos, strlen($key));
         }
 
-        return $base . '/' . $key;
+        return $base.'/'.$key;
     }
 
     /**

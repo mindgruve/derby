@@ -32,8 +32,8 @@ class YouTubeChannelAdapterTest extends \PHPUnit_Framework_TestCase
         $credentials = json_decode(file_get_contents(__DIR__.'/../../../credentials.json'), true);
         $this->client->setDeveloperKey($credentials['youtube_api_key']);
         $cache = new DerbyCache(new ArrayCache(), 3600);
-        $videoAdapter = new YouTubeVideoAdapter($this->client, $cache);
-        $this->adapter = new YouTubeChannelAdapter($this->client, $videoAdapter, $cache);
+        $videoAdapter = new YouTubeVideoAdapter('youtube.video',$this->client, $cache);
+        $this->adapter = new YouTubeChannelAdapter('youtube.channel',$this->client, $videoAdapter, $cache);
     }
 
     /**
@@ -63,7 +63,7 @@ class YouTubeChannelAdapterTest extends \PHPUnit_Framework_TestCase
     public function testContains()
     {
         $cache = new DerbyCache(new ArrayCache(), 3600);
-        $youtubeVideoAdapter = new YouTubeVideoAdapter($this->client, $cache);
+        $youtubeVideoAdapter = new YouTubeVideoAdapter('youtube.video',$this->client, $cache);
         $video = $youtubeVideoAdapter->getMedia('fHVga3_Z8Xg');
 
         $this->assertTrue($this->adapter->contains('UCIdBVOBKSpZqkvSxijfqBqw', $video));
@@ -75,7 +75,7 @@ class YouTubeChannelAdapterTest extends \PHPUnit_Framework_TestCase
     public function testNotContains()
     {
         $cache = new DerbyCache(new ArrayCache(), 3600);
-        $youtubeVideoAdapter = new YouTubeVideoAdapter($this->client, $cache);
+        $youtubeVideoAdapter = new YouTubeVideoAdapter('youtube.video',$this->client, $cache);
         $video = $youtubeVideoAdapter->getMedia('I-DO-NOT-EXIST');
 
         $this->assertFalse($this->adapter->contains('UCIdBVOBKSpZqkvSxijfqBqw', $video));

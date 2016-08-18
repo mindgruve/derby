@@ -8,13 +8,18 @@ use Gaufrette\Adapter;
 class FileAdapter implements FileAdapterInterface
 {
 
+    const ADAPTER_TYPE_GAUFRETTE = 'ADAPTER\FILE';
+
     /**
      * Gaufrette adapter
      * @var Adapter
      */
     protected $gaufretteAdapter;
 
-    const ADAPTER_TYPE_GAUFRETTE = 'ADAPTER\FILE';
+    /**
+     * @var string
+     */
+    protected $adapterKey;
 
     /**
      * {@inheritDoc}
@@ -25,12 +30,34 @@ class FileAdapter implements FileAdapterInterface
     }
 
     /**
+     * @param $adapterKey
      * @param Adapter $gaufretteAdapter
      */
-    public function __construct(Adapter $gaufretteAdapter)
+    public function __construct($adapterKey, Adapter $gaufretteAdapter)
     {
         $this->gaufretteAdapter = $gaufretteAdapter;
+        $this->adapterKey = $adapterKey;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAdapterKey()
+    {
+        return $this->adapterKey;
+    }
+
+    /**
+     * @param $adapterKey
+     * @return $this
+     */
+    public function setAdapterKey($adapterKey)
+    {
+        $this->adapterKey = $adapterKey;
+
+        return $this;
+    }
+
 
     /**
      * Get gaufrette adapter

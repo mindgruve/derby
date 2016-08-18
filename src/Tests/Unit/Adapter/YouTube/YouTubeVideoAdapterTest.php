@@ -3,7 +3,7 @@
 namespace Derby\Tests\Unit\Adapter\YouTube;
 
 use Derby\Adapter\YouTube\YouTubeVideoAdapter;
-use Derby\AdapterInterface;
+use Derby\Adapter\AdapterInterface;
 use Derby\Exception\DerbyException;
 use Derby\Media\YouTube\YouTubeVideo;
 use Derby\MediaInterface;
@@ -15,20 +15,21 @@ class YouTubeVideoAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $mockClient = \Mockery::mock('\Google_Client');
         $cache = \Mockery::mock('Derby\Cache\DerbyCache');
-        $sut = new YouTubeVideoAdapter($mockClient, $cache);
+        $sut = new YouTubeVideoAdapter('youtube.video', $mockClient, $cache);
 
         /**
          * Test Interfaces
          */
 
         $this->assertTrue($sut instanceof AdapterInterface);
+        $this->assertEquals('youtube.video',$sut->getAdapterKey());
     }
 
     public function testAdapterType()
     {
         $mockClient = \Mockery::mock('\Google_Client');
         $cache = \Mockery::mock('Derby\Cache\DerbyCache');
-        $sut = new YouTubeVideoAdapter($mockClient, $cache);
+        $sut = new YouTubeVideoAdapter('youtube.video', $mockClient, $cache);
 
         $this->assertEquals(YouTubeVideoAdapter::ADAPTER_YOU_TUBE_VIDEO, $sut->getAdapterType());
     }
@@ -37,7 +38,7 @@ class YouTubeVideoAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $mockClient = \Mockery::mock('\Google_Client');
         $cache = \Mockery::mock('Derby\Cache\DerbyCache');
-        $sut = new YouTubeVideoAdapter($mockClient, $cache);
+        $sut = new YouTubeVideoAdapter('youtube.video', $mockClient, $cache);
         $video = $sut->getMedia('SAMPLE-VIDEO');
 
         $this->assertTrue($video instanceof MediaInterface);
@@ -49,7 +50,7 @@ class YouTubeVideoAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $mockClient = \Mockery::mock('\Google_Client');
         $cache = \Mockery::mock('Derby\Cache\DerbyCache');
-        $sut = new YouTubeVideoAdapter($mockClient, $cache);
+        $sut = new YouTubeVideoAdapter('youtube.video', $mockClient, $cache);
 
         $youTubeVideo = $sut->parseYouTubeURL('https://www.youtube.com/watch?v=fHVga3_Z8Xg');
         $this->assertTrue($youTubeVideo instanceof YouTubeVideo);
@@ -68,7 +69,7 @@ class YouTubeVideoAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $mockClient = \Mockery::mock('\Google_Client');
         $cache = \Mockery::mock('Derby\Cache\DerbyCache');
-        $sut = new YouTubeVideoAdapter($mockClient, $cache);
+        $sut = new YouTubeVideoAdapter('youtube.video', $mockClient, $cache);
 
         try {
             $sut->parseYouTubeURL('https://www.youtube.com/watch');
@@ -83,5 +84,16 @@ class YouTubeVideoAdapterTest extends \PHPUnit_Framework_TestCase
         } catch (DerbyException $e) {
             $this->assertEquals('Unable to parse YouTube URL', $e->getMessage());
         }
+    }
+
+    public function testSetAndGetAdapterKey()
+    {
+        $mockClient = \Mockery::mock('\Google_Client');
+        $cache = \Mockery::mock('Derby\Cache\DerbyCache');
+        $sut = new YouTubeVideoAdapter('youtube.video', $mockClient, $cache);
+
+        $this->assertEquals('youtube.video', $sut->getAdapterKey());
+        $sut->setAdapterKey('youtube.video2');
+        $this->assertEquals('youtube.video2', $sut->getAdapterKey());
     }
 }

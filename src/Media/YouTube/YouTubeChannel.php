@@ -3,7 +3,7 @@
 namespace Derby\Media\YouTube;
 
 use Derby\Adapter\YouTube\YouTubeChannelAdapter;
-use Derby\AdapterInterface;
+use Derby\Adapter\AdapterInterface;
 use Derby\Exception\NotSupportedByAdapterException;
 use Derby\Media\CollectionInterface;
 use Derby\MediaInterface;

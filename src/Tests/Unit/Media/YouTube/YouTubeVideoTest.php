@@ -16,7 +16,7 @@ class YouTubeVideoTest extends \PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $this->mockAdapter = \Mockery::mock('Derby\Adapter\YouTube\YouTubeVideoAdapter');
+        $this->mockAdapter = \Mockery::mock('Derby\Adapter\YouTube\YouTubeVideoAdapter','Derby\Adapter\AdapterInterface');
         $this->mockClient = \Mockery::mock('\Google_Client');
     }
 
@@ -59,7 +59,7 @@ class YouTubeVideoTest extends \PHPUnit_Framework_TestCase
     {
         $key = 'SAMPLE-VIDEO';
         $sut = new YouTubeVideo($key, $this->mockAdapter, $this->mockClient);
-        $newAdapter = \Mockery::mock('Derby\Adapter\YouTube\YouTubeVideoAdapter');
+        $newAdapter = \Mockery::mock('Derby\Adapter\YouTube\YouTubeVideoAdapter','Derby\Adapter\AdapterInterface');
         $sut->setAdapter($newAdapter);
         $this->assertEquals($newAdapter, $sut->getAdapter());
     }

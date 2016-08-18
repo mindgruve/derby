@@ -8,9 +8,14 @@ use Derby\Media\YouTube\YouTubeChannel;
 class YouTubeChannelTest extends \PHPUnit_Framework_TestCase
 {
 
-
+    /**
+     * @var
+     */
     protected $mockAdapter;
 
+    /**
+     * @var
+     */
     protected $mockClient;
 
     /**
@@ -18,7 +23,7 @@ class YouTubeChannelTest extends \PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $this->mockAdapter = \Mockery::mock('Derby\Adapter\YouTube\YouTubeChannelAdapter');
+        $this->mockAdapter = \Mockery::mock('Derby\Adapter\YouTube\YouTubeChannelAdapter','Derby\Adapter\AdapterInterface');
         $this->mockClient = \Mockery::mock('\Google_Client');
     }
 

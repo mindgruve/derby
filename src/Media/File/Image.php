@@ -2,7 +2,7 @@
 
 namespace Derby\Media\File;
 
-use Derby\AdapterInterface;
+use Derby\Adapter\AdapterInterface;
 use Derby\Event\ImagePostLoad;
 use Derby\Event\ImagePostSave;
 use Derby\Event\ImagePreLoad;

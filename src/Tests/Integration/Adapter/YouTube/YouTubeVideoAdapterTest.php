@@ -28,7 +28,7 @@ class YouTubeVideoAdapterTest extends \PHPUnit_Framework_TestCase
         $credentials = json_decode(file_get_contents(__DIR__.'/../../../credentials.json'), true);
         $this->client->setDeveloperKey($credentials['youtube_api_key']);
         $cache = new DerbyCache(new ArrayCache(), 3600);
-        $this->adapter = new YouTubeVideoAdapter($this->client, $cache);
+        $this->adapter = new YouTubeVideoAdapter('youtube.video',$this->client, $cache);
     }
 
     /**

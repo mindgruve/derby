@@ -1,6 +1,8 @@
 <?php
 
-namespace Derby;
+namespace Derby\Adapter;
+
+use Derby\MediaInterface;
 
 interface AdapterInterface
 {
@@ -21,5 +23,16 @@ interface AdapterInterface
      * @return MediaInterface
      */
     public function getMedia($key);
+
+    /**
+     * @param $adapterKey
+     * @return $this
+     */
+    public function setAdapterKey($adapterKey);
+
+    /**
+     * @return string
+     */
+    public function getAdapterKey();
 
 }

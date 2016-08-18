@@ -12,7 +12,7 @@ use PHPUnit_Framework_TestCase;
 class MediaTest extends PHPUnit_Framework_TestCase
 {
 
-    protected static $fileAdapterInterface = 'Derby\AdapterInterface';
+    protected static $fileAdapterInterface = 'Derby\Adapter\AdapterInterface';
 
     public function testInterface()
     {

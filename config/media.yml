@@ -35,9 +35,9 @@ services:
     # Media Adapters
     media.adapter.local_file:
         class: Derby\Adapter\FileAdapter
-        arguments: [ @gaufrette.adapter.local ]
+        arguments: ['file.tmp', @gaufrette.adapter.local ]
         tags:
-            - { name: media.adapter, key: temp }
+            - { name: media.adapter }
 
     # Media Factories
     media.factory.audio:
@@ -46,18 +46,21 @@ services:
             - [ 'mp3', 'wav', 'wma' ]
         tags:
             - { name: media.factory, priority: 10 }
+
     media.factory.document:
         class: Derby\Media\Factory\DocumentFactory
         arguments:
             - [ 'doc', 'rtf' ]
         tags:
             - { name: media.factory, priority: 10 }
+
     media.factory.html:
         class: Derby\Media\Factory\HtmlFactory
         arguments:
             - [ 'html' ]
         tags:
             - { name: media.factory, priority: 10 }
+
     media.factory.image:
         class: Derby\Media\Factory\ImageFactory
         arguments:
@@ -65,42 +68,49 @@ services:
             - @imagine.gd
         tags:
             - { name: media.factory, priority: 10 }
+
     media.factory.pdf:
         class: Derby\Media\Factory\PdfFactory
         arguments:
             - [ 'pdf' ]
         tags:
             - { name: media.factory, priority: 10 }
+
     media.factory.zip:
         class: Derby\Media\Factory\ZipFactory
         arguments:
             - [ 'zip' ]
         tags:
             - { name: media.factory, priority: 10 }
+
     media.factory.presentation:
         class: Derby\Media\Factory\PresentationFactory
         arguments:
             - [ 'ppt', 'pptx' ]
         tags:
             - { name: media.factory, priority: 10 }
+
     media.factory.spreadsheet:
         class: Derby\Media\Factory\SpreadsheetFactory
         arguments:
             - [ 'xls', 'xlsx', 'xlsm' ]
         tags:
             - { name: media.factory, priority: 10 }
+
     media.factory.text:
         class: Derby\Media\Factory\TextFactory
         arguments:
             - [ 'txt' ]
         tags:
             - { name: media.factory, priority: 10 }
+
     media.factory.video:
         class: Derby\Media\Factory\VideoFactory
         arguments:
             - [ 'webm', 'vob', 'ogg', 'wmv', 'avi', 'mov', 'qt', 'mp4', 'mpg',  'mpeg' ]
         tags:
             - { name: media.factory, priority: 10 }
+
     media.factory.file:
         class: Derby\Media\Factory\FileFactory
         arguments:

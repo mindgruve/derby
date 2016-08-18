@@ -22,8 +22,8 @@ class MozJpegOptimizerTest extends \PHPUnit_Framework_TestCase
         $imagine = new \Imagine\Gd\Imagine();
 
 
-        $sourceAdapter = new FileAdapter(new Local(__DIR__ . '/../Data/'));
-        $targetAdapter = new FileAdapter(new Local(__DIR__ . '/../Temp/'));
+        $sourceAdapter = new FileAdapter('file.source',new Local(__DIR__ . '/../Data/'));
+        $targetAdapter = new FileAdapter('file.target',new Local(__DIR__ . '/../Temp/'));
 
         $sourceImage = new \Derby\Media\File\Image($sourceKey, $sourceAdapter, $imagine, $dispatcher);
         $targetImage = new \Derby\Media\File\Image($targetKey, $targetAdapter, $imagine, $dispatcher);

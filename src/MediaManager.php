@@ -17,6 +17,7 @@ use Derby\Media\FileInterface;
 use Derby\Media\SearchInterface;
 use Derby\Media\Factory\FactoryInterface;
 use Derby\Exception\DerbyException;
+use Derby\Adapter\AdapterInterface;
 
 /**
  * Derby\MediaManager

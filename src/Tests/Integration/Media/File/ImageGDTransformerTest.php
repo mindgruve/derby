@@ -27,8 +27,8 @@ class ImageGDTransformerTest extends \PHPUnit_Framework_TestCase
         $imagine = new \Imagine\Gd\Imagine;
         $sourceKey = 'test-236x315.jpg';
         $targetKey = 'transform' . $index . '.jpg';
-        $sourceAdapter = new FileAdapter(new Local(__DIR__ . '/../../Data/'));
-        $targetAdapter = new FileAdapter(new Local(__DIR__ . '/../../Temp/'));
+        $sourceAdapter = new FileAdapter('file.source',new Local(__DIR__ . '/../../Data/'));
+        $targetAdapter = new FileAdapter('file.target',new Local(__DIR__ . '/../../Temp/'));
         $this->originalFile = new Image($sourceKey, $sourceAdapter, $imagine);
         $this->newFile = new Image('transform' . $index . '.jpg', $targetAdapter, $imagine);
         if ($targetAdapter->exists($targetKey)) {
