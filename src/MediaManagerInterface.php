@@ -52,12 +52,11 @@ interface MediaManagerInterface
     public function getAdapter($adapterKey);
 
     /**
-     * @param $key
      * @param $adapterKey
-     * @return MediaInterface|CollectionInterface|AdapterInterface|FileInterface
-     * @throws DerbyException
+     * @param $mediaKey
+     * @return mixed
      */
-    public function getMedia($key, $adapterKey);
+    public function getMedia($adapterKey,$mediaKey);
 
     /**
      * @param MediaInterface $media

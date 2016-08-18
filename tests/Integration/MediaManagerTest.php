@@ -32,30 +32,30 @@ class MediaManagerTest extends \PHPUnit_Framework_TestCase
         $manager->registerAdapter($localAdapter);
 
         // Build HTML File
-        $file = $manager->getMedia('test-1.html', 'file.tmp');
+        $file = $manager->getMedia('file.tmp', 'test-1.html');
         $file->write('test1');
 
         $this->assertTrue($file instanceof Html);
 
-        $file = $manager->getMedia('test-1.html', 'file.tmp');
+        $file = $manager->getMedia('file.tmp', 'test-1.html');
         $this->assertTrue($file instanceof \Derby\Media\File\Html);
 
         // Build Text File
-        $file = $manager->getMedia('test-2.txt', 'file.tmp');
+        $file = $manager->getMedia('file.tmp', 'test-2.txt');
         $file->write('test2');
         $this->assertTrue($file instanceof \Derby\Media\File\Text);
 
-        $file = $manager->getMedia('test-2.txt', 'file.tmp');
+        $file = $manager->getMedia('file.tmp', 'test-2.txt');
         $this->assertTrue($file instanceof \Derby\Media\File\Text);
 
         // Build Image File
-        $file = $manager->getMedia('test-3.jpg', 'file.tmp');
+        $file = $manager->getMedia('file.tmp', 'test-3.jpg');
         $file->write(
             file_get_contents(__DIR__.'/Data/test-236x315.jpg')
         );
         $this->assertTrue($file instanceof \Derby\Media\File\Image);
 
-        $file = $manager->getMedia('test-3.jpg', 'file.tmp');
+        $file = $manager->getMedia('file.tmp', 'test-3.jpg');
         $this->assertTrue($file instanceof \Derby\Media\File\Image);
     }
 
@@ -69,12 +69,12 @@ class MediaManagerTest extends \PHPUnit_Framework_TestCase
         $manager->registerAdapter($localAdapter);
 
         // Build HTML File
-        $file = $manager->getMedia('test-1.html', 'file.tmp');
+        $file = $manager->getMedia('file.tmp', 'test-1.html');
         $file->write('test1');
         $this->assertTrue($file instanceof \Derby\Media\File\Text);
 
         // Build Text File
-        $file = $manager->getMedia('test-2.txt', 'file.tmp');
+        $file = $manager->getMedia('file.tmp', 'test-2.txt');
         $file->write('test2');
         $this->assertTrue($file instanceof \Derby\Media\File\Text);
     }
@@ -89,17 +89,17 @@ class MediaManagerTest extends \PHPUnit_Framework_TestCase
         $manager->registerAdapter($localAdapter);
 
         // Build HTML File
-        $file = $manager->getMedia('test-1.html', 'file.tmp');
+        $file = $manager->getMedia('file.tmp','test-1.html');
         $file->write('test1');
         $this->assertTrue($file instanceof \Derby\Media\File\Text);
 
         // Build Text File
-        $file = $manager->getMedia('test-2.txt', 'file.tmp');
+        $file = $manager->getMedia('file.tmp','test-2.txt');
         $file->write('test2');
         $this->assertTrue($file instanceof \Derby\Media\File\Text);
 
         // Will return Generic Local File b.c we haven't registered image media
-        $file = $manager->getMedia('test-3.jpg', 'file.tmp');
+        $file = $manager->getMedia('file.tmp','test-3.jpg');
         $file->write(
             file_get_contents(__DIR__.'/Data/test-236x315.jpg')
         );

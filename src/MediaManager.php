@@ -91,19 +91,19 @@ class MediaManager implements MediaManagerInterface
     }
 
     /**
-     * @param $key
      * @param $adapterKey
+     * @param $mediaKey
      * @return File|MediaInterface
      * @throws DerbyException
      */
-    public function getMedia($key, $adapterKey)
+    public function getMedia($adapterKey, $mediaKey)
     {
         $adapter = $this->getAdapter($adapterKey);
 
         if ($adapter instanceof AdapterInterface) {
-            $media = $adapter->getMedia($key);
+            $media = $adapter->getMedia($mediaKey);
         } else {
-            $media = new Media($key, $adapter);
+            $media = new Media($mediaKey, $adapter);
         }
 
         return $this->convertMedia($media);
