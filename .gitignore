@@ -4,7 +4,8 @@ bin/phpunit
 composer.lock
 .idea/*
 documentation/.vagrant/*
-tests/credentials.json
+test/credentials.json
+test/Temp/*
 
 ##  OS generated files
 .DS_Store
