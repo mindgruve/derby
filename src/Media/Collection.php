@@ -8,11 +8,6 @@ class Collection extends Media implements CollectionInterface
 {
 
     /**
-     * @var string
-     */
-    protected $key;
-
-    /**
      * @var CollectionAdapterInterface
      */
     protected $adapter;
@@ -23,16 +18,16 @@ class Collection extends Media implements CollectionInterface
     protected $items = array();
 
     /**
-     * @param $key
+     * @param $mediaKey
      * @param CollectionAdapterInterface $adapter
      * @param array $items
      */
     public function __construct(
-        $key,
+        $mediaKey,
         CollectionAdapterInterface $adapter,
         array $items = array()
     ) {
-        $this->key = $key;
+        $this->mediaKey = $mediaKey;
         $this->adapter = $adapter;
         foreach ($items as $item) {
             $this->add($item);

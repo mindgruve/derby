@@ -22,9 +22,9 @@ class AudioFactory extends FileFactory
     /**
      * {@inheritDoc}
      */
-    public function build($key, FileAdapterInterface $adapter)
+    public function build($mediaKey, FileAdapterInterface $adapter)
     {
-        return new Audio($key, $adapter);
+        return new Audio($mediaKey, $adapter);
     }
 
     /**

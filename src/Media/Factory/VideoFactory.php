@@ -22,9 +22,9 @@ class VideoFactory extends FileFactory
     /**
      * {@inheritDoc}
      */
-    public function build($key, FileAdapterInterface $adapter)
+    public function build($mediaKey, FileAdapterInterface $adapter)
     {
-        return new Video($key, $adapter);
+        return new Video($mediaKey, $adapter);
     }
 
     /**

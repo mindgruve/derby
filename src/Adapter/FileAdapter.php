@@ -8,8 +8,6 @@ use Gaufrette\Adapter;
 class FileAdapter implements FileAdapterInterface
 {
 
-    const ADAPTER_TYPE_GAUFRETTE = 'ADAPTER\FILE';
-
     /**
      * Gaufrette adapter
      * @var Adapter
@@ -24,9 +22,9 @@ class FileAdapter implements FileAdapterInterface
     /**
      * {@inheritDoc}
      */
-    public function getMedia($key)
+    public function getMedia($mediaKey)
     {
-        return new File($key, $this);
+        return new File($mediaKey, $this);
     }
 
     /**
@@ -79,68 +77,60 @@ class FileAdapter implements FileAdapterInterface
     }
 
     /**
-     * @return string
-     */
-    public function getAdapterType()
-    {
-        return self::ADAPTER_TYPE_GAUFRETTE;
-    }
-
-    /**
-     * @param $key
+     * @param $mediaKey
      * @return bool
      */
-    public function exists($key)
+    public function exists($mediaKey)
     {
-        return $this->gaufretteAdapter->exists($key);
+        return $this->gaufretteAdapter->exists($mediaKey);
     }
 
     /**
-     * @param $key
+     * @param $mediaKey
      * @return mixed
      */
-    public function read($key)
+    public function read($mediaKey)
     {
-        return $this->gaufretteAdapter->read($key);
+        return $this->gaufretteAdapter->read($mediaKey);
     }
 
     /**
-     * @param $key
+     * @param $mediaKey
      * @return mixed
      */
-    public function delete($key)
+    public function delete($mediaKey)
     {
-        return $this->gaufretteAdapter->delete($key);
+        return $this->gaufretteAdapter->delete($mediaKey);
     }
 
     /**
-     * @param $sourceKey
-     * @param $targetKey
+     * @param $sourceMediaKey
+     * @param $targetMediaKey
      * @return mixed
      */
-    public function rename($sourceKey, $targetKey)
+    public function rename($sourceMediaKey, $targetMediaKey)
     {
-        return $this->gaufretteAdapter->rename($sourceKey, $targetKey);
+        return $this->gaufretteAdapter->rename($sourceMediaKey, $targetMediaKey);
     }
 
     /**
-     * @param $sourceKey
-     * @param $targetKey
+     * @param $sourceMediaKey
+     * @param $targetMediaKey
      * @return bool|int
      */
-    public function copy($sourceKey, $targetKey)
+    public function copy($sourceMediaKey, $targetMediaKey)
     {
-        return $this->gaufretteAdapter->write($targetKey, $this->gaufretteAdapter->read($sourceKey));
+        return $this->gaufretteAdapter->write($targetMediaKey, $this->gaufretteAdapter->read($sourceMediaKey));
     }
 
     /**
-     * @param $key
+     * @param $mediaKey
      * @param $data
      * @return mixed
      */
-    public function write($key, $data)
+    public function write($mediaKey, $data)
     {
-        return $this->gaufretteAdapter->write($key, $data);
+        return $this->gaufretteAdapter->write($mediaKey, $data);
     }
 
 }

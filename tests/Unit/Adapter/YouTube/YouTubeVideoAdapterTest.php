@@ -25,15 +25,6 @@ class YouTubeVideoAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('youtube.video',$sut->getAdapterKey());
     }
 
-    public function testAdapterType()
-    {
-        $mockClient = \Mockery::mock('\Google_Client');
-        $cache = \Mockery::mock('Derby\Cache\DerbyCache');
-        $sut = new YouTubeVideoAdapter('youtube.video', $mockClient, $cache);
-
-        $this->assertEquals(YouTubeVideoAdapter::ADAPTER_YOU_TUBE_VIDEO, $sut->getAdapterType());
-    }
-
     public function testGetMedia()
     {
         $mockClient = \Mockery::mock('\Google_Client');

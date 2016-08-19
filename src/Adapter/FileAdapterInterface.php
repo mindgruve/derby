@@ -21,10 +21,10 @@ interface FileAdapterInterface extends AdapterInterface
     public function setGaufretteAdapter(Adapter $gaufretteAdapter);
 
     /**
-     * @param $key
+     * @param $mediaKey
      * @return mixed
      */
-    public function delete($key);
+    public function delete($mediaKey);
 
     /**
      * @param $sourceKey
@@ -41,16 +41,16 @@ interface FileAdapterInterface extends AdapterInterface
     public function copy($sourceKey, $targetKey);
 
     /**
-     * @param $key
+     * @param $mediaKey
      * @param $data
      * @return mixed
      */
-    public function write($key, $data);
+    public function write($mediaKey, $data);
 
     /**
-     * @param $key
+     * @param $mediaKey
      * @return mixed
      */
-    public function read($key);
+    public function read($mediaKey);
 
 }

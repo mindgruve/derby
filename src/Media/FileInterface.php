@@ -2,7 +2,7 @@
 
 namespace Derby\Media;
 
-use Derby\Media\MediaInterface;
+use Derby\Media\File\LocalFile;
 
 interface FileInterface extends MediaInterface
 {
@@ -46,10 +46,10 @@ interface FileInterface extends MediaInterface
     public function getFileExtension();
 
     /**
-     * @param string $key
+     * @param string $newMediaKey
      * @param null $directory
      * @return LocalFile
      */
-    public function copyToLocal($key, $directory = null);
+    public function copyToLocal($newMediaKey, $directory = null);
 
 }

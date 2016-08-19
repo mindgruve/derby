@@ -13,7 +13,6 @@ use Derby\Cache\DerbyCache;
 
 class YouTubeVideoAdapter implements AdapterInterface
 {
-    const ADAPTER_YOU_TUBE_VIDEO = 'ADAPTER\EMBED\YOU_TUBE_VIDEO';
 
     protected $adapterKey;
 
@@ -68,29 +67,20 @@ class YouTubeVideoAdapter implements AdapterInterface
         return $this->adapterKey;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getAdapterType()
-    {
-        return self::ADAPTER_YOU_TUBE_VIDEO;
-    }
-
     /**
      * Pull data from Google again
-     * @param string $key
+     * @param string $videoKey
      * @return YouTubeVideo
      * @throws MediaNotFoundException
      */
-    public function refresh($key)
+    public function refresh($videoKey)
     {
-        if ($this->cache->contains(CacheKey::YOUTUBE_VIDEO, $key)) {
-            $this->cache->delete(CacheKey::YOUTUBE_VIDEO, $key);
+        if ($this->cache->contains(CacheKey::YOUTUBE_VIDEO, $videoKey)) {
+            $this->cache->delete(CacheKey::YOUTUBE_VIDEO, $videoKey);
         }
-        $this->loadVideoData($key);
+        $this->loadVideoData($videoKey);
 
-        return $this->getMedia($key);
+        return $this->getMedia($videoKey);
     }
 
     /**
@@ -106,22 +96,22 @@ class YouTubeVideoAdapter implements AdapterInterface
 
     /**
      * Retrieves data from API
-     * @param $key
+     * @param $videoKey
      * @throws MediaNotFoundException
      */
-    protected function loadVideoData($key)
+    protected function loadVideoData($videoKey)
     {
-        if ($this->cache->contains(CacheKey::YOUTUBE_VIDEO, $key)) {
+        if ($this->cache->contains(CacheKey::YOUTUBE_VIDEO, $videoKey)) {
             return;
         }
         $this->youTubeService = new \Google_Service_YouTube($this->client);
         $response = $this->youTubeService->videos->listVideos(
             'snippet,statistics,status,contentDetails',
-            array('id' => $key)
+            array('id' => $videoKey)
         );
         $items = $response->getItems();
         if (count($items) && $items[0] instanceof \Google_Service_YouTube_Video) {
-            $this->cache->save(CacheKey::YOUTUBE_VIDEO, $key, $items[0]);
+            $this->cache->save(CacheKey::YOUTUBE_VIDEO, $videoKey, $items[0]);
         } else {
             throw new MediaNotFoundException();
         }
@@ -130,16 +120,16 @@ class YouTubeVideoAdapter implements AdapterInterface
     /**
      * Get Snippet object of a video
      * https://developers.google.com/youtube/v3/docs/videos#snippet
-     * @param $key
+     * @param $videoKey
      * @param $field
      * @return mixed
      * @throws MediaNotFoundException
      * @throws DerbyException
      */
-    public function getSnippetField($key, $field)
+    public function getSnippetField($videoKey, $field)
     {
-        $this->loadVideoData($key);
-        $snippet = $this->cache->fetch(CacheKey::YOUTUBE_VIDEO, $key)->getSnippet();
+        $this->loadVideoData($videoKey);
+        $snippet = $this->cache->fetch(CacheKey::YOUTUBE_VIDEO, $videoKey)->getSnippet();
 
         if (isset($snippet[$field])) {
             return $snippet[$field];
@@ -151,16 +141,16 @@ class YouTubeVideoAdapter implements AdapterInterface
     /**
      * Get Statistic object of a video
      * https://developers.google.com/youtube/v3/docs/videos#statistics
-     * @param $key
+     * @param $videoKey
      * @param $field
      * @return mixed
      * @throws MediaNotFoundException
      * @throws DerbyException
      */
-    public function getStatisticsField($key, $field)
+    public function getStatisticsField($videoKey, $field)
     {
-        $this->loadVideoData($key);
-        $statistics = $this->cache->fetch(CacheKey::YOUTUBE_VIDEO, $key)->getStatistics();
+        $this->loadVideoData($videoKey);
+        $statistics = $this->cache->fetch(CacheKey::YOUTUBE_VIDEO, $videoKey)->getStatistics();
 
         if (isset($statistics[$field])) {
             return $statistics[$field];
@@ -172,17 +162,17 @@ class YouTubeVideoAdapter implements AdapterInterface
     /**
      * Get ContentDetails object of a video
      * https://developers.google.com/youtube/v3/docs/videos#contentDetails
-     * @param $key
+     * @param $videoKey
      * @param $field
      * @return mixed
      * @throws MediaNotFoundException
      * @throws DerbyException
      */
-    public function getContentDetailsField($key, $field)
+    public function getContentDetailsField($videoKey, $field)
     {
-        $this->loadVideoData($key);
+        $this->loadVideoData($videoKey);
 
-        $contentDetails = $this->cache->fetch(CacheKey::YOUTUBE_VIDEO, $key)->getContentDetails();
+        $contentDetails = $this->cache->fetch(CacheKey::YOUTUBE_VIDEO, $videoKey)->getContentDetails();
 
         if (isset($contentDetails[$field])) {
             return $contentDetails[$field];
@@ -194,17 +184,17 @@ class YouTubeVideoAdapter implements AdapterInterface
     /**
      * Get Status object of a video
      * https://developers.google.com/youtube/v3/docs/videos#status
-     * @param $key
+     * @param $videoKey
      * @param $field
      * @return mixed
      * @throws MediaNotFoundException
      * @throws DerbyException
      */
-    public function getStatusField($key, $field)
+    public function getStatusField($videoKey, $field)
     {
-        $this->loadVideoData($key);
+        $this->loadVideoData($videoKey);
 
-        $status = $this->cache->fetch(CacheKey::YOUTUBE_VIDEO, $key)->getStatus();
+        $status = $this->cache->fetch(CacheKey::YOUTUBE_VIDEO, $videoKey)->getStatus();
 
         if (isset($status[$field])) {
             return $status[$field];
@@ -215,23 +205,23 @@ class YouTubeVideoAdapter implements AdapterInterface
 
 
     /**
-     * @param $key
+     * @param $videoKey
      * @return bool
      */
-    public function exists($key)
+    public function exists($videoKey)
     {
-        $result = $this->service->videos->listVideos('id', array('id' => $key));
+        $result = $this->service->videos->listVideos('id', array('id' => $videoKey));
 
         return $result->count() == 0 ? false : true;
     }
 
     /**
-     * @param $key
+     * @param $videoKey
      * @return YouTubeVideo
      */
-    public function getMedia($key)
+    public function getMedia($videoKey)
     {
-        return new YouTubeVideo($key, $this);
+        return new YouTubeVideo($videoKey, $this);
     }
 
     /**
@@ -247,27 +237,27 @@ class YouTubeVideoAdapter implements AdapterInterface
          * https://www.youtube.com/watch?v={{ID}}
          */
         if (preg_match('/youtube\.com\/watch\?v=(.*)/', $url, $matches)) {
-            $key = $matches[1];
+            $videoKey = $matches[1];
 
-            return $this->getMedia($key);
+            return $this->getMedia($videoKey);
         }
 
         /**
          * https://www.youtube.com/embed/{{ID}}
          */
         if (preg_match('/youtube\.com\/embed\/(.*)/', $url, $matches)) {
-            $key = $matches[1];
+            $videoKey = $matches[1];
 
-            return $this->getMedia($key);
+            return $this->getMedia($videoKey);
         }
 
         /**
          * https://youtu.be/{{ID}}
          */
         if (preg_match('/youtu\.be\/(.*)/', $url, $matches)) {
-            $key = $matches[1];
+            $videoKey = $matches[1];
 
-            return $this->getMedia($key);
+            return $this->getMedia($videoKey);
         }
 
         throw new DerbyException('Unable to parse YouTube URL');

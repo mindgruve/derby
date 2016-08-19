@@ -34,9 +34,9 @@ class ImageFactory extends FileFactory
     /**
      * {@inheritDoc}
      */
-    public function build($key, FileAdapterInterface $adapter)
+    public function build($mediaKey, FileAdapterInterface $adapter)
     {
-        return new Image($key, $adapter, $this->imagine, $this->dispatcher);
+        return new Image($mediaKey, $adapter, $this->imagine, $this->dispatcher);
     }
 
     /**

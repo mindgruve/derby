@@ -34,10 +34,10 @@ interface MediaInterface
 
     /**
      * Set key
-     * @param $key
+     * @param $mediaKey
      * @return mixed
      */
-    public function setKey($key);
+    public function setKey($mediaKey);
 
     /**
      * Get key

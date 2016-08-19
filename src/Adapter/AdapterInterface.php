@@ -8,21 +8,16 @@ interface AdapterInterface
 {
 
     /**
-     * @param $key
+     * @param $mediaKey
      * @return boolean
      */
-    public function exists($key);
+    public function exists($mediaKey);
 
     /**
-     * @return string
-     */
-    public function getAdapterType();
-
-    /**
-     * @param $key
+     * @param $mediaKey
      * @return MediaInterface
      */
-    public function getMedia($key);
+    public function getMedia($mediaKey);
 
     /**
      * @param $adapterKey

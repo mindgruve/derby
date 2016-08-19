@@ -27,7 +27,7 @@ class Media implements MediaInterface
     /**
      * @var string
      */
-    protected $key;
+    protected $mediaKey;
 
     /**
      * @var AdapterInterface
@@ -35,12 +35,12 @@ class Media implements MediaInterface
     protected $adapter;
 
     /**
-     * @param $key
+     * @param $mediaKey
      * @param AdapterInterface $adapter
      */
-    public function __construct($key, AdapterInterface $adapter)
+    public function __construct($mediaKey, AdapterInterface $adapter)
     {
-        $this->setKey($key);
+        $this->setKey($mediaKey);
         $this->setAdapter($adapter);
     }
 
@@ -67,21 +67,21 @@ class Media implements MediaInterface
      */
     public function getKey()
     {
-        return $this->key;
+        return $this->mediaKey;
     }
 
     /**
      * Set key
-     * @param $key
+     * @param $mediaKey
      * @return mixed
      */
-    public function setKey($key)
+    public function setKey($mediaKey)
     {
-        $this->key = $key;
+        $this->mediaKey = $mediaKey;
     }
 
     public function exists()
     {
-        return $this->adapter->exists($this->key);
+        return $this->adapter->exists($this->mediaKey);
     }
 }

@@ -2,19 +2,17 @@
 
 namespace Derby\Media;
 
-use Derby\Media\MediaInterface;
-use SplObjectStorage;
 use Countable;
-use Iterator;
-use Serializable;
-use ArrayAccess;
+use Derby\Cache\ResultPage;
 
 
 interface CollectionInterface extends MediaInterface, Countable
 {
 
     /**
-     * @return array
+     * @param int $limit
+     * @param $continuationToken
+     * @return ResultPage
      */
     public function getItems($limit = 10, $continuationToken);
 

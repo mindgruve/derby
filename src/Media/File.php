@@ -26,15 +26,15 @@ class File extends Media implements FileInterface
 
 
     /**
-     * @param $key
+     * @param $mediaKey
      * @param FileAdapterInterface $adapter
      * @param string $tmpDirectory
      */
-    public function __construct($key, FileAdapterInterface $adapter, $tmpDirectory = '/tmp/derby')
+    public function __construct($mediaKey, FileAdapterInterface $adapter, $tmpDirectory = '/tmp/derby')
     {
         $this->tmpDirectory = $tmpDirectory;
         $this->adapter = $adapter;
-        parent::__construct($key, $adapter);
+        parent::__construct($mediaKey, $adapter);
     }
 
     /**
@@ -48,7 +48,7 @@ class File extends Media implements FileInterface
             throw new DerbyException('File does not exist');
         }
 
-        return $this->adapter->read($this->key);
+        return $this->adapter->read($this->mediaKey);
     }
 
     /**
@@ -58,7 +58,7 @@ class File extends Media implements FileInterface
      */
     public function write($data)
     {
-        return $this->adapter->write($this->key, $data);
+        return $this->adapter->write($this->mediaKey, $data);
     }
 
     /**
@@ -66,7 +66,7 @@ class File extends Media implements FileInterface
      */
     public function delete()
     {
-        return $this->adapter->delete($this->key);
+        return $this->adapter->delete($this->mediaKey);
     }
 
     /**
@@ -74,10 +74,10 @@ class File extends Media implements FileInterface
      */
     public function rename($newKey)
     {
-        $success = $this->adapter->rename($this->key, $newKey);
+        $success = $this->adapter->rename($this->mediaKey, $newKey);
 
         if ($success) {
-            $this->key = $newKey;
+            $this->mediaKey = $newKey;
         }
 
         return $success;
@@ -88,7 +88,7 @@ class File extends Media implements FileInterface
      */
     public function copy($newKey)
     {
-        $success = $this->adapter->copy($this->key, $newKey);
+        $success = $this->adapter->copy($this->mediaKey, $newKey);
 
         return $success;
     }
@@ -98,11 +98,12 @@ class File extends Media implements FileInterface
      */
     public function getFileExtension()
     {
-        if (strpos($this->key, '.') === false) {
+        if (strpos($this->mediaKey, '.') === false) {
             return null;
         }
 
-        $fileParts = explode('.', $this->key);
+        $fileParts = explode('.', $this->mediaKey);
+
         return array_pop($fileParts);
     }
 
@@ -116,10 +117,10 @@ class File extends Media implements FileInterface
         $currentKey = $this->getKey();
 
         if (!$currentExt) {
-            return $this->rename($currentKey . '.' . $ext);
+            return $this->rename($currentKey.'.'.$ext);
         }
 
-        $fileParts = explode('.', $this->key);
+        $fileParts = explode('.', $this->mediaKey);
         array_pop($fileParts);
         $fileParts[] = $ext;
 
@@ -133,26 +134,28 @@ class File extends Media implements FileInterface
         }
 
         $newFileName = $this->getKeyWithExtension($ext);
+
         return $this->rename($newFileName);
     }
 
     /**
-     * @param string $key
+     * @param string $newMediaKey
      * @param null $directory
      * @return LocalFile
      */
-    public function copyToLocal($key = null, $directory = null)
+    public function copyToLocal($newMediaKey = null, $directory = null)
     {
-        if (!$key) {
-            $key = uniqid() . '.' . $this->getFileExtension();
+        if (!$newMediaKey) {
+            $newMediaKey = uniqid().'.'.$this->getFileExtension();
         }
 
         if (!$directory) {
-            $directory = $this->tmpDirectory . '/' . uniqid();
+            $directory = $this->tmpDirectory.'/'.uniqid();
         }
 
-        $file = new LocalFile($key, $directory, true);
+        $file = new LocalFile($newMediaKey, $directory, true);
         $file->write($this->read());
+
         return $file;
     }
 }

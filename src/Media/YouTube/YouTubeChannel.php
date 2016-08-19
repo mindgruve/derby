@@ -29,18 +29,18 @@ class YouTubeChannel implements CollectionInterface
 
 
     /**
-     * @param $key
+     * @param $channelKey
      * @param YouTubeChannelAdapter $adapter
      */
-    public function __construct($key, YouTubeChannelAdapter $adapter)
+    public function __construct($channelKey, YouTubeChannelAdapter $adapter)
     {
-        $this->key = $key;
+        $this->channelKey = $channelKey;
         $this->adapter = $adapter;
     }
 
     public function getTitle()
     {
-        return $this->adapter->getTitle($this->key);
+        return $this->adapter->getTitle($this->channelKey);
     }
 
     /**
@@ -104,7 +104,7 @@ class YouTubeChannel implements CollectionInterface
      */
     public function getKey()
     {
-        return $this->key;
+        return $this->channelKey;
     }
 
     /**
@@ -134,12 +134,12 @@ class YouTubeChannel implements CollectionInterface
 
     /**
      * Set key
-     * @param $key
+     * @param $channelKey
      * @return mixed
      */
-    public function setKey($key)
+    public function setKey($channelKey)
     {
-        $this->key = $key;
+        $this->channelKey = $channelKey;
     }
 
     /**

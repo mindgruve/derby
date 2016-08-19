@@ -22,9 +22,9 @@ class HtmlFactory extends FileFactory
     /**
      * {@inheritDoc}
      */
-    public function build($key, FileAdapterInterface $adapter)
+    public function build($mediaKey, FileAdapterInterface $adapter)
     {
-        return new Html($key, $adapter);
+        return new Html($mediaKey, $adapter);
     }
 
     /**

@@ -40,9 +40,9 @@ class FileFactory implements FactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function build($key, FileAdapterInterface $adapter)
+    public function build($mediaKey, FileAdapterInterface $adapter)
     {
-        return new File($key, $adapter);
+        return new File($mediaKey, $adapter);
     }
 
     /**

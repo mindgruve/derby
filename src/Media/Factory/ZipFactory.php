@@ -22,9 +22,9 @@ class ZipFactory extends FileFactory
     /**
      * {@inheritDoc}
      */
-    public function build($key, FileAdapterInterface $adapter)
+    public function build($mediaKey, FileAdapterInterface $adapter)
     {
-        return new Zip($key, $adapter);
+        return new Zip($mediaKey, $adapter);
     }
 
     /**

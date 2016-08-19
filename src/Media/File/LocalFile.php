@@ -20,13 +20,13 @@ class LocalFile extends File
     protected $baseDirectory;
 
 
-    public function __construct($key, $baseDirectory, $create = false, $mode = 0777)
+    public function __construct($mediaKey, $baseDirectory, $create = false, $mode = 0777)
     {
 
         $this->baseDirectory = $baseDirectory;
         $this->adapter = new FileAdapter('derby.local', new Local($baseDirectory, $create, $mode));
 
-        parent::__construct($key, $this->adapter);
+        parent::__construct($mediaKey, $this->adapter);
     }
 
     /**
@@ -43,7 +43,7 @@ class LocalFile extends File
     public function getPath()
     {
 
-        $key = $this->getKey();
+        $mediaKey = $this->getKey();
 
         // I'm sure this can be optimized!
         // We're just accounting for leading or trailing /'s
@@ -55,11 +55,11 @@ class LocalFile extends File
             $base = substr($base, 0, $baselen - 1);
         }
 
-        if ($pos = strpos($key, '/') === (int)0) {
-            $key = substr($key, $pos, strlen($key));
+        if ($pos = strpos($mediaKey, '/') === (int)0) {
+            $mediaKey = substr($mediaKey, $pos, strlen($mediaKey));
         }
 
-        return $base.'/'.$key;
+        return $base.'/'.$mediaKey;
     }
 
     /**
@@ -67,7 +67,7 @@ class LocalFile extends File
      */
     public function getMimeType()
     {
-        return $this->adapter->mimeType($this->key);
+        return $this->adapter->mimeType($this->mediaKey);
     }
 
     /**

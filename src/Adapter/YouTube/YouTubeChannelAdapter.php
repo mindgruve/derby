@@ -14,8 +14,6 @@ use Derby\Exception\MediaNotFoundException;
 class YouTubeChannelAdapter implements CollectionAdapterInterface
 {
 
-    const ADAPTER_YOU_TUBE_CHANNEL = 'ADAPTER\EMBED\YOU_TUBE_CHANNEL';
-
     /**
      * @var string
      */
@@ -86,38 +84,30 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
     }
 
     /**
-     * @param $key
+     * @param $channelKey
      * @return boolean
      */
-    public function exists($key)
+    public function exists($channelKey)
     {
-        $result = $this->service->channels->listChannels('id', array('id' => $key));
+        $result = $this->service->channels->listChannels('id', array('id' => $channelKey));
 
         return $result->count() == 0 ? false : true;
     }
 
     /**
-     * @return string
-     */
-    public function getAdapterType()
-    {
-        return self::ADAPTER_YOU_TUBE_CHANNEL;
-    }
-
-    /**
      * Pull data again from Google
-     * @param $key
+     * @param $channelKey
      * @return MediaInterface
      * @throws MediaNotFoundException
      */
-    public function refresh($key)
+    public function refresh($channelKey)
     {
-        if ($this->cache->contains(CacheKey::YOUTUBE_CHANNEL, $key)) {
-            $this->cache->delete(CacheKey::YOUTUBE_CHANNEL, $key);
+        if ($this->cache->contains(CacheKey::YOUTUBE_CHANNEL, $channelKey)) {
+            $this->cache->delete(CacheKey::YOUTUBE_CHANNEL, $channelKey);
         }
-        $this->loadChannelData($key);
+        $this->loadChannelData($channelKey);
 
-        return $this->getMedia($key);
+        return $this->getMedia($channelKey);
     }
 
     /**
@@ -132,56 +122,56 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
 
     /**
      * Retrieves data from API
-     * @param $key
+     * @param $channelKey
      * @throws MediaNotFoundException
      */
-    protected function loadChannelData($key)
+    protected function loadChannelData($channelKey)
     {
-        if ($this->cache->contains(CacheKey::YOUTUBE_CHANNEL, $key)) {
+        if ($this->cache->contains(CacheKey::YOUTUBE_CHANNEL, $channelKey)) {
             return;
         }
 
         $response = $this->service->channels->listChannels(
             'snippet,statistics,status,contentDetails',
-            array('id' => $key)
+            array('id' => $channelKey)
         );
         $items = $response->getItems();
         if (count($items) && $items[0] instanceof \Google_Service_YouTube_Channel) {
-            $this->cache->save(CacheKey::YOUTUBE_CHANNEL, $key, $items[0]);
+            $this->cache->save(CacheKey::YOUTUBE_CHANNEL, $channelKey, $items[0]);
         } else {
             throw new MediaNotFoundException();
         }
     }
 
     /**
-     * @param $key
+     * @param $channelKey
      * @param int $limit
      * @param null $continuationToken
      * @return ResultPage
      * @throws MediaNotFoundException
      * @throws \Exception
      */
-    public function getItems($key, $limit = 10, $continuationToken = null)
+    public function getItems($channelKey, $limit = 10, $continuationToken = null)
     {
-        $this->loadChannelData($key);
+        $this->loadChannelData($channelKey);
 
         if ($limit > 50) {
             throw new \Exception('YouTube limits the maximum number of results to 50');
         }
 
-        if ($this->paginatedCache->contains(CacheKey::YOUTUBE_CHANNEL_ITEMS, $key, $limit, $continuationToken)) {
-            return $this->paginatedCache->fetch(CacheKey::YOUTUBE_CHANNEL_ITEMS, $key, $limit, $continuationToken);
+        if ($this->paginatedCache->contains(CacheKey::YOUTUBE_CHANNEL_ITEMS, $channelKey, $limit, $continuationToken)) {
+            return $this->paginatedCache->fetch(CacheKey::YOUTUBE_CHANNEL_ITEMS, $channelKey, $limit, $continuationToken);
         }
 
         $search = $this->service->search;
         $response = $search->listSearch(
             'id,snippet',
-            array('channelId' => $key, 'type' => 'video', 'maxResults' => $limit, 'pageToken' => $continuationToken)
+            array('channelId' => $channelKey, 'type' => 'video', 'maxResults' => $limit, 'pageToken' => $continuationToken)
         );
 
         if (is_null($continuationToken)) {
             $pageInfo = $response->getPageInfo();
-            $this->cache->save(CacheKey::YOUTUBE_CHANNEL_ITEMS_COUNTS, $key, $pageInfo->getTotalResults());
+            $this->cache->save(CacheKey::YOUTUBE_CHANNEL_ITEMS_COUNTS, $channelKey, $pageInfo->getTotalResults());
         }
 
         $items = array();
@@ -191,29 +181,29 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
         }
 
         $resultPage = new ResultPage($items, $limit, $response->getNextPageToken());
-        $this->paginatedCache->save(CacheKey::YOUTUBE_CHANNEL_ITEMS, $resultPage, $key, $limit, $continuationToken);
+        $this->paginatedCache->save(CacheKey::YOUTUBE_CHANNEL_ITEMS, $resultPage, $channelKey, $limit, $continuationToken);
 
         return $resultPage;
     }
 
     /**
-     * @param $key
+     * @param $channelKey
      * @return MediaInterface
      */
-    public function getMedia($key)
+    public function getMedia($channelKey)
     {
-        return new YouTubeChannel($key, $this);
+        return new YouTubeChannel($channelKey, $this);
     }
 
     /**
      * Returns back true if $item is in collection
-     * @param $key
+     * @param $channelKey
      * @param MediaInterface $item
      * @return boolean
      */
-    public function contains($key, MediaInterface $item)
+    public function contains($channelKey, MediaInterface $item)
     {
-        $this->loadChannelData($key);
+        $this->loadChannelData($channelKey);
 
         $video = $this->videoAdapter->getMedia($item->getKey());
 
@@ -221,31 +211,31 @@ class YouTubeChannelAdapter implements CollectionAdapterInterface
             return false;
         }
 
-        return $video->getChannelId() == $key;
+        return $video->getChannelId() == $channelKey;
     }
 
     /**
      * Returns the number of items in the collection
-     * @param $key
+     * @param $channelKey
      * @return int
      */
-    public function count($key)
+    public function count($channelKey)
     {
-        $this->getItems($key);
+        $this->getItems($channelKey);
 
-        return $this->cache->fetch(CacheKey::YOUTUBE_CHANNEL_ITEMS_COUNTS, $key);
+        return $this->cache->fetch(CacheKey::YOUTUBE_CHANNEL_ITEMS_COUNTS, $channelKey);
     }
 
     /**
      * Get Channel Title
-     * @param $key
+     * @param $channelKey
      * @return mixed
      * @throws MediaNotFoundException
      */
-    public function getTitle($key)
+    public function getTitle($channelKey)
     {
-        $this->loadChannelData($key);
-        $channel = $this->cache->fetch(CacheKey::YOUTUBE_CHANNEL, $key);
+        $this->loadChannelData($channelKey);
+        $channel = $this->cache->fetch(CacheKey::YOUTUBE_CHANNEL, $channelKey);
         $snippet = $channel->getSnippet();
 
         return $snippet['title'];

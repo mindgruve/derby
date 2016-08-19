@@ -27,16 +27,6 @@ class YouTubeChannelAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('youtube.channel', $sut->getAdapterKey());
     }
 
-    public function testAdapterType()
-    {
-        $mockClient = \Mockery::mock('\Google_Client');
-        $mockVideoAdapter = \Mockery::mock('Derby\Adapter\YouTube\YouTubeVideoAdapter');
-        $cache = \Mockery::mock('Derby\Cache\DerbyCache');
-        $sut = new YouTubeChannelAdapter('youtube.channel', $mockClient, $mockVideoAdapter, $cache);
-
-        $this->assertEquals(YouTubeChannelAdapter::ADAPTER_YOU_TUBE_CHANNEL, $sut->getAdapterType());
-    }
-
     public function testGetMedia()
     {
         $mockClient = \Mockery::mock('\Google_Client');

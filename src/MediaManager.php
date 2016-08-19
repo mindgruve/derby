@@ -163,14 +163,14 @@ class MediaManager implements MediaManagerInterface
     }
 
     /**
-     * @param $key
+     * @param $mediaKey
      * @param $adapterKey
      * @return boolean
      */
-    public function exists($key, $adapterKey)
+    public function exists($mediaKey, $adapterKey)
     {
         $adapter = $this->getAdapter($adapterKey);
 
-        return $adapter->exists($key);
+        return $adapter->exists($mediaKey);
     }
 }

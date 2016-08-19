@@ -5,18 +5,18 @@ namespace Derby\Media\YouTube;
 use Derby\Adapter\AdapterInterface;
 use Derby\Exception\DerbyException;
 use Derby\Adapter\YouTube\YouTubeVideoAdapter;
-use Derby\Media\MediaInterface;
+use Derby\Media\Media;
 
-class YouTubeVideo implements MediaInterface
+class YouTubeVideo extends Media
 {
 
     /**
-     * @param $key
+     * @param $mediaKey
      * @param YouTubeVideoAdapter $adapter
      */
-    public function __construct($key, YouTubeVideoAdapter $adapter)
+    public function __construct($mediaKey, YouTubeVideoAdapter $adapter)
     {
-        $this->key = $key;
+        $this->mediaKey = $mediaKey;
         $this->adapter = $adapter;
     }
 
@@ -334,7 +334,7 @@ class YouTubeVideo implements MediaInterface
      */
     public function getKey()
     {
-        return $this->key;
+        return $this->mediaKey;
     }
 
     /**
@@ -353,12 +353,12 @@ class YouTubeVideo implements MediaInterface
     }
 
     /**
-     * @param $key
+     * @param $mediaKey
      * @return $this
      */
-    public function setKey($key)
+    public function setKey($mediaKey)
     {
-        $this->key = $key;
+        $this->mediaKey = $mediaKey;
 
         return $this;
     }

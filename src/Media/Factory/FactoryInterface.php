@@ -34,9 +34,9 @@ interface FactoryInterface
     public function supports(FileInterface $file);
 
     /**
-     * @param $key
+     * @param $mediaKey
      * @param FileAdapterInterface $adapter
      * @return mixed
      */
-    public function build($key, FileAdapterInterface $adapter);
+    public function build($mediaKey, FileAdapterInterface $adapter);
 }

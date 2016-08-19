@@ -48,16 +48,16 @@ class Image extends File
     protected $dispatcher;
 
     /**
-     * @param $key
+     * @param $mediaKey
      * @param AdapterInterface $adapter
      * @param ImagineInterface $imagine
      * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct($key, AdapterInterface $adapter, ImagineInterface $imagine, EventDispatcherInterface $dispatcher = null)
+    public function __construct($mediaKey, AdapterInterface $adapter, ImagineInterface $imagine, EventDispatcherInterface $dispatcher = null)
     {
         $this->imagine = $imagine;
         $this->dispatcher = $dispatcher;
-        parent::__construct($key, $adapter);
+        parent::__construct($mediaKey, $adapter);
     }
 
 

@@ -74,10 +74,10 @@ interface MediaManagerInterface
     public function search(SearchInterface $search, array $adapters);
 
     /**
-     * @param $key
+     * @param $mediaKey
      * @param $adapterKey
      * @return boolean
      */
-    public function exists($key, $adapterKey);
+    public function exists($mediaKey, $adapterKey);
 
 }

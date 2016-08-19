@@ -22,9 +22,9 @@ class PdfFactory extends FileFactory
     /**
      * {@inheritDoc}
      */
-    public function build($key, FileAdapterInterface $adapter)
+    public function build($mediaKey, FileAdapterInterface $adapter)
     {
-        return new Pdf($key, $adapter);
+        return new Pdf($mediaKey, $adapter);
     }
 
     /**

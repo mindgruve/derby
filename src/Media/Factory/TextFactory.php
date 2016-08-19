@@ -22,9 +22,9 @@ class TextFactory extends FileFactory
     /**
      * {@inheritDoc}
      */
-    public function build($key, FileAdapterInterface $adapter)
+    public function build($mediaKey, FileAdapterInterface $adapter)
     {
-        return new Text($key, $adapter);
+        return new Text($mediaKey, $adapter);
     }
 
     /**
