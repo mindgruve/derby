@@ -12,6 +12,7 @@ namespace Derby\Media\Factory;
 use Derby\Adapter\FileAdapterInterface;
 use Derby\Media\File;
 use Derby\Media\FileInterface;
+use Derby\Media\MediaInterface;
 
 /**
  * Derby\Media\Provider
@@ -56,7 +57,7 @@ class FileFactory implements FactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function supports(FileInterface $file)
+    public function supports(MediaInterface $file)
     {
 
         if (!$file instanceof FileInterface) {

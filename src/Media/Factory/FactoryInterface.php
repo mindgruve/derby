@@ -10,6 +10,7 @@ namespace Derby\Media\Factory;
 
 use Derby\Adapter\FileAdapterInterface;
 use Derby\Media\FileInterface;
+use Derby\Media\MediaInterface;
 use Gaufrette\Adapter;
 
 /**
@@ -28,10 +29,10 @@ interface FactoryInterface
     public function setExtensions(array $extensions);
 
     /**
-     * @param FileInterface $file
+     * @param MediaInterface $file
      * @return mixed
      */
-    public function supports(FileInterface $file);
+    public function supports(MediaInterface $file);
 
     /**
      * @param $mediaKey
