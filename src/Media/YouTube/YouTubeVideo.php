@@ -72,6 +72,13 @@ class YouTubeVideo extends Media
         }
     }
 
+    public function getThumbnailUrl($size = 'default')
+    {
+        $thumbnail = $this->getThumbnail($size);
+
+        return isset($thumbnail['url']) ? $thumbnail['url'] : null;
+    }
+
     /**
      * https://developers.google.com/youtube/v3/docs/videos#snippet.categoryId
      * @return mixed

@@ -101,6 +101,30 @@ class YouTubeVideoTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetThumbnailUrl()
+    {
+        $this->assertEquals(
+            'https://i.ytimg.com/vi/fHVga3_Z8Xg/default.jpg',
+            $this->validVideo->getThumbnailUrl()
+        );
+        $this->assertEquals(
+            'https://i.ytimg.com/vi/fHVga3_Z8Xg/sddefault.jpg',
+            $this->validVideo->getThumbnailUrl('standard')
+        );
+        $this->assertEquals(
+            'https://i.ytimg.com/vi/fHVga3_Z8Xg/hqdefault.jpg',
+            $this->validVideo->getThumbnailUrl('high')
+        );
+        $this->assertEquals(
+            'https://i.ytimg.com/vi/fHVga3_Z8Xg/default.jpg',
+            $this->validVideo->getThumbnailUrl('maxres')
+        );
+        $this->assertEquals(
+            'https://i.ytimg.com/vi/fHVga3_Z8Xg/mqdefault.jpg',
+            $this->validVideo->getThumbnailUrl('medium')
+        );
+    }
+
     /**
      * @expectedException     \Derby\Exception\MediaNotFoundException
      */
