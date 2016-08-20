@@ -42,7 +42,7 @@ class MediaManager implements MediaManagerInterface
      * @param null $priority
      * @return $this
      */
-    public function registerFileFactory(FactoryInterface $factory, $priority = null)
+    public function registerMediaFactory(FactoryInterface $factory, $priority = null)
     {
         // set default priority
         if (!$priority) {

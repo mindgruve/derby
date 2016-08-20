@@ -33,7 +33,7 @@ class MediaManagerFactory
                     $priority = $tagValue;
                 }
             }
-            $mediaManager->registerFileFactory($factory, $priority);
+            $mediaManager->registerMediaFactory($factory, $priority);
         }
 
         // register adapters

@@ -30,7 +30,7 @@ interface MediaManagerInterface
      * @param null $priority
      * @return $this
      */
-    public function registerFileFactory(FactoryInterface $factory, $priority = null);
+    public function registerMediaFactory(FactoryInterface $factory, $priority = null);
 
     /**
      * @param AdapterInterface $adapter
