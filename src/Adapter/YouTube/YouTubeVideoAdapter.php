@@ -131,11 +131,7 @@ class YouTubeVideoAdapter implements AdapterInterface
         $this->loadVideoData($videoKey);
         $snippet = $this->cache->fetch(CacheKey::YOUTUBE_VIDEO, $videoKey)->getSnippet();
 
-        if (isset($snippet[$field])) {
-            return $snippet[$field];
-        }
-
-        throw new DerbyException('Invalid field for Snippet Object');
+        return $snippet[$field];
     }
 
     /**
@@ -152,11 +148,7 @@ class YouTubeVideoAdapter implements AdapterInterface
         $this->loadVideoData($videoKey);
         $statistics = $this->cache->fetch(CacheKey::YOUTUBE_VIDEO, $videoKey)->getStatistics();
 
-        if (isset($statistics[$field])) {
-            return $statistics[$field];
-        }
-
-        throw new DerbyException('Invalid field for Statistics Object');
+        return $statistics[$field];
     }
 
     /**
@@ -174,11 +166,7 @@ class YouTubeVideoAdapter implements AdapterInterface
 
         $contentDetails = $this->cache->fetch(CacheKey::YOUTUBE_VIDEO, $videoKey)->getContentDetails();
 
-        if (isset($contentDetails[$field])) {
-            return $contentDetails[$field];
-        }
-
-        throw new DerbyException('Invalid field for ContentDetails Object');
+        return $contentDetails[$field];
     }
 
     /**
@@ -196,11 +184,7 @@ class YouTubeVideoAdapter implements AdapterInterface
 
         $status = $this->cache->fetch(CacheKey::YOUTUBE_VIDEO, $videoKey)->getStatus();
 
-        if (isset($status[$field])) {
-            return $status[$field];
-        }
-
-        throw new DerbyException('Invalid field for Status Object');
+        return $status[$field];
     }
 
 
