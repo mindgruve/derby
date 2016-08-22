@@ -12,6 +12,7 @@ use Derby\Exception\DerbyException;
 use Derby\Exception\NoResizeDimensionsException;
 use Derby\Media\File;
 use Imagine\Image\Box;
+use Imagine\Image\BoxInterface;
 use Imagine\Image\ImageInterface;
 use Derby\Exception\InvalidImageException;
 use Imagine\Image\ImagineInterface;
@@ -43,6 +44,16 @@ class Image extends File
     protected $quality = 100;
 
     /**
+     * @var float
+     */
+    protected $focusPointX = 0;
+
+    /**
+     * @var float
+     */
+    protected $focusPointY = 0;
+
+    /**
      * @var EventDispatcherInterface
      */
     protected $dispatcher;
@@ -53,8 +64,12 @@ class Image extends File
      * @param ImagineInterface $imagine
      * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct($mediaKey, AdapterInterface $adapter, ImagineInterface $imagine, EventDispatcherInterface $dispatcher = null)
-    {
+    public function __construct(
+        $mediaKey,
+        AdapterInterface $adapter,
+        ImagineInterface $imagine,
+        EventDispatcherInterface $dispatcher = null
+    ) {
         $this->imagine = $imagine;
         $this->dispatcher = $dispatcher;
         parent::__construct($mediaKey, $adapter);
@@ -216,7 +231,22 @@ class Image extends File
         }
 
         $this->image = $this->getImageData()->thumbnail($size, $mode);
+
         return $this;
+    }
+
+    public function convertFocusPointX()
+    {
+        $width = $this->getImageData()->getSize()->getWidth();
+
+        return ($this->focusPointX + 1) * ($width / 2);
+    }
+
+    public function convertFocusPointY()
+    {
+        $height = $this->getImageData()->getSize()->getHeight();
+
+        return $height - ($this->focusPointY + 1) * ($height / 2);
     }
 
     /**
@@ -238,6 +268,7 @@ class Image extends File
         $box = new Box($height, $width);
 
         $this->getImageData()->crop($point, $box);
+
         return $this;
     }
 
@@ -249,6 +280,7 @@ class Image extends File
     public function rotate($angle, ColorInterface $background = null)
     {
         $this->image = $this->getImageData()->rotate($angle, $background);
+
         return $this;
     }
 
@@ -258,6 +290,7 @@ class Image extends File
     public function greyscale()
     {
         $this->getImageData()->effects()->grayscale();
+
         return $this;
     }
 
@@ -308,6 +341,7 @@ class Image extends File
         if ($this->dispatcher) {
             $this->dispatcher->dispatch(Events::IMAGE_PRE_SAVE, $event);
         }
+
         return $this;
     }
 
@@ -320,6 +354,7 @@ class Image extends File
         if ($this->dispatcher) {
             $this->dispatcher->dispatch(Events::IMAGE_POST_SAVE, $event);
         }
+
         return $this;
     }
 
@@ -333,6 +368,7 @@ class Image extends File
         if ($this->dispatcher) {
             $this->dispatcher->dispatch(Events::IMAGE_PRE_LOAD, $event);
         }
+
         return $this;
     }
 
@@ -346,6 +382,57 @@ class Image extends File
         if ($this->dispatcher) {
             $this->dispatcher->dispatch(Events::IMAGE_POST_LOAD, $event);
         }
+
         return $this;
     }
+
+    /**
+     * @return float
+     */
+    public function getFocusPointX()
+    {
+        return $this->focusPointX;
+    }
+
+    /**
+     * @param $focusPointX
+     * @return $this
+     * @throws DerbyException
+     */
+    public function setFocusPointX($focusPointX)
+    {
+        if ($focusPointX < -1 || $focusPointX > 1) {
+            throw new DerbyException('FocusPointX should be between -1 and 1');
+        }
+
+        $this->focusPointX = $focusPointX;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getFocusPointY()
+    {
+        return $this->focusPointY;
+    }
+
+    /**
+     * @param $focusPointY
+     * @return $this
+     * @throws DerbyException
+     */
+    public function setFocusPointY($focusPointY)
+    {
+        if ($focusPointY < -1 || $focusPointY > 1) {
+            throw new DerbyException('FocusPointY should be between -1 and 1');
+        }
+
+        $this->focusPointY = $focusPointY;
+
+        return $this;
+    }
+
+
 }
