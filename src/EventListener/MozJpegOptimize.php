@@ -21,19 +21,13 @@ class MozJpegOptimize implements EventSubscriberInterface
     protected $tempDir;
 
     /**
-     * @var float
-     */
-    protected $minimumBitPerPixel;
-
-    /**
      * @param string $mozJpgPath
      * @param string $tempDir
      */
-    public function __construct($tempDir, $mozJpgPath, $minimumBitPerPixel = 2)
+    public function __construct($tempDir, $mozJpgPath)
     {
         $this->mozJpgPath = $mozJpgPath;
         $this->tempDir = $tempDir;
-        $this->minimumBitPerPixel = $minimumBitPerPixel;
     }
 
     /**
@@ -72,11 +66,6 @@ class MozJpegOptimize implements EventSubscriberInterface
         $source = new LocalFile($uniqid . '.jpg', $this->tempDir, true);
         $optimized = new LocalFile($uniqid . '-optimized.jpg', $this->tempDir, true);
         $source->write($image->getImageData()->get('jpg'));
-
-        $bitPerPixel = ($image->getHeight() * $image->getWidth()) / ($source->getSize());
-        if ($bitPerPixel < $this->minimumBitPerPixel) {
-            return;
-        }
 
         /**
          * Optimize
