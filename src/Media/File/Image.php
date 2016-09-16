@@ -19,6 +19,7 @@ use Imagine\Image\ImagineInterface;
 use Imagine\Image\Palette\Color\ColorInterface;
 use Imagine\Image\Point;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Imagine\Exception\InvalidArgumentException;
 
 class Image extends File
 {
@@ -230,23 +231,86 @@ class Image extends File
             throw new NoResizeDimensionsException('You must provide $width and/or $height to resize an image');
         }
 
-        $this->image = $this->getImageData()->thumbnail($size, $mode);
+        /**
+         * Modified from AbstractImage::thumbnail
+         */
+        $image = $this->getImageData();
+        $filter = ImageInterface::FILTER_UNDEFINED;
+
+        if ($mode !== ImageInterface::THUMBNAIL_INSET &&
+            $mode !== ImageInterface::THUMBNAIL_OUTBOUND
+        ) {
+            throw new InvalidArgumentException('Invalid mode specified');
+        }
+
+        $imageSize = $image->getSize();
+        $ratios = array(
+            $size->getWidth() / $imageSize->getWidth(),
+            $size->getHeight() / $imageSize->getHeight()
+        );
+
+        $thumbnail = $image->copy();
+
+        $thumbnail->usePalette($image->palette());
+        $thumbnail->strip();
+        // if target width is larger than image width
+        // AND target height is longer than image height
+        if ($size->contains($imageSize)) {
+            return $thumbnail;
+        }
+
+        if ($mode === ImageInterface::THUMBNAIL_INSET) {
+            $ratio = min($ratios);
+        } else {
+            $ratio = max($ratios);
+        }
+
+        if ($mode === ImageInterface::THUMBNAIL_OUTBOUND) {
+            if (!$imageSize->contains($size)) {
+                $size = new Box(
+                    min($imageSize->getWidth(), $size->getWidth()),
+                    min($imageSize->getHeight(), $size->getHeight())
+                );
+            } else {
+                $imageSize = $thumbnail->getSize()->scale($ratio);
+                $thumbnail->resize($imageSize, $filter);
+            }
+
+            $x = max(0, $this->convertFocusPointX($imageSize->getWidth()) - $size->getWidth() / 2);
+            $y = max(0, $this->convertFocusPointY($imageSize->getHeight()) - $size->getHeight() / 2);
+
+            if($x+$size->getWidth() >= $imageSize->getWidth()){
+                $x = max(0,$imageSize->getWidth() - $size->getWidth());
+            }
+
+            if($y+$size->getHeight() >= $imageSize->getHeight()){
+                $y = max(0,$imageSize->getHeight() - $size->getHeight());
+            }
+
+            $thumbnail->crop(new Point($x, $y), $size);
+        } else {
+            if (!$imageSize->contains($size)) {
+                $imageSize = $imageSize->scale($ratio);
+                $thumbnail->resize($imageSize, $filter);
+            } else {
+                $imageSize = $thumbnail->getSize()->scale($ratio);
+                $thumbnail->resize($imageSize, $filter);
+            }
+        }
+
+        $this->image = $thumbnail;
 
         return $this;
     }
 
-    public function convertFocusPointX()
+    public function convertFocusPointX($width)
     {
-        $width = $this->getImageData()->getSize()->getWidth();
-
-        return ($this->focusPointX + 1) * ($width / 2);
+        return ($width / 2) * ($this->focusPointX) + ($width) / 2;
     }
 
-    public function convertFocusPointY()
+    public function convertFocusPointY($height)
     {
-        $height = $this->getImageData()->getSize()->getHeight();
-
-        return $height - ($this->focusPointY + 1) * ($height / 2);
+        return (-1 * $height / 2) * $this->getFocusPointY() + ($height) / 2;
     }
 
     /**
