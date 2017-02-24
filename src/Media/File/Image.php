@@ -235,7 +235,7 @@ class Image extends File
          * Modified from AbstractImage::thumbnail
          */
         $image = $this->getImageData();
-        $filter = ImageInterface::FILTER_UNDEFINED;
+        $filter = ImageInterface::FILTER_SINC;
 
         if ($mode !== ImageInterface::THUMBNAIL_INSET &&
             $mode !== ImageInterface::THUMBNAIL_OUTBOUND
