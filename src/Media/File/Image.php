@@ -210,10 +210,12 @@ class Image extends File
      * @param int $width
      * @param int $height
      * @param string $mode
+     * @param int $filter
      * @return $this
      * @throws NoResizeDimensionsException
+     * @throws InvalidArgumentException
      */
-    public function resize($width = 0, $height = 0, $mode = self::DEFAULT_MODE)
+    public function resize($width = 0, $height = 0, $mode = self::DEFAULT_MODE, $filter = ImageInterface::FILTER_SINC)
     {
         // if we were provided both width and height then we know the size of the new image
         // otherwise we resize proportionally.
@@ -235,7 +237,6 @@ class Image extends File
          * Modified from AbstractImage::thumbnail
          */
         $image = $this->getImageData();
-        $filter = ImageInterface::FILTER_UNDEFINED;
 
         if ($mode !== ImageInterface::THUMBNAIL_INSET &&
             $mode !== ImageInterface::THUMBNAIL_OUTBOUND
