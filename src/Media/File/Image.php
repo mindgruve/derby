@@ -210,7 +210,7 @@ class Image extends File
      * @param int $width
      * @param int $height
      * @param string $mode
-     * @param int $filter
+     * @param string $filter
      * @return $this
      * @throws NoResizeDimensionsException
      * @throws InvalidArgumentException
