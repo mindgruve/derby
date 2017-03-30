@@ -174,6 +174,9 @@ class Image extends File
             case 'png':
                 $target->write($this->getImageData('png'));
                 break;
+            case 'gif':
+                $target->write($this->getImageData('gif'));
+                break;
             default:
                 throw new InvalidImageException('Invalid image extension');
         }
