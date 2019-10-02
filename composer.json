@@ -16,10 +16,10 @@
     "knplabs/gaufrette": "0.1.*",
     "imagine/imagine": "~0.5",
     "doctrine/cache": "~1.4",
-    "symfony/dependency-injection": "~2.7",
-    "symfony/config": "~2.7",
-    "symfony/yaml": "~2.7",
-    "symfony/event-dispatcher": "^2.7",
+    "symfony/dependency-injection": "~2.0||~3.0",
+    "symfony/config": "~2.0||~3.0",
+    "symfony/yaml": "~2.0||~3.0",
+    "symfony/event-dispatcher": "~2.0||~3.0",
     "google/apiclient": "~1.0"
   },
   "require-dev": {
