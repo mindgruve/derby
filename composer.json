@@ -13,7 +13,7 @@
     }
   ],
   "require": {
-    "knplabs/gaufrette": "0.1.*",
+    "knplabs/gaufrette": "~0.8.0",
     "imagine/imagine": "~0.5",
     "doctrine/cache": "~1.4",
     "symfony/dependency-injection": "~2.0||~3.0",
